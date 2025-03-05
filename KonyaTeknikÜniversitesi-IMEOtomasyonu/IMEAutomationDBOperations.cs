@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using Microsoft.Data.SqlClient;
 
-namespace IMEAutomation
+namespace IMEAutomationDBOperations
 {
     public interface IRepository
     {
@@ -26,7 +26,6 @@ namespace IMEAutomation
                     conn.Open();
                     using (SqlCommand command = new SqlCommand(query, conn))
                     {
-                        // Veri okuma kısmı burada eklenebilir
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
@@ -253,7 +252,6 @@ namespace IMEAutomation
                 {
                     while (reader.Read())
                     {
-                        // Veriyi konsola yazdırmak
                         Console.WriteLine($"UserID: {reader["UserID"]}, UserName: {reader["UserName"]}");
                     }
                 }
