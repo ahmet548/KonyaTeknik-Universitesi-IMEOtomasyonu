@@ -1,0 +1,557 @@
+@{
+    ViewBag.Title = "KTUN | İşletmede Mesleki Eğitim Öğrenci Sayfası";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTUN | İşletmede Mesleki Eğitim Öğrenci</title>
+    <link rel="shortcut icon" href="~/img/logo_2.ico">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="keywords" content="moodle, Konya Teknik Üniversitesi İşletmede Mesleki Eğitim: Siteye giriş yap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://lms.ktun.edu.tr/theme/styles.php/remui/1703591224_1/all">
+    <link rel="stylesheet" href="~/styles/custom/css/KTUN-StudentPage.css">
+</head>
+<style>
+    #user-action-menu {
+        display: none;
+    }
+
+    body {
+        background-color: #f8f9fa;
+    }
+
+    html {
+        overflow-y: hidden;
+    }
+
+    .menu-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        max-width: 200px;
+    }
+</style>
+
+<body>
+    <nav class="navbar-top mt-3"></nav>
+    <nav class="d-flex justify-content-start align-items-center mt-1"
+        style="height: 75px; background: #b52525; z-index: 9999;">
+        <div class="row">
+            <div class="col-md-12 m-5 ktun-logo">
+                <img class="rounded-circle" src="~/img/ktunlogo.png" alt="Logo" width="130px" height="130px"
+                    z-index="9999">
+            </div>
+        </div>
+        <div class="navbar-options w-100 d-flex h-120">
+            <div class="primary-navigation wdm-custom-menus">
+                <nav class="moremenu navigation observed d-flex">
+                    <ul id="moremenu-67f662ab3bcfe-navbar-nav" role="menubar" class="nav more-nav navbar-nav d-flex ">
+                        <li data-key="home" class="nav-item" role="none" data-forceintomoremenu="false">
+                            <a role="menuitem" class="nav-link " href="" aria-current="true">
+                                Ana Sayfa
+                            </a>
+                        </li>
+                        <li data-key="myhome" class="nav-item" role="none" data-forceintomoremenu="false">
+                            <a role="menuitem" class="nav-link  " href="" tabindex="-1">
+                                Kontrol Paneli
+                            </a>
+                        </li>
+                        <li data-key="mycourses" class="nav-item" role="none" data-forceintomoremenu="false">
+                            <a role="menuitem" class="nav-link active" href="" tabindex="-1">
+                                Staj Defteri
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <nav class="d-flex justify-content-end align-items-center w-100 mr-3">
+                <div class="dropdown show">
+                    <a href="#" role="button" id="user-menu-toggle" data-toggle="dropdown" aria-label="Kullanıcı menüsü"
+                        aria-haspopup="true" aria-controls="user-action-menu" class="btn p-0"
+                        style="background: #b52525; border-color: #b52525;">
+                        <span class="userbutton">
+                            <span class="avatars">
+                                <span class="avatar current">
+                                    <span class="userinitials size-35">
+                                        @if (ViewBag.UserName != null && ViewBag.UserSurname != null)
+                                        {
+                                            @($"{ViewBag.UserName[0]}{ViewBag.UserSurname[0]}")
+                                        }
+                                        else
+                                        {
+                                            @("M")
+                                        }
+                                    </span>
+                                </span>
+                            </span>
+                            <i class="fa-solid fa-angle-down text-white" style="position: relative; top: -5px;"></i>
+                        </span>
+                    </a>
+                    <div id="user-action-menu" class="dropdown-menu dropdown-menu-right mt-5">
+                        <a href="/Home/aboutme" class="dropdown-item" role="menuitem" tabindex="-1">
+                            Profil
+                        </a>
+                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
+                            Başarı notları
+                        </a>
+                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
+                            Takvim
+                        </a>
+                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
+                            Kişisel dosyalar
+                        </a>
+                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
+                            Raporlar
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
+                            Tercihler
+                        </a>
+                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
+                            Çıkış yap
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </nav>
+
+    <div class="d-flex" style="height: 100vh; position: relative;">
+
+        <!-- Yan Menü -->
+        <div id="sidebar" class="sidebar bg-white p-5"
+            style="width: 15%; height: 100%; position: absolute; top: 0; left: 0; border-right: 1px solid #ddd; z-index: 1;">
+            <h5 class="fw-semibold mb-4" id="sidebarTitle">Formlar</h5>
+            <ul class="list-unstyled">
+                <li class="mb-0">
+                    <a href="/Home/IMEBaşvuruFormu" target="_blank"
+                        class="text-decoration-none text-dark dropdown-item d-flex">
+                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                        <span class="menu-text ml-3">FORM1 KTÜN İME BAŞVURU FORMU</span>
+                    </a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li class="mb-0">
+                    <a href="/Home/GenerateIMESozlesmeFormu" target="_blank"
+                        class="text-decoration-none text-dark dropdown-item d-flex">
+                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                        <span class="menu-text ml-3">FORM2 KTÜN İME SÖZLEŞMESİ</span>
+                    </a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li class="mb-0">
+                    <a href="/Home/GenerateIMEBilgiFormu" class="text-decoration-none text-dark dropdown-item d-flex">
+                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                        <span class="menu-text ml-3">FORM3 KTÜN İME ÜCRETLERİ İŞSİZLİK
+                            FONU KATKISI BİLGİ FORMU</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Ana İçerik -->
+        <div id="content" class="content bg-light"
+            style="margin-left: 15%; width: 85%; height: 100%; overflow-y: auto; padding: 20px;">
+            <div class="container py-5 shadow-sm mt-5 bg-white">
+                <ul class="nav nav-tabs mb-4 position-relative" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab"
+                            aria-controls="about" aria-selected="true">Hakkımda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="company-tab" data-bs-toggle="tab" href="#company" role="tab"
+                            aria-controls="company" aria-selected="false">İşletme Hakkında</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                    <!-- Hakkımda Sekmesi -->
+                    <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+                        <div class="row">
+                            <div class="col-md-4 mb-5">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                                            style="width: 80px; height: 80px; font-size: 28px;">
+                                            @if (ViewBag.UserName != null && ViewBag.UserSurname != null)
+                                            {
+                                                @($"{ViewBag.UserName[0]}{ViewBag.UserSurname[0]}")
+                                            }
+                                            else
+                                            {
+                                                @("M")
+                                            }
+                                        </div>
+                                        <div class="col-md-12 text-start mt-3 mb-3">@ViewBag.UserName
+                                            @ViewBag.UserSurname
+                                        </div>
+                                        <p class="text-muted small mb-3">Mühendislik ve Doğa Bilimleri
+                                            Fakültesi_@ViewBag.Department</p>
+                                        <button class="btn btn-dark btn-sm mb-3">✉ Mesaj</button>
+                                        <div class="d-flex justify-content-around border-top pt-3">
+                                            <div>
+                                                <strong>0</strong><br><small>İletişim</small>
+                                            </div>
+                                            <div>
+                                                <strong>0</strong><br><small>Tartışmalar</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">T.C. Kimlik No.</div>
+                                            <div class="col-sm-7">@ViewBag.NationalID</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Tam Adınız</div>
+                                            <div class="col-sm-7">@ViewBag.UserName @ViewBag.UserSurname</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Öğrenim Yılı</div>
+                                            <div class="col-sm-7">@ViewBag.AcademicYear. Sınıf</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Bölüm</div>
+                                            <div class="col-sm-7">@ViewBag.Department</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Okul Numaranız</div>
+                                            <div class="col-sm-7">@ViewBag.SchoolNumber</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Telefon No</div>
+                                            <div class="col-sm-7">@ViewBag.PhoneNumber</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">E-posta adresi</div>
+                                            <div class="col-sm-7">@ViewBag.Email</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Eğitime Başlama/Bitiş Tarihi</div>
+                                            <div class="col-sm-7">@ViewBag.InternshipDetail?.StartDate /
+                                                @ViewBag.InternshipDetail?.EndDate</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Adres</div>
+                                            <div class="col-sm-7">@ViewBag.Address</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Haftanın Çalıştığı Günler</div>
+                                            <div class="col-sm-7">@ViewBag.InternshipDetail?.WorkDays</div>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#updateFormModal">Güncelle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Güncelleme Formu Modal -->
+                    <div class="modal fade" id="updateFormModal" tabindex="-1" aria-labelledby="updateFormModalLabel"
+                        aria-hidden="true" style="z-index: 9999;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="updateFormModalLabel">Bilgilerinizi Güncelleyin</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" action="/Home/UpdateAboutMe">
+                                        <div class="form-group">
+                                            <label for="tcNo">T.C. Kimlik No.</label>
+                                            <input type="text" id="tcNo" name="tcNo" class="form-control"
+                                                value="@ViewBag.NationalID" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fullName">Tam Adınız</label>
+                                            <input type="text" id="fullName" name="fullName" class="form-control"
+                                                value="@ViewBag.UserName @ViewBag.UserSurname">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="academicYear">Öğrenim Yılı</label>
+                                            <input type="text" id="academicYear" name="academicYear"
+                                                class="form-control" value="@ViewBag.AcademicYear">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="department">Bölüm</label>
+                                            <input type="text" id="department" name="department" class="form-control"
+                                                value="@ViewBag.Department">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="schoolNo">Okul Numaranız</label>
+                                            <input type="text" id="schoolNo" name="schoolNo" class="form-control"
+                                                value="@ViewBag.SchoolNumber">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="phoneNumber">Telefon No</label>
+                                            <input type="text" id="phoneNumber" name="PhoneNumber" class="form-control"
+                                                value="@ViewBag.PhoneNumber">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">E-posta adresi</label>
+                                            <input type="email" id="email" name="Email" class="form-control"
+                                                value="@ViewBag.Email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="startEndDate">Eğitime Başlama/Bitiş Tarihi</label>
+                                            <input type="text" id="startEndDate" name="startEndDate"
+                                                class="form-control"
+                                                value="@ViewBag.InternshipDetail?.StartDate / @ViewBag.InternshipDetail?.EndDate"
+                                                readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address">Adres</label>
+                                            <input type="text" id="address" name="Address" class="form-control"
+                                                value="@ViewBag.Address">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success btn-sm">Kaydet</button>
+                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                data-bs-dismiss="modal">İptal</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- İşletme Hakkında Sekmesi -->
+                    <div class="tab-pane fade" id="company" role="tabpanel" aria-labelledby="company-tab">
+                        <div class="row">
+                            <div class="col-md-4 mb-5">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                                            style="width: 80px; height: 80px; font-size: 28px;">
+                                            @if (ViewBag.Company != null)
+                                            {
+                                                @ViewBag.Company.CompanyName[0]
+                                            }
+                                            else
+                                            {
+                                                @("İ")
+                                            }
+                                        </div>
+                                        <div class="col-md-12 text-start mt-3 mb-3">
+                                            @if (ViewBag.Company != null)
+                                            {
+                                                @ViewBag.Company.CompanyName
+                                            }
+                                            else
+                                            {
+                                                <span>İşletme Bilgisi Yok</span>
+                                            }
+                                        </div>
+                                        <p class="text-muted small mb-3">
+                                            @if (ViewBag.Company != null)
+                                            {
+                                                @ViewBag.Company.Industry
+                                            }
+                                            else
+                                            {
+                                                <span>Endüstri Bilgisi Yok</span>
+                                            }
+                                        </p>
+                                        <button class="btn btn-dark btn-sm mb-3">✉ Mesaj</button>
+                                        <div class="d-flex justify-content-around border-top pt-3">
+                                            <div>
+                                                <strong>0</strong><br><small>İletişim</small>
+                                            </div>
+                                            <div>
+                                                <strong>0</strong><br><small>Tartışmalar</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8">
+
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6 class="fw-semibold mb-3 pb-2">Genel Bilgiler</h6>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">İşletme Adı</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.CompanyName</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Vergi Numarası</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.TaxNumber</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Adres</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.Address</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Telefon Numarası</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.PhoneNumber</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">E-posta</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.Email</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6 class="fw-semibold mb-3 pb-2">Çalışma Bilgileri</h6>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Çalışan Sayısı</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.EmployeeCount -</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Departmanlar</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.Departments</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Web Sitesi</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.Website</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Endüstri</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.Industry</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6 class="fw-semibold mb-3 pb-2">Yönetici Bilgileri</h6>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Yönetici Tam Adı</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.ManagerFirstName
+                                                @ViewBag.Company?.ManagerLastName</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Yönetici Telefonu</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.ManagerPhone</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Yönetici E-posta</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.ManagerEmail</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6 class="fw-semibold mb-3 pb-2">Banka Bilgileri</h6>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Banka Adı</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.BankName</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">Banka Şubesi</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.BankBranch</div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-5 fw-semibold">IBAN</div>
+                                            <div class="col-sm-7">@ViewBag.Company?.BankIbanNo</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="fw-semibold mb-3 pb-2">Staj Sorumlusu Bilgileri:</h6>
+                                        @if (ViewBag.Supervisor != null)
+                                        {
+                                            <div class="row mb-3">
+                                                <div class="col-sm-5 fw-semibold">Adı Soyadı</div>
+                                                <div class="col-sm-7">@ViewBag.Supervisor.FirstName
+                                                    @ViewBag.Supervisor.LastName
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-5 fw-semibold">Telefon Numarası</div>
+                                                <div class="col-sm-7">@ViewBag.Supervisor.ContactPhone</div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-5 fw-semibold">Uzmanlık Alanı</div>
+                                                <div class="col-sm-7">@ViewBag.Supervisor.Expertise</div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-sm-5 fw-semibold">Email Adresi</div>
+                                                <div class="col-sm-7">@ViewBag.Supervisor.Email</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <p>Staj sorumlusu bilgileri bulunamadı.</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Navbar'ın yan menünün önünde görünmesi için */
+        nav {
+            z-index: 9999;
+            position: relative;
+        }
+
+        /* Ana içerik için scroll */
+        #content {
+            overflow-y: auto;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<script>
+    document.getElementById("profileForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const selectedCheckboxes = document.querySelectorAll('input[name="workdays[]"]:checked');
+        const selectedCount = selectedCheckboxes.length;
+        if (selectedCount === 0) {
+            alert("Lütfen haftalık çalıştığınız günleri seçiniz.");
+            return;
+        }
+        const totalInternshipDays = 40;
+        const weeks = Math.ceil(totalInternshipDays / selectedCount);
+        document.getElementById("staj_hafta").value = weeks;
+        let workdays = [];
+        selectedCheckboxes.forEach(chk => {
+            workdays.push(chk.value);
+        });
+        const ikametgah = document.querySelector('textarea[name="ikametgah"]').value;
+        const ilgialanlari = document.querySelector('textarea[name="ilgialanlari"]').value;
+
+        const savedInfo = document.getElementById("savedInfo");
+        savedInfo.innerHTML = "";
+
+        const workdaysRow = document.createElement("div");
+        workdaysRow.className = "row mb-3";
+        workdaysRow.innerHTML = 
+            <div class="col-sm-5 fw-semibold">Haftanın Çalıştığı Günler</div>
+            <div class="col-sm-7">${workdays.join(", ")}</div>
+            ;
+        savedInfo.appendChild(workdaysRow);
+
+    });
+</script>
+
+</html>

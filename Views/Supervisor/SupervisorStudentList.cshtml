@@ -1,0 +1,25 @@
+@using IMEAutomationDBOperations.Models
+@model List<Student>
+
+<h2>Öğrenci Listesi</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ad Soyad</th>
+            <th>Okul Numarası</th>
+            <th>Notlandır</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.FirstName @student.LastName</td>
+                <td>@student.SchoolNumber</td>
+                <td>
+                    <a href="/Supervisor/EvaluateStudent?studentId=@student.UserID" class="btn btn-primary">Notlandır</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

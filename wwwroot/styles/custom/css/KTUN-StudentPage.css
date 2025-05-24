@@ -1,0 +1,78 @@
+
+/**
+* Template Name: Gp - v2.1.0
+* Template URL: https://bootstrapmade.com/gp-free-multipurpose-html-bootstrap-template/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+a {
+  color: #b52525;
+  text-decoration: none;
+}
+    
+a:hover {
+  color: #b52525;
+}
+    
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Raleway", sans-serif;
+}
+.navbar-top{
+    background:  #424242;
+    height: 20px;
+    width: 100%;
+}
+.container-navbar{
+    background: #b52525;
+}
+.ktun-logo{
+    position: relative;
+    top: -10px;
+}
+.moremenu ul li a{
+    display: flex;
+    place-content: center;
+    place-items: center;
+    text-align: center;
+    position: relative;
+    top: -5px;
+    padding: 37px;
+    width: 100px;
+}
+.userinitials {
+  background-color: #e4eaec;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #263238;
+  font-weight: 400;
+  margin-right: .25rem;
+}
+
+#content::-webkit-scrollbar {
+  width: 8px;
+}
+
+#content::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+#content::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
+
+#content::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+nav {
+  z-index: 9999;
+  position: relative;
+}

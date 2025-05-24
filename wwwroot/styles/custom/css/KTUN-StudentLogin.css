@@ -1,0 +1,42 @@
+
+/**
+* Template Name: Gp - v2.1.0
+* Template URL: https://bootstrapmade.com/gp-free-multipurpose-html-bootstrap-template/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+body {
+    background-image: url(../../../img/16.jpg)  !important;
+    background-size: auto; 
+    background-position: center center; 
+    background-repeat: no-repeat; 
+    font-family: "Open Sans", sans-serif;
+    color: #444444;
+}
+    
+a {
+  color: #b52525;
+  text-decoration: none;
+}
+    
+a:hover {
+  color: #b52525;
+}
+    
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Raleway", sans-serif;
+}
+.password-container {
+  position: relative;
+}
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}

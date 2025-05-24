@@ -1,0 +1,265 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\img\\16.jpg",
+      "PackagePath": "staticwebassets\\img\\16.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\img\\Ekran görüntüsü 2025-04-09 180551.png",
+      "PackagePath": "staticwebassets\\img\\Ekran görüntüsü 2025-04-09 180551.png"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\img\\ktunlogo.png",
+      "PackagePath": "staticwebassets\\img\\ktunlogo.png"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\img\\ktunlogores.png",
+      "PackagePath": "staticwebassets\\img\\ktunlogores.png"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\img\\logo_2.ico",
+      "PackagePath": "staticwebassets\\img\\logo_2.ico"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\pdfs\\Belge1.pdf",
+      "PackagePath": "staticwebassets\\pdfs\\Belge1.pdf"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\pdfs\\Belge2.pdf",
+      "PackagePath": "staticwebassets\\pdfs\\Belge2.pdf"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\pdfs\\Belge3.pdf",
+      "PackagePath": "staticwebassets\\pdfs\\Belge3.pdf"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\pdfs\\Belge4.pdf",
+      "PackagePath": "staticwebassets\\pdfs\\Belge4.pdf"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\pdfs\\GenerateIMEBilgiFormu.pdf",
+      "PackagePath": "staticwebassets\\pdfs\\GenerateIMEBilgiFormu.pdf"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\pdfs\\IMEBaşvuruFormu.pdf",
+      "PackagePath": "staticwebassets\\pdfs\\IMEBaşvuruFormu.pdf"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\pdfs\\IMEDeğerlendirmeFormu.pdf",
+      "PackagePath": "staticwebassets\\pdfs\\IMEDeğerlendirmeFormu.pdf"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\pdfs\\IMESozlesmeFormu.pdf",
+      "PackagePath": "staticwebassets\\pdfs\\IMESozlesmeFormu.pdf"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.js",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\scripts\\bootstrap\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\scripts\\bootstrap\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\KonyaTecnicalUnivercity-IMEAutomation-ALL.css",
+      "PackagePath": "staticwebassets\\styles\\KonyaTecnicalUnivercity-IMEAutomation-ALL.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\bootstrap\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\styles\\bootstrap\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\custom\\css\\KTUN-StudentLogin.css",
+      "PackagePath": "staticwebassets\\styles\\custom\\css\\KTUN-StudentLogin.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\custom\\css\\KTUN-StudentPage.css",
+      "PackagePath": "staticwebassets\\styles\\custom\\css\\KTUN-StudentPage.css"
+    },
+    {
+      "Id": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\wwwroot\\styles\\custom\\css\\KonyaTecnicalUnivercity-IMEAutomation.css",
+      "PackagePath": "staticwebassets\\styles\\custom\\css\\KonyaTecnicalUnivercity-IMEAutomation.css"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.KonyaTeknikÜniversitesi-IMEOtomasyonu.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.KonyaTeknikÜniversitesi-IMEOtomasyonu.props",
+      "PackagePath": "build\\KonyaTeknikÜniversitesi-IMEOtomasyonu.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.KonyaTeknikÜniversitesi-IMEOtomasyonu.props",
+      "PackagePath": "buildMultiTargeting\\KonyaTeknikÜniversitesi-IMEOtomasyonu.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.KonyaTeknikÜniversitesi-IMEOtomasyonu.props",
+      "PackagePath": "buildTransitive\\KonyaTeknikÜniversitesi-IMEOtomasyonu.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

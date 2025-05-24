@@ -1,0 +1,84 @@
+@model IMEAutomationDBOperations.Models.Student
+
+@{
+    ViewBag.Title = "Öğrenci Değerlendirme";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci Değerlendirme</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>@Model.FirstName @Model.LastName - Değerlendirme</h2>
+        <form method="post" action="/Supervisor/SaveEvaluation">
+            <input type="hidden" name="StudentID" value="@Model.UserID" />
+            <input type="hidden" name="SupervisorID" value="@ViewBag.SupervisorID" />
+
+            <div class="form-group mb-3">
+                <label for="AttendanceScore">Çalışma Saatlerine Uyma:</label>
+                <input type="number" id="AttendanceScore" name="AttendanceScore" class="form-control" min="0" max="10"
+                    required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="ResponsibilityScore">Sorumluluk:</label>
+                <input type="number" id="ResponsibilityScore" name="ResponsibilityScore" class="form-control" min="0"
+                    max="10" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="KnowledgeScore">Mesleği ile ilgili temel kavramları bilme ve pratiğe uygulama:</label>
+                <input type="number" id="KnowledgeScore" name="KnowledgeScore" class="form-control" min="0" max="10"
+                    required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="ProblemSolvingScore">Problem tespiti ve çözümü üretme:</label>
+                <input type="number" id="ProblemSolvingScore" name="ProblemSolvingScore" class="form-control" min="0"
+                    max="10" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="EquipmentUsageScore">İşyerindeki araç-gereçleri uygun kullanma ve koruma:</label>
+                <input type="number" id="EquipmentUsageScore" name="EquipmentUsageScore" class="form-control" min="0"
+                    max="10" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="CommunicationScore">Etkili talimat alıp verme becerisi:</label>
+                <input type="number" id="CommunicationScore" name="CommunicationScore" class="form-control" min="0"
+                    max="10" required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="MotivationScore">İşindeki istek ve gayreti:</label>
+                <input type="number" id="MotivationScore" name="MotivationScore" class="form-control" min="0" max="10"
+                    required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="ReportingScore">Yaptığı işi raporlama:</label>
+                <input type="number" id="ReportingScore" name="ReportingScore" class="form-control" min="0" max="10"
+                    required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="TeamworkScore">Uyumlu çalışma ve takım çalışması yapabilme:</label>
+                <input type="number" id="TeamworkScore" name="TeamworkScore" class="form-control" min="0" max="10"
+                    required />
+            </div>
+            <div class="form-group mb-3">
+                <label for="ExpressionScore">Kendini ifade etme ve iletişim kurabilme:</label>
+                <input type="number" id="ExpressionScore" name="ExpressionScore" class="form-control" min="0" max="10"
+                    required />
+            </div>
+
+            <button type="submit" class="btn btn-success">Kaydet</button>
+            <a href="/Home/SupervisorStudentList" class="btn btn-secondary">Geri</a>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+@{
+    ViewData["Title"] = "Öğrenci İME Giriş";
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>KTUN - Öğrenci İME Giriş</title>
+    <link rel="shortcut icon" href="~/img/logo_2.ico">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="moodle, Konya Teknik Üniversitesi İşletmede Mesleki Eğitim: Siteye giriş yap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://lms.ktun.edu.tr/theme/styles.php/remui/1703591224_1/all">
+    <link rel="stylesheet" href="~/styles/custom/css/KTUN-StudentLogin.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body id="page-login-index" class="pagelayout-login">
+    <div id="page" class="container-fluid loginright">
+        <div id="page-content" class="row">
+            <div id="region-main-box" class="col-12">
+                <section id="region-main" class="" aria-label="İçerik">
+                    <div class="login-wrapper">
+                        <div class="login-container" style="background-color:#fff">
+                            <div role="main">
+                                <div class="loginform">
+                                    <img src="~/img/ktunlogores.png" style="width: 326px; padding-left: 74px;">
+                                    <h3 class="font-weight-bold iconsitename mt-5">Öğrenci Giriş</h3>
+                                    @if (ViewBag.Hata != null)
+                                    {
+                                        <div class="alert alert-danger">
+                                            @ViewBag.Hata
+                                        </div>
+                                    }
+                                    <form class="my-3" method="post" action="/Home/StudentLogin">
+                                        <div class="form-group input-group">
+                                            <input type="text" name="email" id="email" class="form-control rou"
+                                                placeholder="E-Posta Adresi" autocomplete="username" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password" class="sr-only">Şifre</label>
+                                            <div class="password-container">
+                                                <input type="password" name="password" id="password"
+                                                    class="form-control" placeholder="Şifre"
+                                                    autocomplete="current-password" required>
+                                                <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                                    <i class="fas fa-eye"></i>
+                                                </span>
+                                            </div>
+                                            <p>
+                                                <br>
+                                                <input type="checkbox" id="sozlesme" name="sozlesme" value="sozlesle"
+                                                    required="">
+                                                6698 Sayılı Kişisel Verilerin Korunması Kanunu uyarınca hazırlanan <a
+                                                    target="_blank" href="">
+                                                    Aydınlatma Metni’ni</a> okudum.
+                                                <br><br>
+                                                <input type="checkbox" id="sozlesme1" name="sozlesme1" value="sozlesle1"
+                                                    required="">
+                                                <a href="/Home/GenerateIMESozlesmeFormu" target="_blank">İşletmede
+                                                    Mesleki Eğitim Sözleşmesi</a>, T.C. Konya
+                                                Teknik
+                                                Üniversitesi, Mühendislik ve Doğa Bilimleri Fakültesi, Yazılım
+                                                Mühendisliği Bölümü öğrencilerinin işyeri eğitimi sürecinde uymaları
+                                                gereken esasları okudum.
+                                            </p>
+                                        </div>
+                                        <div class="login-form-submit form-group"></div>
+                                        <canvas id="captchaCanvas" width="150" height="40"></canvas>
+                                        <input class="form-control" type="text" id="captchaInput"
+                                            placeholder="Captcha güvenlik kodu (Resimdeki sayıların toplamını yazınız.)">
+                                        <button style="display:none" type="button" id="refreshCaptcha"
+                                            class="refresh-button"><i class="fas fa-redo"></i></button>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block mt-4" id="loginbtn">Devam
+                                    Et</button>
+                                <p class="text-left mt-4"><a href="https://erisim.ktun.edu.tr/Security/SifremiUnuttum"
+                                        target="_blank">Şifremi Unuttum</a></p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </section>
+        </div>
+    </div>
+    </div>
+</body>
+
+<script>
+    function togglePasswordVisibility() {
+        const passwordField = document.getElementById("password");
+        const passwordIcon = document.querySelector(".toggle-password i");
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
+
+        passwordIcon.classList.toggle("fa-eye");
+        passwordIcon.classList.toggle("fa-eye-slash");
+    }
+</script>
+
+</html>
