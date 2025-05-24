@@ -1,7 +1,7 @@
 using IMEAutomationDBOperations.Data;
 using IMEAutomationDBOperations.Models;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace IMEAutomationDBOperations.Services
 {
@@ -191,6 +191,7 @@ namespace IMEAutomationDBOperations.Services
                     LeaveReason NVARCHAR(100) NOT NULL,
                     ReasonDetail NVARCHAR(MAX) NULL,
                     AddressDuringLeave NVARCHAR(255) NOT NULL,
+                    LeaveStatus NVARCHAR(50) NOT NULL DEFAULT 'Onay Bekliyor',
                     FOREIGN KEY (StudentID) REFERENCES Students(StudentID) ON DELETE CASCADE
                 );
             END
@@ -268,7 +269,7 @@ namespace IMEAutomationDBOperations.Services
 
         public List<Student> GetStudentsData()
         {
-            string query = "SELECT UserID, FirstName, LastName, AcademicYear, NationalID, BirthDate, SchoolNumber, Department, PhoneNumber, Email, Address FROM Students";
+            string query = "SELECT StudentID, FirstName, LastName, AcademicYear, NationalID, BirthDate, SchoolNumber, Department, PhoneNumber, Email, Address FROM Students";
             var students = new List<Student>();
 
             using (var connection = new SqlConnection(_repository.ConnectionString))
@@ -282,17 +283,17 @@ namespace IMEAutomationDBOperations.Services
                         {
                             var student = new Student
                             {
-                                UserID = reader.GetInt32(0),
-                                FirstName = reader.GetString(1),
-                                LastName = reader.GetString(2),
-                                AcademicYear = reader.GetInt32(3),
-                                NationalID = reader.GetString(4),
-                                BirthDate = reader.GetDateTime(5),
-                                SchoolNumber = reader.GetString(6),
-                                Department = reader.GetString(7),
-                                PhoneNumber = reader.GetString(8),
-                                Email = reader.GetString(9),
-                                Address = reader.GetString(10),
+                                UserID = reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
+                                FirstName = reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
+                                LastName = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                                AcademicYear = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+                                NationalID = reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
+                                BirthDate = reader.IsDBNull(5) ? DateTime.MinValue : reader.GetDateTime(5),
+                                SchoolNumber = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+                                Department = reader.IsDBNull(7) ? string.Empty : reader.GetString(7),
+                                PhoneNumber = reader.IsDBNull(8) ? string.Empty : reader.GetString(8),
+                                Email = reader.IsDBNull(9) ? string.Empty : reader.GetString(9),
+                                Address = reader.IsDBNull(10) ? string.Empty : reader.GetString(10),
                                 Password = "123456"
                             };
                             students.Add(student);
@@ -444,34 +445,45 @@ namespace IMEAutomationDBOperations.Services
         public void UpdateStudent(Student student)
         {
             string query = @"
-                UPDATE Students
-                SET 
-                    FirstName = @FirstName,
-                    LastName = @LastName,
-                    AcademicYear = @AcademicYear,
-                    Department = @Department,
-                    SchoolNumber = @SchoolNumber,
-                    PhoneNumber = @PhoneNumber,
-                    Email = @Email,
-                    Address = @Address
-                WHERE NationalID = @NationalID";
+            UPDATE Students
+            SET 
+                FirstName = @FirstName,
+                LastName = @LastName,
+                AcademicYear = @AcademicYear,
+                NationalID = @NationalID,
+                BirthDate = @BirthDate,
+                SchoolNumber = @SchoolNumber,
+                PhoneNumber = @PhoneNumber,
+                Address = @Address,
+                Department = @Department,
+                Email = @Email
+            WHERE Email = @Email";
 
             using (var connection = new SqlConnection(_repository.ConnectionString))
             {
                 connection.Open();
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@FirstName", student.FirstName);
-                    command.Parameters.AddWithValue("@LastName", student.LastName);
+                    command.Parameters.AddWithValue("@FirstName", student.FirstName ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@LastName", student.LastName ?? (object)DBNull.Value);
                     command.Parameters.AddWithValue("@AcademicYear", student.AcademicYear);
-                    command.Parameters.AddWithValue("@Department", student.Department);
-                    command.Parameters.AddWithValue("@SchoolNumber", student.SchoolNumber);
-                    command.Parameters.AddWithValue("@PhoneNumber", student.PhoneNumber);
-                    command.Parameters.AddWithValue("@Email", student.Email);
-                    command.Parameters.AddWithValue("@Address", student.Address);
-                    command.Parameters.AddWithValue("@NationalID", student.NationalID);
+                    command.Parameters.AddWithValue("@NationalID", student.NationalID ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@BirthDate", student.BirthDate);
+                    command.Parameters.AddWithValue("@SchoolNumber", student.SchoolNumber ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@PhoneNumber", student.PhoneNumber ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Address", student.Address ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Department", student.Department ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Email", student.Email ?? (object)DBNull.Value);
 
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Veritabanı Hatası: {ex.Message}");
+                        throw;
+                    }
                 }
             }
         }
@@ -508,6 +520,7 @@ namespace IMEAutomationDBOperations.Services
                     command.Parameters.AddWithValue("@ExpressionScore", evaluation.ExpressionScore);
 
                     command.ExecuteNonQuery();
+
                 }
             }
         }
@@ -598,7 +611,402 @@ namespace IMEAutomationDBOperations.Services
                 }
             }
 
-            return null; // Öğrenci bulunamazsa null döndür
+            return null;
+        }
+
+        public void AddStudent(Student student, int supervisorId)
+        {
+            string query = @"
+                DECLARE @NewStudentID INT;
+
+                -- Öğrenciyi ekle ve yeni StudentID'yi al
+                INSERT INTO Students (UserID, FirstName, LastName, AcademicYear, NationalID, BirthDate, 
+                                      SchoolNumber, Department, PhoneNumber, Email, Address)
+                OUTPUT INSERTED.StudentID INTO @NewStudentID
+                VALUES (@UserID, @FirstName, @LastName, @AcademicYear, @NationalID, @BirthDate, 
+                        @SchoolNumber, @Department, @PhoneNumber, @Email, @Address);
+
+                -- Staj detaylarını ekle
+                INSERT INTO InternshipDetails (StudentID, SupervisorID, InternshipTitle, StartDate, EndDate, 
+                                               TotalTrainingDays, LeaveDays, WorkDays, PaidAmount, CreatedAt, UpdatedAt)
+                VALUES (@NewStudentID, @SupervisorID, 'Staj Başlığı', GETDATE(), GETDATE(), 
+                        30, 0, '', 0, GETDATE(), GETDATE());
+
+                -- Sorumlu personele öğrenciyi ekle
+                UPDATE InternshipSupervisors
+                SET StudentID = @NewStudentID
+                WHERE SupervisorID = @SupervisorID;
+            ";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@UserID", student.UserID);
+                    command.Parameters.AddWithValue("@FirstName", student.FirstName);
+                    command.Parameters.AddWithValue("@LastName", student.LastName);
+                    command.Parameters.AddWithValue("@AcademicYear", student.AcademicYear);
+                    command.Parameters.AddWithValue("@NationalID", student.NationalID);
+                    command.Parameters.AddWithValue("@BirthDate", student.BirthDate);
+                    command.Parameters.AddWithValue("@SchoolNumber", student.SchoolNumber);
+                    command.Parameters.AddWithValue("@Department", student.Department);
+                    command.Parameters.AddWithValue("@PhoneNumber", student.PhoneNumber);
+                    command.Parameters.AddWithValue("@Email", student.Email);
+                    command.Parameters.AddWithValue("@Address", student.Address);
+                    command.Parameters.AddWithValue("@SupervisorID", supervisorId);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void AddInternshipDetails(int studentId, int supervisorId, DateTime startDate, DateTime endDate, string[] workDays, string internshipTitle)
+        {
+            int totalTrainingDays = (endDate - startDate).Days;
+            int leaveDays = 0;
+            decimal paidAmount = 0;
+
+            string query = @"
+        INSERT INTO InternshipDetails (StudentID, SupervisorID, StartDate, EndDate, WorkDays, InternshipTitle, TotalTrainingDays, LeaveDays, PaidAmount)
+        VALUES (@StudentID, @SupervisorID, @StartDate, @EndDate, @WorkDays, @InternshipTitle, @TotalTrainingDays, @LeaveDays, @PaidAmount)";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@StudentID", studentId);
+                    command.Parameters.AddWithValue("@SupervisorID", supervisorId);
+                    command.Parameters.AddWithValue("@StartDate", startDate);
+                    command.Parameters.AddWithValue("@EndDate", endDate);
+                    command.Parameters.AddWithValue("@WorkDays", string.Join("-", workDays));
+                    command.Parameters.AddWithValue("@InternshipTitle", internshipTitle);
+                    command.Parameters.AddWithValue("@TotalTrainingDays", totalTrainingDays);
+                    command.Parameters.AddWithValue("@LeaveDays", leaveDays);
+                    command.Parameters.AddWithValue("@PaidAmount", paidAmount);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+        public int AddUser(User user)
+        {
+            string checkQuery = "SELECT COUNT(1) FROM Users WHERE UserName = @UserName";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+
+                // Kullanıcı adı kontrolü
+                using (var checkCommand = new SqlCommand(checkQuery, connection))
+                {
+                    checkCommand.Parameters.AddWithValue("@UserName", user.UserName);
+                    int userExists = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                    if (userExists > 0)
+                    {
+                        throw new Exception("Bu kullanıcı adı zaten mevcut.");
+                    }
+                }
+
+                // Yeni kullanıcı ekleme
+                string insertQuery = @"
+                    INSERT INTO Users (UserName, PasswordHash, RoleID)
+                    VALUES (@UserName, @PasswordHash, @RoleID);
+                    SELECT SCOPE_IDENTITY();";
+
+                using (var insertCommand = new SqlCommand(insertQuery, connection))
+                {
+                    insertCommand.Parameters.AddWithValue("@UserName", user.UserName);
+                    insertCommand.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                    insertCommand.Parameters.AddWithValue("@RoleID", user.RoleID);
+
+                    return Convert.ToInt32(insertCommand.ExecuteScalar());
+                }
+            }
+        }
+
+        public List<Note> GetUserNotes(string email)
+        {
+            var notes = new List<Note>();
+
+            string query = @"
+        SELECT n.NoteID, n.StudentID, n.Title, n.SubTitle, n.Content, n.CreatedAt, n.UpdatedAt
+        FROM Notes n
+        INNER JOIN Students s ON n.StudentID = s.StudentID
+        WHERE s.Email = @Email
+        ORDER BY n.CreatedAt DESC";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var note = new Note
+                            {
+                                NoteID = reader.GetInt32(0),
+                                StudentID = reader.GetInt32(1),
+                                Title = reader.GetString(2),
+                                SubTitle = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                Content = reader.GetString(4),
+                                CreatedAt = reader.GetDateTime(5),
+                                UpdatedAt = reader.GetDateTime(6)
+                            };
+                            notes.Add(note);
+                        }
+                    }
+                }
+            }
+
+            return notes;
+        }
+
+        public List<Video> GetUserVideos(string email)
+        {
+            var videos = new List<Video>();
+
+            string query = @"
+        SELECT v.VideoID, v.StudentID, v.Title, v.Description, v.FilePath, v.UploadDate
+        FROM Videos v
+        INNER JOIN Students s ON v.StudentID = s.StudentID
+        WHERE s.Email = @Email
+        ORDER BY v.UploadDate DESC";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var video = new Video
+                            {
+                                VideoID = reader.GetInt32(0),
+                                StudentID = reader.GetInt32(1),
+                                Title = reader.GetString(2),
+                                Description = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                FilePath = reader.GetString(4),
+                                UploadDate = reader.GetDateTime(5)
+                            };
+                            videos.Add(video);
+                        }
+                    }
+                }
+            }
+
+            return videos;
+        }
+
+        public void AddUserNote(string email, Note note)
+        {
+            string query = @"
+                INSERT INTO Notes (StudentID, Title, SubTitle, Content, CreatedAt, UpdatedAt)
+                SELECT s.StudentID, @Title, @SubTitle, @Content, @CreatedAt, @UpdatedAt
+                FROM Students s WHERE s.Email = @Email";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@Title", note.Title);
+                    command.Parameters.AddWithValue("@SubTitle", (object)note.SubTitle ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@Content", note.Content);
+                    command.Parameters.AddWithValue("@CreatedAt", note.CreatedAt);
+                    command.Parameters.AddWithValue("@UpdatedAt", note.UpdatedAt);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteUserNote(string email, int noteId)
+        {
+            string query = @"
+        DELETE FROM Notes
+        WHERE NoteID = @NoteID AND StudentID = (SELECT StudentID FROM Students WHERE Email = @Email)";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@NoteID", noteId);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteUserVideo(string email, int videoId)
+        {
+            string query = @"
+        DELETE FROM Videos
+        WHERE VideoID = @VideoID AND StudentID = (SELECT StudentID FROM Students WHERE Email = @Email)";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@VideoID", videoId);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void AddUserVideo(string email, Video video)
+        {
+            string query = @"
+        INSERT INTO Videos (StudentID, Title, Description, FilePath, UploadDate)
+        SELECT s.StudentID, @Title, @Description, @FilePath, @UploadDate
+        FROM Students s WHERE s.Email = @Email";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@Title", video.Title);
+                    command.Parameters.AddWithValue("@Description", video.Description != null ? video.Description : (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@FilePath", video.FilePath);
+                    command.Parameters.AddWithValue("@UploadDate", video.UploadDate);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void UpdateUserNote(string email, int noteId, string title, string subTitle, string content)
+        {
+            string query = @"UPDATE Notes
+                             SET Title = @Title, SubTitle = @SubTitle, Content = @Content, UpdatedAt = @UpdatedAt
+                             WHERE NoteID = @NoteID AND StudentID = (SELECT StudentID FROM Students WHERE Email = @Email)";
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Title", title);
+                    command.Parameters.AddWithValue("@SubTitle", (object)subTitle ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@Content", content);
+                    command.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
+                    command.Parameters.AddWithValue("@NoteID", noteId);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void UpdateUserVideo(string email, int videoId, string title, string description)
+        {
+            string query = @"UPDATE Videos
+                             SET Title = @Title, Description = @Description
+                             WHERE VideoID = @VideoID AND StudentID = (SELECT StudentID FROM Students WHERE Email = @Email)";
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Title", title);
+                    command.Parameters.AddWithValue("@Description", (object)description ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@VideoID", videoId);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void AddLeaveDetail(string email, DateTime leaveStart, DateTime leaveEnd, string leaveReason, string reasonDetail, string addressDuringLeave)
+        {
+            var student = GetStudentsData().FirstOrDefault(s => s.Email == email);
+            if (student == null) return;
+
+            DateTime minSqlDate = new DateTime(1753, 1, 1);
+            if (leaveStart < minSqlDate || leaveEnd < minSqlDate)
+                throw new ArgumentException("Geçersiz izin tarihi!");
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand(@"
+            INSERT INTO LeaveDetails (StudentID, LeaveStart, LeaveEnd, LeaveReason, ReasonDetail, AddressDuringLeave)
+            VALUES (@StudentID, @LeaveStart, @LeaveEnd, @LeaveReason, @ReasonDetail, @AddressDuringLeave)", connection);
+
+                command.Parameters.AddWithValue("@StudentID", student.UserID);
+                command.Parameters.AddWithValue("@LeaveStart", leaveStart);
+                command.Parameters.AddWithValue("@LeaveEnd", leaveEnd);
+                command.Parameters.AddWithValue("@LeaveReason", leaveReason ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@ReasonDetail", reasonDetail ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@AddressDuringLeave", addressDuringLeave ?? (object)DBNull.Value);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public List<LeaveDetails> GetLeaveDetailsByEmail(string email)
+        {
+            var student = GetStudentsData().FirstOrDefault(s => s.Email == email);
+            if (student == null) return new List<LeaveDetails>();
+
+            var list = new List<LeaveDetails>();
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM LeaveDetails WHERE StudentID = @StudentID ORDER BY LeaveStart DESC", connection);
+                command.Parameters.AddWithValue("@StudentID", student.UserID);
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(new LeaveDetails
+                        {
+                            LeaveID = reader.GetInt32(0),
+                            StudentID = reader.GetInt32(1),
+                            LeaveStart = reader.GetDateTime(2),
+                            LeaveEnd = reader.GetDateTime(3),
+                            LeaveReason = reader.GetString(4),
+                            ReasonDetail = reader.IsDBNull(5) ? null : reader.GetString(5),
+                            AddressDuringLeave = reader.GetString(6),
+                            LeaveStatus = reader.IsDBNull(7) ? "Onay Bekliyor" : reader.GetString(7)
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public void DeleteLeaveDetail(string email, int leaveId)
+        {
+            var student = GetStudentsData().FirstOrDefault(s => s.Email == email);
+            if (student == null) return;
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand(
+                    "DELETE FROM LeaveDetails WHERE LeaveID = @LeaveID AND StudentID = @StudentID AND LeaveStatus = 'Onay Bekliyor'",
+                    connection);
+                command.Parameters.AddWithValue("@LeaveID", leaveId);
+                command.Parameters.AddWithValue("@StudentID", student.UserID);
+                command.ExecuteNonQuery();
+            }
         }
     }
 }

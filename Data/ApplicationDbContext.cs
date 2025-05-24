@@ -11,6 +11,8 @@ namespace IMEAutomationDBOperations.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<Note> Notes { get; set; }
+        public DbSet<Video> Videos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -18,6 +20,12 @@ namespace IMEAutomationDBOperations.Data
 
             modelBuilder.Entity<Student>()
                 .HasKey(s => s.UserID);
+
+            modelBuilder.Entity<Video>()
+                .HasOne<Student>()
+                .WithMany()
+                .HasForeignKey(v => v.StudentID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

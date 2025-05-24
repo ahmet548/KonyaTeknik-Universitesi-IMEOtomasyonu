@@ -9099,11 +9099,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ahmet's Monster\\Documents\\GitHub\\KonyaTeknik-niversitesi-IMEOtomasyonu\\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj",
+      "projectUniqueName": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj",
       "projectName": "KonyaTeknikÜniversitesi-IMEOtomasyonu",
-      "projectPath": "C:\\Users\\Ahmet's Monster\\Documents\\GitHub\\KonyaTeknik-niversitesi-IMEOtomasyonu\\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj",
+      "projectPath": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj",
       "packagesPath": "C:\\Users\\Ahmet's Monster\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ahmet's Monster\\Documents\\GitHub\\KonyaTeknik-niversitesi-IMEOtomasyonu\\obj\\",
+      "outputPath": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
