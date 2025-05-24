@@ -543,3 +543,16 @@ C:\Users\Ahmet's Monster\Desktop\KonyaTeknikÜniversitesi-IMEOtomasyonu\bin\Debu
 C:\Users\Ahmet's Monster\Desktop\KonyaTeknikÜniversitesi-IMEOtomasyonu\bin\Debug\net8.0\runtimes\win-x86\native\libwinpthread-1.dll
 C:\Users\Ahmet's Monster\Desktop\KonyaTeknikÜniversitesi-IMEOtomasyonu\bin\Debug\net8.0\runtimes\win-x86\native\qpdf.dll
 C:\Users\Ahmet's Monster\Desktop\KonyaTeknikÜniversitesi-IMEOtomasyonu\bin\Debug\net8.0\forms.json
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj.AssemblyReference.cache
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.AssemblyInfoInputs.cache
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.AssemblyInfo.cs
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj.CoreCompileInputs.cache
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.RazorAssemblyInfo.cache
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.RazorAssemblyInfo.cs
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.sourcelink.json
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.dll
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\refint\KonyaTeknikÜniversitesi-IMEOtomasyonu.dll
+C:\Users\Ahmet's Monster\Documents\GitHub\KonyaTeknik-niversitesi-IMEOtomasyonu\obj\Debug\net8.0\KonyaTeknikÜniversitesi-IMEOtomasyonu.pdb

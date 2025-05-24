@@ -9099,11 +9099,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj",
+      "projectUniqueName": "C:\\Users\\Ahmet's Monster\\Documents\\GitHub\\KonyaTeknik-niversitesi-IMEOtomasyonu\\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj",
       "projectName": "KonyaTeknikÜniversitesi-IMEOtomasyonu",
-      "projectPath": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj",
+      "projectPath": "C:\\Users\\Ahmet's Monster\\Documents\\GitHub\\KonyaTeknik-niversitesi-IMEOtomasyonu\\KonyaTeknikÜniversitesi-IMEOtomasyonu.csproj",
       "packagesPath": "C:\\Users\\Ahmet's Monster\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ahmet's Monster\\Desktop\\KonyaTeknikÜniversitesi-IMEOtomasyonu\\obj\\",
+      "outputPath": "C:\\Users\\Ahmet's Monster\\Documents\\GitHub\\KonyaTeknik-niversitesi-IMEOtomasyonu\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -9118,6 +9118,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -9135,7 +9136,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -9215,7 +9217,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -9224,7 +9226,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'BouncyCastle' 1.8.9 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-8xfc-gm6g-vgpv",
+      "message": "'BouncyCastle' 1.8.9 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-8xfc-gm6g-vgpv güvenlik açığı var",
       "libraryId": "BouncyCastle",
       "targetGraphs": [
         "net8.0"
@@ -9234,7 +9236,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'BouncyCastle' 1.8.9 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-m44j-cfrm-g8qc",
+      "message": "'BouncyCastle' 1.8.9 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-m44j-cfrm-g8qc güvenlik açığı var",
       "libraryId": "BouncyCastle",
       "targetGraphs": [
         "net8.0"
@@ -9244,7 +9246,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'BouncyCastle' 1.8.9 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-v435-xc8x-wvr9",
+      "message": "'BouncyCastle' 1.8.9 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-v435-xc8x-wvr9 güvenlik açığı var",
       "libraryId": "BouncyCastle",
       "targetGraphs": [
         "net8.0"
@@ -9254,7 +9256,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'System.Data.SqlClient' 4.8.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-8g2p-5pqh-5jmc",
+      "message": "'System.Data.SqlClient' 4.8.3 paketinde önem derecesi orta olan bilinen bir https://github.com/advisories/GHSA-8g2p-5pqh-5jmc güvenlik açığı var",
       "libraryId": "System.Data.SqlClient",
       "targetGraphs": [
         "net8.0"
@@ -9264,7 +9266,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'System.Data.SqlClient' 4.8.3 has a known high severity vulnerability, https://github.com/advisories/GHSA-98g6-xh36-x2p7",
+      "message": "'System.Data.SqlClient' 4.8.3 paketinde önem derecesi yüksek olan bilinen bir https://github.com/advisories/GHSA-98g6-xh36-x2p7 güvenlik açığı var",
       "libraryId": "System.Data.SqlClient",
       "targetGraphs": [
         "net8.0"
@@ -9274,7 +9276,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'BouncyCastle 1.8.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "message": "'BouncyCastle 1.8.9' paketi, proje hedef çerçevesi 'net8.0' yerine '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' kullanılarak geri yüklendi. Bu paket projenizle tamamen uyumlu olmayabilir.",
       "libraryId": "BouncyCastle",
       "targetGraphs": [
         "net8.0"
