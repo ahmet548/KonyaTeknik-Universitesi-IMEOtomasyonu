@@ -42,47 +42,47 @@
 </style>
 
 <body>
-    <nav class="navbar-top mt-3"></nav>
-    <nav class="d-flex justify-content-start align-items-center mt-1"
-        style="height: 75px; background: #b52525; z-index: 9999;">
-        <div class="row">
-            <div class="col-md-12 m-5 ktun-logo">
-                <img class="rounded-circle" src="~/img/ktunlogo.png" alt="Logo" width="130px" height="130px"
-                    z-index="9999">
+    <nav class="navbar-top" style="z-index: 0;"></nav>
+
+    <nav class="d-flex justify-content-start align-items-center mt-1 position-relative"
+        style="height: 75px; background: #b52525;">
+        <div class="row ml-5">
+            <div class="col-md-12 ktun-logo">
+                <img class="rounded-circle" src="~/img/ktunlogo.png" alt="Logo" width="130px" height="130px">
             </div>
         </div>
-        <div class="navbar-options w-100 d-flex h-120">
-            <div class="primary-navigation wdm-custom-menus">
+
+        <div class="navbar-options ml-5 w-100 d-flex h-120">
+            <div class="primary-navigation wdm-custom-menus position-relative" style="left: 30px;">
                 <nav class="moremenu navigation observed d-flex">
-                    <ul id="moremenu-67f662ab3bcfe-navbar-nav" role="menubar" class="nav more-nav navbar-nav d-flex ">
-                        <li data-key="home" class="nav-item" role="none" data-forceintomoremenu="false">
-                            <a role="menuitem" class="nav-link " href="" aria-current="true">
-                                Ana Sayfa
-                            </a>
+                    <ul class="nav more-nav navbar-nav d-flex">
+                        <li class="nav-item">
+                            <a class="nav-link main-nav-link text-white" href="#">Ana Sayfa</a>
                         </li>
-                        <li data-key="myhome" class="nav-item" role="none" data-forceintomoremenu="false">
-                            <a role="menuitem" class="nav-link  " href="" tabindex="-1">
-                                Kontrol Paneli
-                            </a>
+                        <li class="nav-item">
+                            <a class="nav-link main-nav-link text-white" href="#">Kontrol Paneli</a>
                         </li>
-                        <li data-key="mycourses" class="nav-item" role="none" data-forceintomoremenu="false">
-                            <a role="menuitem" class="nav-link active" href="" tabindex="-1">
-                                Staj Defteri
-                            </a>
+                        <li class="nav-item">
+                            <a class="nav-link main-nav-link text-white" href="#">Staj Defteri</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link main-nav-link text-white" href="#">Mazeret Bildir</a>
                         </li>
                     </ul>
                 </nav>
             </div>
-            <nav class="d-flex justify-content-end align-items-center w-100 mr-3">
-                <div class="dropdown show">
-                    <a href="#" role="button" id="user-menu-toggle" data-toggle="dropdown" aria-label="Kullanıcı menüsü"
-                        aria-haspopup="true" aria-controls="user-action-menu" class="btn p-0"
-                        style="background: #b52525; border-color: #b52525;">
+
+            <nav class="d-flex justify-content-end align-items-center w-100 mr-5" style="z-index: 9999;">
+                <div class="dropdown ms-auto">
+                    <a href="#" role="button" id="user-menu-toggle" data-bs-toggle="dropdown"
+                        aria-label="Kullanıcı menüsü" aria-haspopup="true" aria-controls="user-action-menu"
+                        class="btn p-0 text-white">
                         <span class="userbutton">
                             <span class="avatars">
                                 <span class="avatar current">
                                     <span class="userinitials size-35">
-                                        @if (ViewBag.UserName != null && ViewBag.UserSurname != null)
+                                        @if (!string.IsNullOrEmpty(ViewBag.UserName) &&
+                                                                                !string.IsNullOrEmpty(ViewBag.UserSurname))
                                         {
                                             @($"{ViewBag.UserName[0]}{ViewBag.UserSurname[0]}")
                                         }
@@ -96,29 +96,16 @@
                             <i class="fa-solid fa-angle-down text-white" style="position: relative; top: -5px;"></i>
                         </span>
                     </a>
-                    <div id="user-action-menu" class="dropdown-menu dropdown-menu-right mt-5">
-                        <a href="/Home/aboutme" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Profil
-                        </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Başarı notları
-                        </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Takvim
-                        </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Kişisel dosyalar
-                        </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Raporlar
-                        </a>
+
+                    <div id="" class="dropdown-menu dropdown-menu-end mt-5" aria-labelledby="user-menu-toggle">
+                        <a href="/Home/aboutme" class="dropdown-item">Profil</a>
+                        <a href="#" class="dropdown-item">Başarı notları</a>
+                        <a href="#" class="dropdown-item">Takvim</a>
+                        <a href="#" class="dropdown-item">Kişisel dosyalar</a>
+                        <a href="#" class="dropdown-item">Raporlar</a>
                         <div class="dropdown-divider"></div>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Tercihler
-                        </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Çıkış yap
-                        </a>
+                        <a href="#" class="dropdown-item">Tercihler</a>
+                        <a href="/Student/Logout" class="dropdown-item">Çıkış yap</a>
                     </div>
                 </div>
             </nav>
@@ -128,8 +115,8 @@
     <div class="d-flex" style="height: 100vh; position: relative;">
 
         <!-- Yan Menü -->
-        <div id="sidebar" class="sidebar bg-white p-5"
-            style="width: 15%; height: 100%; position: absolute; top: 0; left: 0; border-right: 1px solid #ddd; z-index: 1;">
+        <div id="sidebar" class="sidebar bg-white p-5 position-absolute h-100"
+            style="width: 15%; top: 0; left: 0; border-right: 1px solid #ddd;;">
             <h5 class="fw-semibold mb-4" id="sidebarTitle">Formlar</h5>
             <ul class="list-unstyled">
                 <li class="mb-0">
@@ -141,7 +128,7 @@
                 </li>
                 <div class="dropdown-divider"></div>
                 <li class="mb-0">
-                    <a href="/Home/GenerateIMESozlesmeFormu" target="_blank"
+                    <a href="/Home/IMESozlesmeFormu" target="_blank"
                         class="text-decoration-none text-dark dropdown-item d-flex">
                         <i class="fas fa-file-pdf text-danger me-2"></i>
                         <span class="menu-text ml-3">FORM2 KTÜN İME SÖZLEŞMESİ</span>
@@ -149,10 +136,40 @@
                 </li>
                 <div class="dropdown-divider"></div>
                 <li class="mb-0">
-                    <a href="/Home/GenerateIMEBilgiFormu" class="text-decoration-none text-dark dropdown-item d-flex">
+                    <a href="/Home/IMEBilgiFormu" class="text-decoration-none text-dark dropdown-item d-flex">
                         <i class="fas fa-file-pdf text-danger me-2"></i>
                         <span class="menu-text ml-3">FORM3 KTÜN İME ÜCRETLERİ İŞSİZLİK
                             FONU KATKISI BİLGİ FORMU</span>
+                    </a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li class="mb-0">
+                    <a href="/Home/IMEDeğerlendirmeFormu" class="text-decoration-none text-dark dropdown-item d-flex">
+                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                        <span class="menu-text ml-3">FORM4 KTÜN İME SORUMLUSU DEĞERLENDİRME FORMU</span>
+                    </a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li class="mb-0">
+                    <a href="/Home/MazeretIzinFormu" class="text-decoration-none text-dark dropdown-item d-flex">
+                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                        <span class="menu-text ml-3">FORM6 KTÜN İME MAZERET İZİN FORMU</span>
+                    </a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li class="mb-0">
+                    <a href="/Home/FaaliyetRaporu" target="_blank"
+                        class="text-decoration-none text-dark dropdown-item d-flex">
+                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                        <span class="menu-text ml-3">FORM8 KTÜN İME FAALİYET RAPORU</span>
+                    </a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li class="mb-0">
+                    <a href="/Home/VideoSunumFormu" target="_blank"
+                        class="text-decoration-none text-dark dropdown-item d-flex">
+                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                        <span class="menu-text ml-3">FORM9 KTÜN İME HAFTALIK VİDEO SUNUMU DEĞERLENDİRME FORMU</span>
                     </a>
                 </li>
             </ul>

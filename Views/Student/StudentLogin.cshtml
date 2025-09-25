@@ -1,107 +1,519 @@
-@{
-    ViewData["Title"] = "Öğrenci İME Giriş";
-    Layout = null;
-}
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="tr">
 
 <head>
     <title>KTUN - Öğrenci İME Giriş</title>
-    <link rel="shortcut icon" href="~/img/logo_2.ico">
+    <link rel="shortcut icon" href="https://lms.ktun.edu.tr/theme/image.php/remui/theme/1756726302/favicon"
+        type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="keywords" content="moodle, Konya Teknik Üniversitesi İşletmede Mesleki Eğitim: Siteye giriş yap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="https://lms.ktun.edu.tr/theme/styles.php/remui/1703591224_1/all">
-    <link rel="stylesheet" href="~/styles/custom/css/KTUN-StudentLogin.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url(../../../img/16.jpg) no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: 0;
+        }
+
+        .login-wrapper {
+            position: relative;
+            width: 405px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transform: translateX(100%);
+            animation: slideIn 1s ease-out forwards;
+            z-index: 10;
+            overflow-y: auto;
+        }
+
+        keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        keyframes mobileSlideIn {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+
+        .login-welcome-wrapper {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        .h-bold-2 {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .welcome-text {
+            color: #7f8c8d;
+            font-size: 0.7rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.9rem;
+        }
+
+        .form-label {
+            font-size: 0.82rem;
+            margin-bottom: 0.35rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 6px;
+            padding: 9px 12px;
+            font-size: 0.75rem;
+            height: 40px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s;
+            font-size: 0.75rem;
+        }
+
+        .toggle-password:hover {
+            color: #3498db;
+        }
+
+        .form-check {
+            margin-bottom: 10px;
+            padding-left: 1.5em;
+        }
+
+        .form-check-input {
+            width: 0.95em;
+            height: 0.95em;
+            margin-top: 0.18em;
+            margin-left: -1.5em;
+        }
+
+        .form-check-input:checked {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+
+        .form-check-label {
+            font-size: 0.72rem;
+            color: #2c3e50;
+            line-height: 1.35;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            border: none;
+            padding: 9px;
+            font-weight: 500;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #1a2530);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.82rem;
+        }
+
+        a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.72rem;
+            color: #7f8c8d;
+        }
+
+        .university-info {
+            position: fixed;
+            left: 30px;
+            bottom: 30px;
+            color: white;
+            max-width: 450px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            z-index: 5;
+        }
+
+        .university-info h1 {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .university-info p {
+            font-size: 0.7rem;
+            line-height: 1.5;
+        }
+
+        /* Hata mesajı stili - Resimdeki gibi */
+        .alert-danger-custom {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-danger-custom i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Scrollbar stilleri */
+        .login-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .login-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .login-wrapper::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .login-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Responsive tasarım */
+        media (max-width: 992px) {
+            body {
+                justify-content: center;
+                background-position: 65% center;
+            }
+
+            .login-wrapper {
+                width: 100%;
+                max-width: 500px;
+                height: auto;
+                min-height: auto;
+                border-radius: 10px;
+                margin: 20px;
+                animation: mobileSlideIn 1s ease-out forwards;
+                max-height: 90vh;
+            }
+
+            .university-info {
+                display: none;
+            }
+        }
+
+        media (max-width: 576px) {
+            .login-wrapper {
+                padding: 20px;
+                margin: 15px;
+            }
+
+            .h-bold-2 {
+                font-size: 1rem;
+            }
+
+            .university-info h1 {
+                font-size: 1rem;
+            }
+
+            .university-info p {
+                font-size: 0.7rem;
+            }
+        }
+
+        .captcha-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .captcha-container canvas {
+            /* Border kaldırıldı */
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
-<body id="page-login-index" class="pagelayout-login">
-    <div id="page" class="container-fluid loginright">
-        <div id="page-content" class="row">
-            <div id="region-main-box" class="col-12">
-                <section id="region-main" class="" aria-label="İçerik">
-                    <div class="login-wrapper">
-                        <div class="login-container" style="background-color:#fff">
-                            <div role="main">
-                                <div class="loginform">
-                                    <img src="~/img/ktunlogores.png" style="width: 326px; padding-left: 74px;">
-                                    <h3 class="font-weight-bold iconsitename mt-5">Öğrenci Giriş</h3>
-                                    @if (ViewBag.Hata != null)
-                                    {
-                                        <div class="alert alert-danger">
-                                            @ViewBag.Hata
-                                        </div>
-                                    }
-                                    <form class="my-3" method="post" action="/Student/StudentLogin">
-                                        <div class="form-group input-group">
-                                            <input type="text" name="email" id="email" class="form-control rou"
-                                                placeholder="E-Posta Adresi" autocomplete="username" required>
-                                        </div>
+<body>
+    <div class="university-info">
+        <h1>Konya Teknik Üniversitesi</h1>
+        <p>İşletmede Mesleki Eğitim (İME) sistemi ile geleceğinize hazırlanın. Staj deneyimlerinizi yönetmek için giriş
+            yapın.</p>
+    </div>
 
-                                        <div class="form-group">
-                                            <label for="password" class="sr-only">Şifre</label>
-                                            <div class="password-container">
-                                                <input type="password" name="password" id="password"
-                                                    class="form-control" placeholder="Şifre"
-                                                    autocomplete="current-password" required>
-                                                <span class="toggle-password" onclick="togglePasswordVisibility()">
-                                                    <i class="fas fa-eye"></i>
-                                                </span>
-                                            </div>
+    <div class="login-wrapper">
+        <div class="logo-area">
+            <img src="https://lms.ktun.edu.tr/pluginfile.php/1/theme_remui/loginpanellogo/1756726302/logo.png"
+                style="height: 80px;" alt="KTUN Logo">
+        </div>
 
-                                            <p>
-                                                <br>
-                                                <input type="checkbox" id="sozlesme" name="sozlesme" value="sozlesle"
-                                                    required>
-                                                6698 Sayılı Kişisel Verilerin Korunması Kanunu uyarınca hazırlanan
-                                                <a target="_blank" href="">Aydınlatma Metni’ni</a> okudum.
-                                                <br><br>
-                                                <input type="checkbox" id="sozlesme1" name="sozlesme1" value="sozlesle1"
-                                                    required>
-                                                <a href="/Home/GenerateIMESozlesmeFormu" target="_blank">İşletmede
-                                                    Mesleki Eğitim Sözleşmesi</a>,
-                                                T.C. Konya Teknik Üniversitesi ... esasları okudum.
-                                            </p>
-                                        </div>
+        <div role="main">
+            <div class="loginform">
+                <div class="login-welcome-wrapper">
+                    <h2 class="h-bold-2">IME - Öğrenci Giriş</h2>
+                    <p class="welcome-text">Lütfen hesap bilgilerinizle giriş yapın</p>
+                </div>
 
-                                        <div class="form-group">
-                                            <canvas id="captchaCanvas" width="150" height="40"></canvas>
-                                            <input class="form-control" type="text" id="captchaInput"
-                                                placeholder="Captcha güvenlik kodu (Resimdeki sayıların toplamını yazınız.)">
-                                            <button style="display:none" type="button" id="refreshCaptcha"
-                                                class="refresh-button"><i class="fas fa-redo"></i></button>
-                                        </div>
+                <!-- Hata mesajı alanı - Resimdeki gibi -->
+                <div class="alert alert-danger-custom @((ViewBag.Hata == null) ? "d-none" : "")" id="errorAlert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="errorMessage">@ViewBag.Hata</span>
+                </div>
 
-                                        <button type="submit" class="btn btn-primary btn-block mt-4" id="loginbtn">Devam
-                                            Et</button>
-                                        <p class="text-left mt-4">
-                                            <a href="https://erisim.ktun.edu.tr/Security/SifremiUnuttum"
-                                                target="_blank">Şifremi Unuttum</a> |
-                                            <a href="/Student/Register" target="_self">Hesap Oluştur</a>
-                                        </p>
-                                    </form>
-                                </div>
-                            </div>
+                <form method="post" action="/Student/StudentLogin" id="loginForm">
+                    <input id="anchor" type="hidden" name="anchor" value="">
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">E-Posta Adresi</label>
+                        <input type="text" name="email" id="email" class="form-control" placeholder="E-Posta Adresi"
+                            autocomplete="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Şifre</label>
+                        <div class="password-container">
+                            <input type="password" name="password" id="password" class="form-control"
+                                placeholder="Şifre" autocomplete="current-password" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                <i class="fas fa-eye"></i>
+                            </span>
                         </div>
                     </div>
-                </section>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="sozlesme" id="sozlesme" required>
+                        <label class="form-check-label" for="sozlesme">
+                            6698 Sayılı Kişisel Verilerin Korunması Kanunu uyarınca hazırlanan
+                            <a target="_blank" href="">Aydınlatma Metni'ni</a> okudum.
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="sozlesme1" id="sozlesme1" required>
+                        <label class="form-check-label" for="sozlesme1">
+                            <a href="/Home/GenerateIMESozlesmeFormu" target="_blank">İşletmede Mesleki Eğitim
+                                Sözleşmesi</a>,
+                            T.C. Konya Teknik Üniversitesi tarafından belirlenen ilgili mevzuat, yönergeler ve esaslar
+                            doğrultusunda hazırlanmış olup, tüm şartlarını dikkatlice okuyup anladığımı ve kabul
+                            ettiğimi beyan ederim.
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="captcha-container mt-4">
+                            <canvas id="captchaCanvas" width="150" height="35"></canvas>
+                        </div>
+                        <input class="form-control" type="text" id="captchaInput" name="captchaInput"
+                            placeholder="Resimdeki sayıların toplamını yazınız" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block w-100 mt-1" id="loginbtn">Devam Et</button>
+
+                    <p class="text-center mt-3 mb-0">
+                        <a href="https://erisim.ktun.edu.tr/Security/SifremiUnuttum" target="_blank">Şifremi Unuttum</a>
+                    </p>
+                </form>
             </div>
         </div>
+
+        <div class="footer">
+            <p>© 2025 Konya Teknik Üniversitesi - Tüm Hakları Saklıdır</p>
+        </div>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Şifre görünürlüğünü değiştirme
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            var icon = document.querySelector(".toggle-password i");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        // Captcha oluşturma
+        const canvas = document.getElementById('captchaCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Backend'den gelen captcha değerlerini kullan
+        let num1 = @ViewBag.CaptchaNum1;
+        let num2 = @ViewBag.CaptchaNum2;
+
+        function drawCaptcha() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.font = "bold 20px Arial";
+            ctx.fillStyle = "#2c3e50";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(`${num1} + ${num2} = ?`, canvas.width / 2, canvas.height / 2);
+        }
+
+        // Sayfa yüklendiğinde captcha çiz
+        window.onload = function () {
+            drawCaptcha();
+
+            // Hata mesajı varsa 5 saniye sonra gizle
+            const errorAlert = document.getElementById('errorAlert');
+            if (errorAlert && errorAlert.textContent.trim() !== '') {
+                setTimeout(function () {
+                    errorAlert.classList.add('d-none');
+                }, 5000);
+            }
+
+            // Sayfa yüklendikten sonra form alanına odaklan
+            setTimeout(function () {
+                document.getElementById('email').focus();
+            }, 1000);
+        };
+
+        // Form gönderilmeden önce basit validasyon
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            const captchaInput = document.getElementById('captchaInput');
+            const userAnswer = captchaInput.value;
+
+            // Sadece boş olup olmadığını kontrol et (backend'de tam doğrulama yapılacak)
+            if (!userAnswer) {
+                e.preventDefault();
+                showError('Lütfen güvenlik kodunu giriniz.');
+                return;
+            }
+
+            // Checkbox kontrolleri
+            const c1 = document.getElementById('sozlesme');
+            const c2 = document.getElementById('sozlesme1');
+
+            if (!c1.checked || !c2.checked) {
+                e.preventDefault();
+                showError('Devam etmek için her iki onayı da işaretleyiniz.');
+                return;
+            }
+        });
+
+        function showError(message) {
+            const errorAlert = document.getElementById('errorAlert');
+            const errorMessage = document.getElementById('errorMessage');
+
+            errorMessage.textContent = message;
+            errorAlert.classList.remove('d-none');
+
+            // Küçük bir delay ile fade-in başlasın
+            setTimeout(() => errorAlert.classList.add('show'), 10);
+
+            // 5 saniye sonra fade-out başlat
+            setTimeout(function () {
+                errorAlert.classList.remove('show');
+
+                // fade-out bittikten sonra d-none ekle (göz kırpmasını engeller)
+                errorAlert.addEventListener("transitionend", function handler() {
+                    if (!errorAlert.classList.contains("show")) {
+                        errorAlert.classList.add("d-none");
+                    }
+                    errorAlert.removeEventListener("transitionend", handler);
+                });
+            }, 5000);
+        }
+
+
+    </script>
 </body>
-
-<script>
-    function togglePasswordVisibility() {
-        const passwordField = document.getElementById("password");
-        const passwordIcon = document.querySelector(".toggle-password i");
-        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
-        passwordField.setAttribute("type", type);
-
-        passwordIcon.classList.toggle("fa-eye");
-        passwordIcon.classList.toggle("fa-eye-slash");
-    }
-</script>
 
 </html>

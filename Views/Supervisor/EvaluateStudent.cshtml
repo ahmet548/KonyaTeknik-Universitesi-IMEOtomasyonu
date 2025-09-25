@@ -6,79 +6,135 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Öğrenci Değerlendirme</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .card-custom {
+            border-left: 6px solid #b52525;
+            border-radius: 10px;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #b52525;
+            border-bottom: 2px solid #b52525;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .btn-primary-custom {
+            background-color: #b52525;
+            border-color: #b52525;
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #991f1f;
+            border-color: #991f1f;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h2>@Model.FirstName @Model.LastName - Değerlendirme</h2>
-        <form method="post" action="/Supervisor/SaveEvaluation">
-            <input type="hidden" name="StudentID" value="@Model.UserID" />
-            <input type="hidden" name="SupervisorID" value="@ViewBag.SupervisorID" />
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card-custom">
+                    <div class="section-title">@Model.FirstName @Model.LastName - Öğrenci Değerlendirme Formu</div>
+                    <form method="post" action="/Supervisor/SaveEvaluation">
+                        <input type="hidden" name="StudentID" value="@Model.UserID" />
+                        <input type="hidden" name="SupervisorID" value="@ViewBag.SupervisorID" />
 
-            <div class="form-group mb-3">
-                <label for="AttendanceScore">Çalışma Saatlerine Uyma:</label>
-                <input type="number" id="AttendanceScore" name="AttendanceScore" class="form-control" min="0" max="10"
-                    required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="ResponsibilityScore">Sorumluluk:</label>
-                <input type="number" id="ResponsibilityScore" name="ResponsibilityScore" class="form-control" min="0"
-                    max="10" required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="KnowledgeScore">Mesleği ile ilgili temel kavramları bilme ve pratiğe uygulama:</label>
-                <input type="number" id="KnowledgeScore" name="KnowledgeScore" class="form-control" min="0" max="10"
-                    required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="ProblemSolvingScore">Problem tespiti ve çözümü üretme:</label>
-                <input type="number" id="ProblemSolvingScore" name="ProblemSolvingScore" class="form-control" min="0"
-                    max="10" required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="EquipmentUsageScore">İşyerindeki araç-gereçleri uygun kullanma ve koruma:</label>
-                <input type="number" id="EquipmentUsageScore" name="EquipmentUsageScore" class="form-control" min="0"
-                    max="10" required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="CommunicationScore">Etkili talimat alıp verme becerisi:</label>
-                <input type="number" id="CommunicationScore" name="CommunicationScore" class="form-control" min="0"
-                    max="10" required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="MotivationScore">İşindeki istek ve gayreti:</label>
-                <input type="number" id="MotivationScore" name="MotivationScore" class="form-control" min="0" max="10"
-                    required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="ReportingScore">Yaptığı işi raporlama:</label>
-                <input type="number" id="ReportingScore" name="ReportingScore" class="form-control" min="0" max="10"
-                    required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="TeamworkScore">Uyumlu çalışma ve takım çalışması yapabilme:</label>
-                <input type="number" id="TeamworkScore" name="TeamworkScore" class="form-control" min="0" max="10"
-                    required />
-            </div>
-            <div class="form-group mb-3">
-                <label for="ExpressionScore">Kendini ifade etme ve iletişim kurabilme:</label>
-                <input type="number" id="ExpressionScore" name="ExpressionScore" class="form-control" min="0" max="10"
-                    required />
-            </div>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="AttendanceScore" class="form-label">Çalışma Saatlerine Uyma</label>
+                                <input type="number" id="AttendanceScore" name="AttendanceScore" class="form-control"
+                                    min="0" max="10" required />
+                            </div>
 
-            <button type="submit" class="btn btn-success">Kaydet</button>
-            <a href="/Home/SupervisorStudentList" class="btn btn-secondary">Geri</a>
-        </form>
+                            <div class="col-md-6">
+                                <label for="ResponsibilityScore" class="form-label">Sorumluluk</label>
+                                <input type="number" id="ResponsibilityScore" name="ResponsibilityScore"
+                                    class="form-control" min="0" max="10" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="KnowledgeScore" class="form-label">Mesleki Bilgi ve Uygulama</label>
+                                <input type="number" id="KnowledgeScore" name="KnowledgeScore" class="form-control"
+                                    min="0" max="10" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="ProblemSolvingScore" class="form-label">Problem Çözme</label>
+                                <input type="number" id="ProblemSolvingScore" name="ProblemSolvingScore"
+                                    class="form-control" min="0" max="10" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="EquipmentUsageScore" class="form-label">Araç-Gereç Kullanımı</label>
+                                <input type="number" id="EquipmentUsageScore" name="EquipmentUsageScore"
+                                    class="form-control" min="0" max="10" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="CommunicationScore" class="form-label">Talimat Alma / Verme</label>
+                                <input type="number" id="CommunicationScore" name="CommunicationScore"
+                                    class="form-control" min="0" max="10" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="MotivationScore" class="form-label">İstek ve Gayret</label>
+                                <input type="number" id="MotivationScore" name="MotivationScore" class="form-control"
+                                    min="0" max="10" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="ReportingScore" class="form-label">İş Raporlama</label>
+                                <input type="number" id="ReportingScore" name="ReportingScore" class="form-control"
+                                    min="0" max="10" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="TeamworkScore" class="form-label">Takım Çalışması</label>
+                                <input type="number" id="TeamworkScore" name="TeamworkScore" class="form-control"
+                                    min="0" max="10" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="ExpressionScore" class="form-label">İfade ve İletişim</label>
+                                <input type="number" id="ExpressionScore" name="ExpressionScore" class="form-control"
+                                    min="0" max="10" required />
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex justify-content-between">
+                            <a href="/Supervisor/SupervisorStudentList" class="btn btn-secondary">Geri</a>
+                            <button type="submit" class="btn btn-primary-custom">Kaydet</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -6,8 +6,8 @@ namespace IMEAutomationDBOperations.Models
     {
         [Key]
         public int UserID { get; set; }
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
+        public required string? FirstName { get; set; }
+        public required string? LastName { get; set; }
         public required int AcademicYear { get; set; }
         public required string NationalID { get; set; }
         public required DateTime BirthDate { get; set; }

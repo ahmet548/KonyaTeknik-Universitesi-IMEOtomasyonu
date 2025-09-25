@@ -1,1005 +1,563 @@
-@{
-    ViewBag.Title = "KTUN | İşletmede Mesleki Eğitim Öğrenci Sayfası";
-    Layout = null;
-    var notes = ViewBag.Notes as List<IMEAutomationDBOperations.Models.Note>;
-    var videos = ViewBag.Videos as List<IMEAutomationDBOperations.Models.Video>;
-    var leaveDetails = ViewBag.LeaveDetails as List<IMEAutomationDBOperations.Models.LeaveDetails>;
-}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KTUN | İşletmede Mesleki Eğitim Öğrenci</title>
+    <title>KTUN | İşletmede Mesleki Eğitim Öğrenci Sayfası</title>
     <link rel="shortcut icon" href="~/img/logo_2.ico">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta name="keywords" content="moodle, Konya Teknik Üniversitesi İşletmede Mesleki Eğitim: Siteye giriş yap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="https://lms.ktun.edu.tr/theme/styles.php/remui/1703591224_1/all">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="~/styles/custom/css/KTUN-StudentPage.css">
+
 </head>
-<style>
-    #user-action-menu {
-        display: none;
-    }
-
-    body {
-        background-color: #fdfeff;
-    }
-
-    html {
-        overflow: hidden;
-    }
-
-    .menu-text {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
-        max-width: 200px;
-    }
-
-    .card {
-        min-height: 80px;
-        position: relative;
-    }
-
-    .custom-file-upload {
-        border: 2px dashed #6c757d;
-        border-radius: 12px;
-        padding: 24px 12px;
-        text-align: center;
-        cursor: pointer;
-        background: #f8f9fa;
-        color: #6c757d;
-        transition: border-color 0.2s, background 0.2s;
-        position: relative;
-    }
-
-    .custom-file-upload:hover {
-        border-color: #b52525;
-        background: #e9ecef;
-        color: #b52525;
-    }
-
-    .custom-file-upload i {
-        display: block;
-    }
-</style>
 
 <body>
-    <nav class="navbar-top" style="z-index: 0;"></nav>
-    <nav class="d-flex justify-content-start align-items-center mt-1" style="height: 75px; background: #b52525;">
-        <div class="row ml-5">
-            <div class="col-md-12 ktun-logo">
-                <img class="rounded-circle" src="~/img/ktunlogo.png" alt="Logo" width="130px" height="130px">
-            </div>
-        </div>
-        <div class="navbar-options ml-5 w-100 d-flex h-120">
-            <div class="primary-navigation wdm-custom-menus position-relative" style="left: 210px;">
-                <nav class="moremenu navigation observed d-flex">
-                    <ul id="moremenu-67f662ab3bcfe-navbar-nav" role="menubar" class="nav more-nav navbar-nav d-flex ">
-                        <li data-key="home" class="nav-item" role="none" data-forceintomoremenu="false">
-                            <a role="menuitem" class="nav-link main-nav-link" href="#" aria-current="true">
-                                Ana Sayfa
-                            </a>
-                        </li>
-                        <li data-key="controlpanel" class="nav-item" role="none" data-forceintomoremenu="false">
-                            <a role="menuitem" class="nav-link main-nav-link" href="#" tabindex="-1">
-                                Kontrol Paneli
-                            </a>
-                        </li>
-                        <li data-key="mycourses" class="nav-item" role="none" data-forceintomoremenu="false">
-                            <a role="menuitem" class="nav-link main-nav-link" href="#" tabindex="-1">
-                                Staj Defteri
-                            </a>
-                        </li>
-                        <li data-key="myleave" class="nav-item" role="none" data-forceintomoremenu="false">
-                            <a role="menuitem" class="nav-link main-nav-link" href="#" tabindex="-1">
-                                Mazeret Bildir
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <nav class="d-flex justify-content-end align-items-center w-100 mr-3" style="z-index: 9999;">
-                <div class="dropdown show">
-                    <a href="#" role="button" id="user-menu-toggle" data-bs-toggle="dropdown"
-                        aria-label="Kullanıcı menüsü" aria-haspopup="true" aria-controls="user-action-menu"
-                        class="btn p-0" style="background: #b52525; border-color: #b52525;">
-                        <span class="userbutton">
-                            <span class="avatars">
-                                <span class="avatar current">
-                                    <span class="userinitials size-35">
-                                        @if (ViewBag.UserName != null && ViewBag.UserSurname != null)
-                                        {
-                                            @($"{ViewBag.UserName[0]}{ViewBag.UserSurname[0]}")
-                                        }
-                                        else
-                                        {
-                                            @("M")
-                                        }
-                                    </span>
-                                </span>
-                            </span>
-                            <i class="fa-solid fa-angle-down text-white" style="position: relative; top: -5px;"></i>
-                        </span>
-                    </a>
-                    <div id="user-action-menu" class="dropdown-menu dropdown-menu-end mt-5"
-                        aria-labelledby="user-menu-toggle">
-                        <a href="/Home/aboutme" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Profil
+    <!-- Navbar -->
+    <nav class="navbar navbar-ktun navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Logo ve Üniversite İsmi -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="ktun-logo">
+                    <img src="https://lms.ktun.edu.tr/pluginfile.php/1/theme_remui/loginpanellogo/1756726302/logo.png"
+                        style="height: 50px;" alt="KTUN Logo">
+                </div>
+            </a>
+
+            <!-- Mobil menü butonu -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Menüyü aç/kapat">
+
+                <i class="fas fa-bars"></i>
+
+            </button>
+
+            <!-- Menü içeriği -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link active" href="#">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link" href="#">Kontrol Paneli</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link" href="#">Staj Defteri</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link" href="#">Mazeret Bildir</a>
+                    </li>
+                </ul>
+
+                <!-- Bildirim ve Mesaj İkonları -->
+                <div class="d-flex align-items-center me-4">
+                    <!-- Bildirim İkonu -->
+                    <div class="dropdown">
+                        <a class="notification-icon" href="#" role="button" id="notificationDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                            </svg>
+                            <span class="notification-badge">3</span>
                         </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Başarı notları
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                            <div class="notification-header">
+                                <h6>Bildirimler</h6>
+                                <a href="#" class="mark-all-read">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-gear" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                                        <path
+                                            d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                                    </svg>
+                                    Mark all read
+                                </a>
+                            </div>
+
+                            <!-- Bildirim listesi kapsayıcı -->
+                            <div class="notification-list">
+                                <div class="notification-item">
+                                    <div class="notification-content notification-content-ellipsis">
+                                        <strong>Konya Teknik Üniversitesi</strong> hesabınızda yeni oturum açın...
+                                    </div>
+                                    <div class="notification-time">1 saat 20 dk önce</div>
+                                    <a href="#" class="view-notification-link">Tam bildirimi görüntüle</a>
+                                </div>
+
+                                <div class="notification-item">
+                                    <div class="notification-content notification-content-ellipsis">
+                                        <strong>Mesleki Staj_SB:0_Yazılım Mühendisliği</strong> 'a hoş geldiniz...
+                                    </div>
+                                    <div class="notification-time">11 saat 24 dk önce</div>
+                                    <a href="#" class="view-notification-link">Tam bildirimi görüntüle</a>
+                                </div>
+
+                                <div class="notification-item">
+                                    <div class="notification-content notification-content-ellipsis">
+                                        <strong>Python Programlama_SB:0_Yazılım Mühendisliği</strong> 'a hoş geldiniz...
+                                    </div>
+                                    <div class="notification-time">11 saat 26 dk önce</div>
+                                    <a href="#" class="view-notification-link">Tam bildirimi görüntüle</a>
+                                </div>
+                            </div>
+
+                            <a href="#" class="view-all-link">View all notifications</a>
+                        </div>
+                    </div>
+
+                    <!-- Mesaj İkonu -->
+                    <div class="dropdown">
+                        <a class="message-icon" href="#" role="button" id="messageDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                            </svg>
+                            <span class="message-badge">1</span>
                         </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Takvim
-                        </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Kişisel dosyalar
-                        </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Raporlar
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Tercihler
-                        </a>
-                        <a href="" class="dropdown-item" role="menuitem" tabindex="-1">
-                            Çıkış yap
-                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="messageDropdown">
+                            <div class="notification-header">
+                                <h6>Mesajlar</h6>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-content">
+                                    <strong>Fatma Zehra Solak</strong>: Staj defteriniz incelenmiştir. Lütfen
+                                    düzeltmeleri yapınız...
+                                </div>
+                                <div class="notification-time">2 gün önce</div>
+                                <a href="#" class="view-notification-link">Mesajı görüntüle</a>
+                            </div>
+                            <a href="#" class="view-all-link">Tüm mesajları görüntüle</a>
+                        </div>
                     </div>
                 </div>
-            </nav>
+
+                <!-- Kullanıcı menüsü -->
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <span class="sized-box"></span>
+                        <a href="#" class="user-button" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <div class="user-initials">
+                                @if (ViewBag.UserName is string name && name.Length > 0 && ViewBag.UserSurname is string
+                                                                surname && surname.Length > 0)
+                                {
+                                    @($"{name[0]}{surname[0]}")
+                                }
+                                else
+                                {
+                                    @("M")
+                                }
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg>
+                        </a>
+                        <span class="sized-box"></span>
+                        <ul class="dropdown-menu user-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/Home/aboutme">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        class="bi bi-person-gear" viewBox="0 0 16 16">
+                                        <path
+                                            d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1zm3.63-4.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0" />
+                                    </svg>
+                                    Profil</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-journal-bookmark" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M6 8V1h1v6.117L8.743 6.07a.5.5 0 0 1 .514 0L11 7.117V1h1v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8" />
+                                        <path
+                                            d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
+                                        <path
+                                            d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
+                                    </svg>
+                                    Başarı notları</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-calendar" viewBox="0 0 16 16">
+                                        <path
+                                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                                    </svg>
+                                    Takvim</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-folder" viewBox="0 0 16 16">
+                                        <path
+                                            d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139q.323-.119.684-.12h5.396z" />
+                                    </svg>
+                                    Kişisel dosyalar</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-card-text" viewBox="0 0 16 16">
+                                        <path
+                                            d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
+                                        <path
+                                            d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8m0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5" />
+                                    </svg>
+                                    Raporlar</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-gear" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                                        <path
+                                            d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                                    </svg>
+                                    Tercihler</a>
+                            </li>
+                            <li><a class="dropdown-item" href="/Student/Logout"><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right"
+                                        viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                                        <path fill-rule="evenodd"
+                                            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                                    </svg>Çıkış yap</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div style="height: 100vh; position: relative; z-index: 1;">
-
-        <!-- Yan Menü -->
-        <div id="sidebar" class="sidebar bg-white p-5 position-absolute h-100"
-            style="width: 15%; top: 0; left: 0; border-right: 1px solid #ddd;;">
-            <h5 class="fw-semibold mb-4" id="sidebarTitle">Formlar</h5>
-            <ul class="list-unstyled">
-                <li class="mb-0">
-                    <a href="/Home/IMEBaşvuruFormu" target="_blank"
-                        class="text-decoration-none text-dark dropdown-item d-flex">
-                        <i class="fas fa-file-pdf text-danger me-2"></i>
-                        <span class="menu-text ml-3">FORM1 KTÜN İME BAŞVURU FORMU</span>
-                    </a>
-                </li>
-                <div class="dropdown-divider"></div>
-                <li class="mb-0">
-                    <a href="/Home/IMESozlesmeFormu" target="_blank"
-                        class="text-decoration-none text-dark dropdown-item d-flex">
-                        <i class="fas fa-file-pdf text-danger me-2"></i>
-                        <span class="menu-text ml-3">FORM2 KTÜN İME SÖZLEŞMESİ</span>
-                    </a>
-                </li>
-                <div class="dropdown-divider"></div>
-                <li class="mb-0">
-                    <a href="/Home/IMEBilgiFormu" class="text-decoration-none text-dark dropdown-item d-flex">
-                        <i class="fas fa-file-pdf text-danger me-2"></i>
-                        <span class="menu-text ml-3">FORM3 KTÜN İME ÜCRETLERİ İŞSİZLİK
-                            FONU KATKISI BİLGİ FORMU</span>
-                    </a>
-                </li>
-                <div class="dropdown-divider"></div>
-                <li class="mb-0">
-                    <a href="/Home/IMEDeğerlendirmeFormu" class="text-decoration-none text-dark dropdown-item d-flex">
-                        <i class="fas fa-file-pdf text-danger me-2"></i>
-                        <span class="menu-text ml-3">FORM4 KTÜN İME SORUMLUSU DEĞERLENDİRME FORMU</span>
-                    </a>
-                </li>
-                <div class="dropdown-divider"></div>
-                <li class="mb-0">
-                    <a href="/Home/MazeretIzinFormu" class="text-decoration-none text-dark dropdown-item d-flex">
-                        <i class="fas fa-file-pdf text-danger me-2"></i>
-                        <span class="menu-text ml-3">FORM6 KTÜN İME MAZERET İZİN FORMU</span>
-                    </a>
-                </li>
-                <div class="dropdown-divider"></div>
-                <li class="mb-0">
-                    <a href="/Home/FaaliyetRaporu" target="_blank"
-                        class="text-decoration-none text-dark dropdown-item d-flex">
-                        <i class="fas fa-file-pdf text-danger me-2"></i>
-                        <span class="menu-text ml-3">FORM8 KTÜN İME FAALİYET RAPORU</span>
-                    </a>
-                </li>
-                <div class="dropdown-divider"></div>
-                <li class="mb-0">
-                    <a href="/Home/VideoSunumFormu" target="_blank"
-                        class="text-decoration-none text-dark dropdown-item d-flex">
-                        <i class="fas fa-file-pdf text-danger me-2"></i>
-                        <span class="menu-text ml-3">FORM9 KTÜN İME HAFTALIK VİDEO SUNUMU DEĞERLENDİRME FORMU</span>
-                    </a>
-                </li>
-            </ul>
+    <!-- Yan Menü -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h5 class="sidebar-title">Formlar</h5>
+            <button class="close-sidebar" id="closeSidebar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                </svg>
+            </button>
         </div>
-
-        <!-- Ana İçerik -->
-        <div id="content" class="content bg-light"
-            style="margin-left: 15%; width: 85%; height: 100%; overflow-y: auto; padding: 20px;">
-            <div id="controlPanel" class="row" style="display: none;">
-                <div class="col-md-12 text-start d-flex" style="margin-right: 15px;">
-                    <div id="left-content" class="content bg-light col-12 col-lg-7 w-100 h-100 mb-3 mb-lg-0"
-                        style="overflow-y: auto; padding: 5px;">
-                        <div class="container py-5 shadow-sm mt-0 bg-white">
-                            <div id="calendarContainer">
-                                <div id="calendarLegend"
-                                    style="display:flex;gap:24px;align-items:center;margin-bottom: 30px;">
-                                    <span style="display:flex;align-items:center;gap:4px;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                            fill="currentColor" class="bi bi-file-earmark" viewBox="0 0 16 16">
-                                            <path
-                                                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
-                                        </svg>
-                                        <span>Not</span>
-                                    </span>
-                                    <span style="display:flex;align-items:center;gap:4px;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                            fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z" />
-                                        </svg>
-                                        <span>Video Yüklendi</span>
-                                    </span>
-                                    <span style="display:flex;align-items:center;gap:4px;">
-                                        <span
-                                            style="display:inline-block;width:16px;height:16px;background:#fff3cd;border-radius:3px;border:1px solid #ffeeba;"></span>
-                                        <span>Mazaretli Gün</span>
-                                    </span>
-                                    <span style="display:flex;align-items:center;gap:4px;">
-                                        <span
-                                            style="display:inline-block;width:16px;height:16px;background:#b52525;border-radius:50%;"></span>
-                                        <span>Bugün</span>
-                                    </span>
-                                </div>
-                                <div id="calendarControls"
-                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                    <button id="prevMonth"
-                                        style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd; background-color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <h4 id="calendarHeader"></h4>
-                                    <button id="nextMonth"
-                                        style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd; background-color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
-                                </div>
-
-                                <div id="calendar" style="margin-bottom: 100px;"></div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="mainMenu" class="row" style="display: none;">
-                <div class="col-md-12 text-start d-flex" style="margin-right: 15px;">
-                    <div id="content" class="content bg-light col-12 col-lg-7 w-100 h-100 mb-3 mb-lg-0"
-                        style="overflow-y: auto; padding: 5px;">
-                        <div class="container py-5 shadow-sm mt-0 bg-white">
-                            <div class="alert alert-warning fw-bold" role="alert">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                İME süreciniz için aşağıdaki PDF dosyalarını indirip eksiksiz doldurmanız gerekmektedir.
-                                <br>
-                                <span class="fw-normal">Her formun açıklamasını okuyarak doğru şekilde doldurduğunuzdan
-                                    emin
-                                    olunuz.</span>
-                            </div>
-                            <h4 class="fw-bold mb-2">İME Başvuru ve Süreç Formları</h4>
-                            <ul class="list-group mb-4">
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 1:</strong> KTÜN İME BAŞVURU FORMU
-                                        <div class="small text-muted">İME başvurusu için doldurulması gereken ana
-                                            formdur.
-                                        </div>
-                                    </div>
-                                    <a href="/Home/IMEBaşvuruFormu" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 2:</strong> KTÜN İME SÖZLEŞMESİ
-                                        <div class="small text-muted">İş yeri ile yapılacak resmi sözleşme formudur.
-                                        </div>
-                                    </div>
-                                    <a href="/Home/IMESozlesmeFormu" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 3:</strong> STAJ ÜCRETLERİNE İŞSİZLİK FONU KATKISI ÖĞRENCİ VE
-                                        İŞVEREN
-                                        BİLGİ FORMU
-                                        <div class="small text-muted">Ücret ve işveren bilgileri için gereklidir.</div>
-                                    </div>
-                                    <a href="/Home/IMEBilgiFormu" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 4:</strong> KTÜN İME SORUMLUSU DEĞERLENDİRME FORMU
-                                        <div class="small text-muted">İME sorumlusu tarafından doldurulacak
-                                            değerlendirme
-                                            formu.</div>
-                                    </div>
-                                    <a href="/Home/IMEDeğerlendirmeFormu" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 5:</strong> KTÜN İME SORUMLU ÖĞRETİM ELEMANI DEĞERLENDİRME FORMU
-                                        <div class="small text-muted">Sorumlu öğretim elemanı tarafından
-                                            doldurulacaktır.
-                                        </div>
-                                    </div>
-                                    <a href="/Home/IMEOgrtElmDegerlendirmeFormu" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 6:</strong> KTÜN İME MAZERET İZİN FORMU
-                                        <div class="small text-muted">Mazeretli izin talepleriniz için kullanılır.</div>
-                                    </div>
-                                    <a href="/Home/IMEMazeretIzinFormu" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 7:</strong> KTÜN İME PROTOKOL
-                                        <div class="small text-muted">İş yeri ile yapılacak protokol formudur.</div>
-                                    </div>
-                                    <a href="/Home/IMEProtokol" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 8:</strong> KTÜN İME FAALİYET RAPORU
-                                        <div class="small text-muted">İME sürecinde yapılan faaliyetlerin raporlanması
-                                            için
-                                            kullanılır.</div>
-                                    </div>
-                                    <a href="/Home/FaaliyetRaporu" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 9:</strong> KTÜN İME HAFTALIK VİDEO SUNUMU DEĞERLENDİRME FORMU
-                                        <div class="small text-muted">Haftalık video sunumlarınız için değerlendirme
-                                            formu.
-                                        </div>
-                                    </div>
-                                    <a href="/Home/IMEHaftalikVideoSunumDegerlendirmeFormu" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <div>
-                                        <span class="me-2">📄</span>
-                                        <strong>FORM 10:</strong> KTÜN İME İŞ YERİ DEĞİŞİKLİĞİ BAŞVURU FORMU
-                                        <div class="small text-muted">İş yeri değişikliği yapmak isteyen öğrenciler için
-                                            başvuru formu.</div>
-                                    </div>
-                                    <a href="/Home/IMEIsYeriDegisikligiBasvuruFormu" target="_blank"
-                                        class="btn btn-outline-primary btn-sm">İndir</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="content bg-light col-12 col-lg-5 w-100 h-100 mb-3 mb-lg-0"
-                        style="overflow-y: auto; padding: 5px;">
-                        <div class="container py-5 shadow-sm mt-0 bg-white">
-                            <div class="mb-4">
-                                <div class="card border-primary mb-4">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">
-                                            <i class="fas fa-sitemap text-primary"></i> KTÜN İME İŞLEYİŞ ŞEMASI
-                                        </h5>
-                                        <p class="card-text">
-                                            İME sürecinin adım adım nasıl ilerleyeceğini gösteren işleyiş şemasını
-                                            mutlaka
-                                            inceleyiniz.
-                                        </p>
-                                        <a href="/pdfs/IsleyisSemasi.pdf" target="_blank"
-                                            class="btn btn-outline-primary">
-                                            📄 Şemayı İndir
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card border-primary">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">
-                                            <i class="fas fa-book text-primary"></i> KTÜN İME YÖNERGE
-                                        </h5>
-                                        <p class="card-text">
-                                            İME ile ilgili tüm kuralları ve detayları içeren yönergeye buradan
-                                            ulaşabilirsiniz.
-                                        </p>
-                                        <a href="/pdfs/Yonerge.pdf" target="_blank" class="btn btn-outline-primary">
-                                            📄 Yönergeyi İndir
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="internshipDiary" class="row" style="display: none;">
-                <div class="col-12 text-start d-block d-lg-flex w-100">
-                    <!-- Not ve Video Ekleme Sekmeleri (Sol Kısım) -->
-                    <div id="left-content" class="content bg-light col-12 col-lg-7 h-100 mb-3 mb-lg-0"
-                        style="overflow-y: auto; padding: 5px;">
-                        <div class="container py-5 shadow-sm mt-0 bg-white">
-                            <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="notes-tab" data-bs-toggle="tab" href="#notes"
-                                        role="tab" aria-controls="notes" aria-selected="true">Not Ekle</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="videos-tab" data-bs-toggle="tab" href="#videos" role="tab"
-                                        aria-controls="videos" aria-selected="false">Video Yükle</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                <!-- Not Ekleme Formu -->
-                                <div class="tab-pane fade show active" id="notes" role="tabpanel"
-                                    aria-labelledby="notes-tab">
-                                    <form method="post" action="/Student/AddNote">
-                                        <div class="form-group mb-2">
-                                            <label for="Title">Başlık</label>
-                                            <input type="text" id="Title" name="Title" class="form-control" required />
-                                        </div>
-                                        <div class="form-group mb-2">
-                                            <label for="SubTitle">Alt Başlık</label>
-                                            <input type="text" id="SubTitle" name="SubTitle" class="form-control" />
-                                        </div>
-                                        <div class="form-group mb-2">
-                                            <label for="Content">İçerik</label>
-                                            <textarea id="Content" name="Content" class="form-control" rows="4"
-                                                required></textarea>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mt-2">Not Ekle</button>
-                                    </form>
-                                </div>
-                                <!-- Video Yükleme Formu -->
-                                <div class="tab-pane fade" id="videos" role="tabpanel" aria-labelledby="videos-tab">
-                                    <form method="post" enctype="multipart/form-data" action="/Student/UploadVideo">
-                                        <div class="form-group mb-2">
-                                            <label for="VideoTitle">Video Başlığı</label>
-                                            <input type="text" id="VideoTitle" name="Title" class="form-control"
-                                                required />
-                                        </div>
-                                        <div class="form-group mb-2">
-                                            <label for="Description">Açıklama</label>
-                                            <textarea id="Description" name="Description" class="form-control"
-                                                rows="3"></textarea>
-                                        </div>
-                                        <div class="form-group mb-2">
-                                            <label for="VideoFile">Video Dosyası</label>
-                                            <div class="custom-file-upload"
-                                                onclick="document.getElementById('VideoFile').click();">
-                                                <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i>
-                                                <div id="file-upload-text">Video seçmek için tıklayın veya buraya
-                                                    sürükleyin</div>
-                                                <input type="file" id="VideoFile" name="videoFile" class="form-control"
-                                                    required style="display:none;" onchange="updateFileName(this)">
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mt-2">Video Yükle</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Eski Notlar ve Videolar (Sağ Kısım) -->
-                    <div id="right-content" class="content bg-light col-12 col-lg-5 h-100"
-                        style="overflow-y: auto; padding: 5px;">
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="notes-list" role="tabpanel"
-                                aria-labelledby="notes-tab">
-                                <div class="container py-5 shadow-sm mt-0 bg-white">
-                                    <h5 class="fw-semibold mb-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-                                            <path
-                                                d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z" />
-                                            <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z" />
-                                            <path
-                                                d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5" />
-                                        </svg>
-                                        Notlar
-                                    </h5>
-                                    @{
-                                        var notes = ViewBag.Notes as List<IMEAutomationDBOperations.Models.Note>;
-                                    }
-                                    @if (notes != null && notes.Any())
-                                    {
-                                        foreach (var note in notes)
-                                        {
-                                            <div class="card mb-2">
-                                                <div class="card-body p-2">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <strong>@note.Title</strong>
-                                                            <div class="text-muted small">@note.SubTitle</div>
-                                                        </div>
-                                                        <span
-                                                            class="text-muted small">@note.CreatedAt.ToString("dd.MM.yyyy")</span>
-                                                    </div>
-                                                    <div class="small mt-1">
-                                                        @(note.Content.Length > 40 ? note.Content.Substring(0, 40) + "..." :
-                                                                                                        note.Content)
-                                            </div>
-                                            <div class="d-flex justify-content-end gap-2 mt-2 position-absolute"
-                                                style="right: 10px; bottom: 10px;">
-                                                <a href="javascript:void(0);"
-                                                    class="btn btn-sm btn-outline-secondary mr-1"
-                                                    style="font-size: 0.75rem; padding: 2px 8px;"
-                                                    onclick="openEditNoteModal(@note.NoteID, '@note.Title'.replace(/'/g, '\\\''), '@note.SubTitle'.replace(/'/g, '\\\''), '@note.Content'.replace(/'/g, '\\\''))">
-                                                    Düzenle
-                                                </a>
-                                                <button class="btn btn-sm btn-outline-danger"
-                                                    style="font-size: 0.75rem; padding: 2px 8px;"
-                                                    onclick="confirmDeleteNote(@note.NoteID)">Sil</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                                                        }
-                                    }
-                                    else
-                                    {
-                                        <div class="text-muted">Henüz not eklenmedi.</div>
-                                    }
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="videos-list" role="tabpanel" aria-labelledby="videos-tab">
-                                <div class="container py-5 shadow-sm mt-0 bg-white">
-                                    <h5 class="fw-semibold mb-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16">
-                                            <path
-                                                d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z" />
-                                            <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z" />
-                                            <path
-                                                d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5" />
-                                        </svg>
-                                        Videolar
-                                    </h5>
-                                    @{
-                                        var videos = ViewBag.Videos as List<IMEAutomationDBOperations.Models.Video>;
-                                    }
-                                    @if (videos != null && videos.Any())
-                                    {
-                                        foreach (var video in videos)
-                                        {
-                                            <div class="card mb-2">
-                                                <div class="card-body p-2">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <strong>@video.Title</strong>
-                                                            <div class="text-muted small">@video.Description</div>
-                                                        </div>
-                                                        <span
-                                                            class="text-muted small">@video.UploadDate.ToString("dd.MM.yyyy")</span>
-                                                    </div>
-                                                    <div class="d-flex justify-content-end gap-2 mt-3 position-absolute"
-                                                        style="right: 10px; bottom: 10px;">
-                                                        <a href="javascript:void(0);"
-                                                            class="btn btn-sm btn-outline-primary mr-1"
-                                                            style="font-size: 0.75rem; padding: 2px 8px;"
-                                                            onclick="openWatchVideoModal('@video.FilePath', '@video.Title'.replace(/'/g, '\\\''))">İzle</a>
-                                                        <a href="javascript:void(0);"
-                                                            class="btn btn-sm btn-outline-secondary mr-1"
-                                                            style="font-size: 0.75rem; padding: 2px 8px;"
-                                                            onclick="openEditVideoModal(@video.VideoID, '@video.Title'.replace(/'/g, '\\\''), '@video.Description'.replace(/'/g, '\\\''))">
-                                                            Düzenle
-                                                        </a>
-                                                        <button class="btn btn-sm btn-outline-danger"
-                                                            style="font-size: 0.75rem; padding: 2px 8px;"
-                                                            onclick="confirmDeleteVideo(@video.VideoID)">Sil</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <div class="text-muted">Henüz video yüklenmedi.</div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- İzle Modalı -->
-                <div class="modal fade" id="watchVideoModal" tabindex="-1" aria-labelledby="watchVideoModalLabel"
-                    aria-hidden="true" data-bs-backdrop="false">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="watchVideoModalLabel">Video İzle</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Kapat"></button>
-                            </div>
-                            <div class="modal-body">
-                                <video id="watchVideoPlayer" width="100%" controls
-                                    style="max-height:60vh; background:#000;">
-                                    <source id="watchVideoSource" src="" type="video/mp4">
-                                    Tarayıcınız video etiketini desteklemiyor.
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Not Düzenle Modalı -->
-                <div class="modal fade" id="editNoteModal" tabindex="-1" aria-labelledby="editNoteModalLabel"
-                    aria-hidden="true" data-bs-backdrop="false">
-                    <div class="modal-dialog" style="max-width: 600px;">
-                        <form id="editNoteForm" method="post" action="/Student/EditNote">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editNoteModalLabel">Notu Düzenle</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Kapat"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <input type="hidden" id="editNoteId" name="NoteID" />
-                                    <div class="mb-2">
-                                        <label for="editNoteTitle" class="form-label">Başlık</label>
-                                        <input type="text" class="form-control" id="editNoteTitle" name="Title"
-                                            required />
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="editNoteSubTitle" class="form-label">Alt Başlık</label>
-                                        <input type="text" class="form-control" id="editNoteSubTitle" name="SubTitle" />
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="editNoteContent" class="form-label">İçerik</label>
-                                        <textarea class="form-control" id="editNoteContent" name="Content"
-                                            rows="3"></textarea>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success">Kaydet</button>
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Kapat</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Video Düzenle Modalı -->
-                <div class="modal fade" id="editVideoModal" tabindex="-1" aria-labelledby="editVideoModalLabel"
-                    aria-hidden="true" data-bs-backdrop="false">
-                    <div class="modal-dialog">
-                        <form id="editVideoForm" method="post" enctype="multipart/form-data"
-                            action="/Student/EditVideo">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editVideoModalLabel">Videoyu Düzenle</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Kapat"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <input type="hidden" id="editVideoId" name="VideoID" />
-                                    <div class="mb-2">
-                                        <label for="editVideoTitle" class="form-label">Video Başlığı</label>
-                                        <input type="text" class="form-control" id="editVideoTitle" name="Title"
-                                            required />
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="editVideoDescription" class="form-label">Açıklama</label>
-                                        <textarea class="form-control" id="editVideoDescription" name="Description"
-                                            rows="3"></textarea>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="editVideoFile" class="form-label">Video Dosyası (değiştirmek için
-                                            seçin)</label>
-                                        <input type="file" class="form-control" id="editVideoFile" name="videoFile" />
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success">Kaydet</button>
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Kapat</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mazeret Bildir Alanı -->
-            <div id="myExcuse" class="row" style="display: block;">
-                <div class="col-md-12 text-start d-flex" style="margin-right: 15px;">
-                    <div id="left-content" class="content bg-light col-12 col-lg-7 w-100 h-100 mb-3 mb-lg-0"
-                        style="overflow-y: auto; padding: 5px;">
-                        <div class="container py-5 shadow-sm mt-0 bg-white">
-                            <h4 class="fw-bold mb-3"><i class="fas fa-exclamation-circle text-danger"></i> Mazeret
-                                Bildir</h4>
-                            <form method="post" action="/Student/SubmitExcuse">
-                                <div class="form-group d-flex w-100">
-                                    <div class="form-group mb-3 mr-3 w-50">
-                                        <label for="LeaveStart">İzin Başlangıç Tarihi</label>
-                                        <input type="date" id="LeaveStart" name="LeaveStart" class="form-control"
-                                            required />
-                                    </div>
-                                    <div class="form-group mb-3 w-50">
-                                        <label for="LeaveEnd">İzin Bitiş Tarihi</label>
-                                        <input type="date" id="LeaveEnd" name="LeaveEnd" class="form-control"
-                                            required />
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label class="mb-2">Mazeret Türü</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="LeaveReason"
-                                            value="Alttan kalan derslerin vize ve final sınavları" id="excuseType1"
-                                            required>
-                                        <label class="form-check-label" for="excuseType1">
-                                            Alttan kalan derslerin vize ve final sınavları
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="LeaveReason"
-                                            value="ÖSYM Sınavları" id="excuseType2">
-                                        <label class="form-check-label" for="excuseType2">
-                                            ÖSYM Sınavları
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="LeaveReason"
-                                            value="Hastalık ve sağlık problemleri" id="excuseType3">
-                                        <label class="form-check-label" for="excuseType3">
-                                            Hastalık ve sağlık problemleri
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="LeaveReason"
-                                            value="Ailevi sebepler" id="excuseType4">
-                                        <label class="form-check-label" for="excuseType4">
-                                            Ailevi sebepler
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="LeaveReason"
-                                            value="Diğer Mazeretler" id="excuseType5">
-                                        <label class="form-check-label" for="excuseType5">
-                                            Diğer Mazeretler
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="ReasonDetail">Mazeret Açıklaması</label>
-                                    <textarea id="ReasonDetail" name="ReasonDetail" class="form-control" rows="3"
-                                        required></textarea>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="AddressDuringLeave">İzin Süresince Bulunacağı Adres</label>
-                                    <textarea id="AddressDuringLeave" name="AddressDuringLeave" class="form-control"
-                                        rows="2" required></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-danger">Mazeret Bildir</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="right-content bg-light col-12 col-lg-5 w-100 h-100 mb-3 mb-lg-0"
-                        style="overflow-y: auto; padding: 5px;">
-                        <div class="container py-5 shadow-sm mt-0 bg-white">
-                            <h5 class="fw-semibold mb-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-clock-history" viewBox="0 0 16 16">
-                                    <path
-                                        d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z" />
-                                    <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z" />
-                                    <path
-                                        d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5" />
-                                </svg>
-                                Bildirilen Mazeretler
-                            </h5>
-                            @if (leaveDetails != null && leaveDetails.Any())
-                            {
-                                @foreach (var excuse in leaveDetails)
-                                {
-                                    <div class="card mb-2 position-relative" style="min-height: 90px;">
-                                        <div class="card-body p-2">
-                                            <span class="position-absolute" style="top:8px; right:12px; z-index:2;">
-                                                <span
-                                                    class="badge d-block
-                                                                                                                                                                                    @(excuse.LeaveStatus == "Onay Bekliyor" ? "bg-warning text-dark"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      : excuse.LeaveStatus == "Onaylandı" ? "bg-success"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      : excuse.LeaveStatus == "Reddedildi" ? "bg-danger"
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      : "bg-secondary")"
-                                            style="font-size:0.85em;">
-                                            @excuse.LeaveStatus
-                                        </span>
-                                    </span>
-                                    <div>
-                                        <strong>@excuse.LeaveStart.ToString("dd.MM.yyyy") -
-                                            @excuse.LeaveEnd.ToString("dd.MM.yyyy")</strong>
-                                        <div class="text-muted small">@excuse.LeaveReason</div>
-                                        <div class="small">@excuse.ReasonDetail</div>
-                                    </div>
-                                    @if (excuse.LeaveStatus == "Onay Bekliyor")
-                                            {
-                                                <form method="post" action="/Student/DeleteLeave"
-                                                    style="position:absolute; right:65px; bottom:8px;">
-                                                    <input type="hidden" name="LeaveID" value="@excuse.LeaveID" />
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm px-2 py-0"
-                                                        style="font-size:0.85em; height:24px; line-height:1;" title="Sil"
-                                                        onclick="return confirm('Bu mazereti silmek istediğinize emin misiniz?')">
-                                                        Sil
-                                                    </button>
-                                                </form>
-                                            }
-                                            <a href="/Home/MazeretIzinFormu?leaveId=@excuse.LeaveID" target="_blank"
-                                                class="btn btn-outline-primary btn-sm"
-                                                style="font-size:0.85em; height:24px; line-height:1; position:absolute; right:10px; bottom:8px;">İndir</a>
-                                        </div>
-                                    </div>
-                                }
-                            }
-                            else
-                            {
-                                <div class="text-muted">Henüz mazeret bildirilmedi.</div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ul class="sidebar-menu" id="formList"></ul>
     </div>
-</body>
 
-<script>
-    document.querySelector('.dropdown').addEventListener('click', function () {
+    <!-- Menü Açma Butonu -->
+    <button class="menu-toggle" id="menuToggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+        </svg>
+    </button>
 
-        const userActionMenu = document.getElementById('user-action-menu');
+    <!-- Ana İçerik -->
+    <div class="main-content">
+        <!-- Ana Sayfa İçeriği -->
+        <div id="mainMenu">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-container">
+                    <img src="~/img/16.jpg" alt="KTÜN İME" class="hero-image">
+                    <div class="hero-overlay">
+                        <div class="hero-content">
+                            <h1 class="hero-title">İşletmede Mesleki Eğitim Sistemi</h1>
+                            <p class="hero-subtitle">Konya Teknik Üniversitesi - Profesyonel Gelişim Süreciniz</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="modern-info-container">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="card-image">
+                            <img src="~/img/info-1.png" alt="KTÜN İME Bilgi 1" class="hero-image">
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-image">
+                            <img src="~/img/info-2.png" alt="KTÜN İME Bilgi 2" class="hero-image">
+                        </div>
+                    </div>
+                    <div class="info-card full-width">
+                        <div class="card-image">
+                            <img src="~/img/info-3.png" alt="KTÜN İME Bilgi 3" class="hero-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        if (userActionMenu.style.display === 'block') {
-            userActionMenu.style.display = 'none';
-        } else {
-            userActionMenu.style.display = 'block';
-        }
-    });
+        <div id="controlPanel" class="row mt-5" style="display: none;">
+            <div class="col-md-12 text-start d-flex" style="margin-right: 15px;">
+                <div id="left-content" class="content bg-light col-12 col-lg-7 w-100 h-100 mb-3 mb-lg-0"
+                    style="overflow-y: auto; padding: 5px;">
+                    <div class="container mt-0">
+                        <div id="calendarContainer">
+                            <div id="calendarLegend"
+                                style="display:flex;gap:24px;align-items:center;margin-bottom: 30px;">
+                                <span style="display:flex;align-items:center;gap:4px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                        class="bi bi-file-earmark" viewBox="0 0 16 16">
+                                        <path
+                                            d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+                                    </svg>
+                                    <span>Not</span>
+                                </span>
+                                <span style="display:flex;align-items:center;gap:4px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                                        class="bi bi-camera-video" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z" />
+                                    </svg>
+                                    <span>Video Yüklendi</span>
+                                </span>
+                                <span style="display:flex;align-items:center;gap:4px;">
+                                    <span
+                                        style="display:inline-block;width:16px;height:16px;background:#fff3cd;border-radius:3px;border:1px solid #ffeeba;"></span>
+                                    <span>Mazaretli Gün</span>
+                                </span>
+                                <span style="display:flex;align-items:center;gap:4px;">
+                                    <span
+                                        style="display:inline-block;width:16px;height:16px;background:#b52525;border-radius:50%;"></span>
+                                    <span>Bugün</span>
+                                </span>
+                            </div>
+                            <div id="calendarControls"
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <button id="prevMonth"
+                                    style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd; background-color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h4 id="calendarHeader"></h4>
+                                <button id="nextMonth"
+                                    style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd; background-color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
 
-    document.querySelectorAll('.main-nav-link').forEach(link => {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
+                            <div id="calendar" style="margin-bottom: 100px;"></div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer-popover">
+            <img src="~/img/footerLogo.png" alt="KTUN Logo" height="80">
+            <a class="no-click" href="https://www.ktun.edu.tr/tr/Birim/Iletisim/?brm=ykJ8AXlJAZwqxw4bNyp+VQ=="
+                target="_blank" rel="noopener">İletişim</a>
+        </footer>
+
+        <button id="scrollToTop" title="Yukarı Çık">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5" />
+            </svg>
+        </button>
+    </div>
+
+    <script src="~/scripts/calendar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Yukarı çıkma butonu işlevselliği
+        document.addEventListener('DOMContentLoaded', function () {
+            const scrollToTopButton = document.getElementById('scrollToTop');
+
+            // Sayfa kaydırıldığında butonu göster/gizle
+            window.addEventListener('scroll', function () {
+                if (window.pageYOffset > 300) {
+                    scrollToTopButton.classList.add('show');
+                } else {
+                    scrollToTopButton.classList.remove('show');
+                }
+            });
+
+            // Butona tıklandığında sayfanın üstüne kaydır
+            scrollToTopButton.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // Yan menü açma/kapatma işlevselliği
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menuToggle');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const sidebar = document.getElementById('sidebar');
+            const body = document.body;
+
+            // Menü açma
+            menuToggle.addEventListener('click', function () {
+                sidebar.classList.add('open');
+                body.classList.add('sidebar-open');
+            });
+
+            // Menü kapatma
+            closeSidebar.addEventListener('click', function () {
+                sidebar.classList.remove('open');
+                body.classList.remove('sidebar-open');
+            });
+
+            // ESC tuşu ile kapatma
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    body.classList.remove('sidebar-open');
+                }
+            });
+
+            // Mevcut JavaScript kodunuz...
             // Tüm içerikleri gizle
-            document.getElementById('controlPanel').style.display = 'none';
-            document.getElementById('internshipDiary').style.display = 'none';
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('myExcuse').style.display = 'none';
+            if (document.getElementById('controlPanel')) document.getElementById('controlPanel').style.display = 'none';
+            if (document.getElementById('internshipDiary')) document.getElementById('internshipDiary').style.display = 'none';
+            if (document.getElementById('mainMenu')) document.getElementById('mainMenu').style.display = 'block';
+            if (document.getElementById('myExcuse')) document.getElementById('myExcuse').style.display = 'none';
 
-            // Aktif menü işaretle
-            document.querySelectorAll('.main-nav-link').forEach(item => item.classList.remove('active'));
-            this.classList.add('active');
+            // Menü linklerine tıklama olayları
+            document.querySelectorAll('.main-nav-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
 
-            // Tıklanan menüye göre ilgili içeriği göster
-            if (this.textContent.trim() === 'Kontrol Paneli') {
-                document.getElementById('controlPanel').style.display = 'block';
-            } else if (this.textContent.trim() === 'Staj Defteri') {
-                document.getElementById('internshipDiary').style.display = 'block';
-            } else if (this.textContent.trim() === 'Ana Sayfa') {
-                document.getElementById('mainMenu').style.display = 'block';
-            } if (this.textContent.trim() === 'Mazeret Bildir') {
-                document.getElementById('myExcuse').style.display = 'block';
-            }
+                    // Tüm içerikleri gizle
+                    document.querySelectorAll('#controlPanel, #internshipDiary, #mainMenu, #myExcuse').forEach(el => {
+                        if (el) el.style.display = 'none';
+                    });
+
+                    // Aktif menü işaretle
+                    document.querySelectorAll('.main-nav-link').forEach(item => item.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Tıklanan menüye göre ilgili içeriği göster
+                    const contentId = this.textContent.trim() === 'Kontrol Paneli' ? 'controlPanel' :
+                        this.textContent.trim() === 'Staj Defteri' ? 'internshipDiary' :
+                            this.textContent.trim() === 'Mazeret Bildir' ? 'myExcuse' : 'mainMenu';
+
+                    const contentElement = document.getElementById(contentId);
+                    if (contentElement) {
+                        contentElement.style.display = 'block';
+
+                        // Kontrol paneli ise takvimi başlat
+                        if (contentId === 'controlPanel') {
+                            setTimeout(() => {
+                                if (typeof initializeCalendar === 'function') {
+                                    initializeCalendar();
+                                }
+                            }, 100);
+                        }
+                    }
+                });
+            });
         });
-    });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        // Tüm içerikleri gizle
-        document.getElementById('controlPanel').style.display = 'none';
-        document.getElementById('internshipDiary').style.display = 'none';
-        document.getElementById('mainMenu').style.display = 'block';
-        document.getElementById('myExcuse').style.display = 'none';
-
-        // Menüde sadece Ana Sayfa aktif olsun
-        document.querySelectorAll('.main-nav-link').forEach(link => {
-            if (link.textContent.trim() === 'Ana Sayfa') {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
+        // Diğer fonksiyonlar...
+        function confirmDeleteNote(noteId) {
+            if (confirm("Bu notu silmek istediğinize emin misiniz?")) {
+                window.location.href = "/Student/DeleteNote/" + noteId;
             }
+        }
+
+        function confirmDeleteVideo(videoId) {
+            if (confirm("Bu videoyu silmek istediğinize emin misiniz?")) {
+                window.location.href = "/Student/DeleteVideo/" + videoId;
+            }
+        }
+
+        function openEditNoteModal(id, title, subTitle, content) {
+            document.getElementById('editNoteId').value = id;
+            document.getElementById('editNoteTitle').value = title;
+            document.getElementById('editNoteSubTitle').value = subTitle;
+            document.getElementById('editNoteContent').value = content;
+            document.getElementById('editNoteModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.addEventListener('show.bs.dropdown', function (e) {
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    if (menu) {
+                        menu.style.maxHeight = '0px';
+                        setTimeout(() => {
+                            menu.style.maxHeight = menu.scrollHeight + 'px';
+                        }, 10);
+                    }
+                });
+
+                dropdown.addEventListener('hide.bs.dropdown', function (e) {
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    if (menu) {
+                        menu.style.maxHeight = menu.scrollHeight + 'px';
+                        setTimeout(() => {
+                            menu.style.maxHeight = '0px';
+                        }, 10);
+                    }
+                });
+            });
         });
-    });
-</script>
+    </script>
 
-<script>
-    // Sağdaki tab-content'i sol tab ile senkronize et
-    document.getElementById('notes-tab').addEventListener('shown.bs.tab', function () {
-        var notesList = document.getElementById('notes-list');
-        var videosList = document.getElementById('videos-list');
-        notesList.classList.add('show', 'active');
-        videosList.classList.remove('show', 'active');
-    });
-    document.getElementById('videos-tab').addEventListener('shown.bs.tab', function () {
-        var notesList = document.getElementById('notes-list');
-        var videosList = document.getElementById('videos-list');
-        notesList.classList.remove('show', 'active');
-        videosList.classList.add('show', 'active');
-    });
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/data/forms.json")
+                .then(res => res.json())
+                .then(forms => {
+                    const list = document.getElementById("formList");
+                    list.innerHTML = "";
 
-<script>
-    function confirmDeleteNote(noteId) {
-        if (confirm("Bu notu silmek istediğinize emin misiniz?")) {
-            window.location.href = "/Student/DeleteNote/" + noteId;
-        }
-    }
-    function confirmDeleteVideo(videoId) {
-        if (confirm("Bu videoyu silmek istediğinize emin misiniz?")) {
-            window.location.href = "/Student/DeleteVideo/" + videoId;
-        }
-    }
-</script>
+                    forms.forEach((form, index) => {
+                        const li = document.createElement("li");
 
-<script>
-    function openEditNoteModal(id, title, subTitle, content) {
-        document.getElementById('editNoteId').value = id;
-        document.getElementById('editNoteTitle').value = title;
-        document.getElementById('editNoteSubTitle').value = subTitle;
-        document.getElementById('editNoteContent').value = content;
-        var modal = new bootstrap.Modal(document.getElementById('editNoteModal'));
-        modal.show();
-    }
+                        const a = document.createElement("a");
+                        a.href = form.url;
+                        a.target = form.target;
+                        a.className = "text-decoration-none d-flex align-items-center justify-content-center gap-2";
 
-    function openEditVideoModal(id, title, description) {
-        document.getElementById('editVideoId').value = id;
-        document.getElementById('editVideoTitle').value = title;
-        document.getElementById('editVideoDescription').value = description;
-        var modal = new bootstrap.Modal(document.getElementById('editVideoModal'));
-        modal.show();
-    }
+                        // SVG stringini HTML olarak ekle
+                        const iconWrapper = document.createElement("span");
+                        iconWrapper.innerHTML = form.icon;
 
-    function openWatchVideoModal(filePath, title) {
-        var video = document.getElementById('watchVideoPlayer');
-        var source = document.getElementById('watchVideoSource');
-        source.src = filePath;
-        video.load();
-        document.getElementById('watchVideoModalLabel').textContent = title;
-        var modal = new bootstrap.Modal(document.getElementById('watchVideoModal'));
-        modal.show();
-    }
-</script>
+                        const span = document.createElement("span");
+                        span.className = "menu-text";
+                        span.textContent = form.title;
 
-<script id="excuseDaysData" type="application/json">
-    @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ExcuseDays ?? new List<string>()))
-</script>
-<script id="userNotesData"
-    type="application/json">@Html.Raw(Json.Serialize(ViewBag.UserNotes ?? new Dictionary<string, string>()))</script>
-<script id="videoUploadDaysData"
-    type="application/json">@Html.Raw(Json.Serialize(ViewBag.VideoUploadDays ?? new List<string>()))</script>
-<script id="videoTitlesData" type="application/json">
-    @Html.Raw(Json.Serialize(ViewBag.VideoTitles ?? new Dictionary<string, string>()))
-</script>
-<script src="~/scripts/calendar.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                        a.appendChild(iconWrapper);
+                        a.appendChild(span);
+                        li.appendChild(a);
+                        list.appendChild(li);
+
+                        if (index < forms.length - 1) {
+                            const divider = document.createElement("div");
+                            divider.className = "dropdown-divider";
+                            list.appendChild(divider);
+                        }
+                    });
+                });
+        });
+    </script>
+</body>
 
 </html>

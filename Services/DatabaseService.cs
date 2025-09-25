@@ -338,6 +338,48 @@ namespace IMEAutomationDBOperations.Services
             return supervisors;
         }
 
+        public List<Company> GetCompaniesData()
+        {
+            var companies = new List<Company>();
+            string query = @"SELECT CompanyID, CompanyName, TaxNumber, EmployeeCount, Departments, Address, PhoneNumber, Website, Industry, Email,
+                            ManagerFirstName, ManagerLastName, ManagerPhone, ManagerEmail, BankName, BankBranch, BankIbanNo
+                     FROM Company";
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            companies.Add(new Company
+                            {
+                                CompanyID = reader.GetInt32(0),
+                                CompanyName = reader.GetString(1),
+                                TaxNumber = reader.GetString(2),
+                                EmployeeCount = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+                                Departments = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                Address = reader.IsDBNull(5) ? null : reader.GetString(5),
+                                PhoneNumber = reader.IsDBNull(6) ? null : reader.GetString(6),
+                                Website = reader.IsDBNull(7) ? null : reader.GetString(7),
+                                Industry = reader.IsDBNull(8) ? null : reader.GetString(8),
+                                Email = reader.IsDBNull(9) ? null : reader.GetString(9),
+                                ManagerFirstName = reader.IsDBNull(10) ? null : reader.GetString(10),
+                                ManagerLastName = reader.IsDBNull(11) ? null : reader.GetString(11),
+                                ManagerPhone = reader.IsDBNull(12) ? null : reader.GetString(12),
+                                ManagerEmail = reader.IsDBNull(13) ? null : reader.GetString(13),
+                                BankName = reader.IsDBNull(14) ? null : reader.GetString(14),
+                                BankBranch = reader.IsDBNull(15) ? null : reader.GetString(15),
+                                BankIbanNo = reader.IsDBNull(16) ? null : reader.GetString(16)
+                            });
+                        }
+                    }
+                }
+            }
+            return companies;
+        }
+
         public (InternshipSupervisor?, Company?, InternshipDetails?, EvaluationPersonel?) GetSupervisorCompanyAndInternshipDetailsByStudentEmail(string studentEmail)
         {
             string query = @"
@@ -507,7 +549,7 @@ namespace IMEAutomationDBOperations.Services
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@StudentID", evaluation.StudentID);
-                    command.Parameters.AddWithValue("@SupervisorID", 1);
+                    command.Parameters.AddWithValue("@SupervisorID", 3);
                     command.Parameters.AddWithValue("@AttendanceScore", evaluation.AttendanceScore);
                     command.Parameters.AddWithValue("@ResponsibilityScore", evaluation.ResponsibilityScore);
                     command.Parameters.AddWithValue("@KnowledgeScore", evaluation.KnowledgeScore);
@@ -614,29 +656,29 @@ namespace IMEAutomationDBOperations.Services
             return null;
         }
 
-        public void AddStudent(Student student, int supervisorId)
+        public void AddStudent(Student student, int supervisorId, int companyId)
         {
             string query = @"
-                DECLARE @NewStudentID INT;
+        DECLARE @NewStudentID INT;
 
-                -- Öğrenciyi ekle ve yeni StudentID'yi al
-                INSERT INTO Students (UserID, FirstName, LastName, AcademicYear, NationalID, BirthDate, 
-                                      SchoolNumber, Department, PhoneNumber, Email, Address)
-                OUTPUT INSERTED.StudentID INTO @NewStudentID
-                VALUES (@UserID, @FirstName, @LastName, @AcademicYear, @NationalID, @BirthDate, 
-                        @SchoolNumber, @Department, @PhoneNumber, @Email, @Address);
+        -- Öğrenciyi ekle ve yeni StudentID'yi al
+        INSERT INTO Students (UserID, FirstName, LastName, AcademicYear, NationalID, BirthDate, 
+                              SchoolNumber, Department, PhoneNumber, Email, Address)
+        OUTPUT INSERTED.StudentID INTO @NewStudentID
+        VALUES (@UserID, @FirstName, @LastName, @AcademicYear, @NationalID, @BirthDate, 
+                @SchoolNumber, @Department, @PhoneNumber, @Email, @Address);
 
-                -- Staj detaylarını ekle
-                INSERT INTO InternshipDetails (StudentID, SupervisorID, InternshipTitle, StartDate, EndDate, 
-                                               TotalTrainingDays, LeaveDays, WorkDays, PaidAmount, CreatedAt, UpdatedAt)
-                VALUES (@NewStudentID, @SupervisorID, 'Staj Başlığı', GETDATE(), GETDATE(), 
-                        30, 0, '', 0, GETDATE(), GETDATE());
+        -- Staj detaylarını ekle
+        INSERT INTO InternshipDetails (StudentID, SupervisorID, CompanyID, InternshipTitle, StartDate, EndDate, 
+                                       TotalTrainingDays, LeaveDays, WorkDays, PaidAmount, CreatedAt, UpdatedAt)
+        VALUES (@NewStudentID, @SupervisorID, @CompanyID, 'Staj Başlığı', GETDATE(), GETDATE(), 
+                30, 0, '', 0, GETDATE(), GETDATE());
 
-                -- Sorumlu personele öğrenciyi ekle
-                UPDATE InternshipSupervisors
-                SET StudentID = @NewStudentID
-                WHERE SupervisorID = @SupervisorID;
-            ";
+        -- Sorumlu personele öğrenciyi ekle
+        UPDATE InternshipSupervisors
+        SET StudentID = @NewStudentID
+        WHERE SupervisorID = @SupervisorID;
+    ";
 
             using (var connection = new SqlConnection(_repository.ConnectionString))
             {
@@ -655,21 +697,22 @@ namespace IMEAutomationDBOperations.Services
                     command.Parameters.AddWithValue("@Email", student.Email);
                     command.Parameters.AddWithValue("@Address", student.Address);
                     command.Parameters.AddWithValue("@SupervisorID", supervisorId);
+                    command.Parameters.AddWithValue("@CompanyID", companyId); // <-- EKLENDİ
 
                     command.ExecuteNonQuery();
                 }
             }
         }
 
-        public void AddInternshipDetails(int studentId, int supervisorId, DateTime startDate, DateTime endDate, string[] workDays, string internshipTitle)
+        public void AddInternshipDetails(int studentId, int supervisorId, int companyId, DateTime startDate, DateTime endDate, string[] workDays, string internshipTitle)
         {
             int totalTrainingDays = (endDate - startDate).Days;
             int leaveDays = 0;
             decimal paidAmount = 0;
 
             string query = @"
-        INSERT INTO InternshipDetails (StudentID, SupervisorID, StartDate, EndDate, WorkDays, InternshipTitle, TotalTrainingDays, LeaveDays, PaidAmount)
-        VALUES (@StudentID, @SupervisorID, @StartDate, @EndDate, @WorkDays, @InternshipTitle, @TotalTrainingDays, @LeaveDays, @PaidAmount)";
+        INSERT INTO InternshipDetails (StudentID, SupervisorID, CompanyID, StartDate, EndDate, WorkDays, InternshipTitle, TotalTrainingDays, LeaveDays, PaidAmount)
+        VALUES (@StudentID, @SupervisorID, @CompanyID, @StartDate, @EndDate, @WorkDays, @InternshipTitle, @TotalTrainingDays, @LeaveDays, @PaidAmount)";
 
             using (var connection = new SqlConnection(_repository.ConnectionString))
             {
@@ -678,6 +721,7 @@ namespace IMEAutomationDBOperations.Services
                 {
                     command.Parameters.AddWithValue("@StudentID", studentId);
                     command.Parameters.AddWithValue("@SupervisorID", supervisorId);
+                    command.Parameters.AddWithValue("@CompanyID", companyId); // <-- EKLENDİ
                     command.Parameters.AddWithValue("@StartDate", startDate);
                     command.Parameters.AddWithValue("@EndDate", endDate);
                     command.Parameters.AddWithValue("@WorkDays", string.Join("-", workDays));
@@ -691,6 +735,35 @@ namespace IMEAutomationDBOperations.Services
             }
         }
 
+        public int AddStudentAndReturnId(Student student)
+        {
+            string query = @"
+        INSERT INTO Students (UserID, FirstName, LastName, AcademicYear, NationalID, BirthDate, SchoolNumber, Department, PhoneNumber, Email, Address, Password)
+        VALUES (@UserID, @FirstName, @LastName, @AcademicYear, @NationalID, @BirthDate, @SchoolNumber, @Department, @PhoneNumber, @Email, @Address, @Password);
+        SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@UserID", student.UserID);
+                    command.Parameters.AddWithValue("@FirstName", student.FirstName);
+                    command.Parameters.AddWithValue("@LastName", student.LastName);
+                    command.Parameters.AddWithValue("@AcademicYear", student.AcademicYear);
+                    command.Parameters.AddWithValue("@NationalID", student.NationalID);
+                    command.Parameters.AddWithValue("@BirthDate", student.BirthDate);
+                    command.Parameters.AddWithValue("@SchoolNumber", student.SchoolNumber);
+                    command.Parameters.AddWithValue("@Department", student.Department);
+                    command.Parameters.AddWithValue("@PhoneNumber", student.PhoneNumber);
+                    command.Parameters.AddWithValue("@Email", student.Email);
+                    command.Parameters.AddWithValue("@Address", student.Address);
+                    command.Parameters.AddWithValue("@Password", student.Password);
+
+                    return (int)command.ExecuteScalar();
+                }
+            }
+        }
 
         public int AddUser(User user)
         {
@@ -725,6 +798,27 @@ namespace IMEAutomationDBOperations.Services
                     insertCommand.Parameters.AddWithValue("@RoleID", user.RoleID);
 
                     return Convert.ToInt32(insertCommand.ExecuteScalar());
+                }
+            }
+        }
+
+        public int AddUserAndReturnId(string userName, string passwordHash, int roleId)
+        {
+            string insertQuery = @"
+        INSERT INTO Users (UserName, PasswordHash, RoleID)
+        VALUES (@UserName, @PasswordHash, @RoleID);
+        SELECT SCOPE_IDENTITY();";
+
+            using (var connection = new SqlConnection(_repository.ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@UserName", userName);
+                    command.Parameters.AddWithValue("@PasswordHash", passwordHash);
+                    command.Parameters.AddWithValue("@RoleID", roleId);
+
+                    return Convert.ToInt32(command.ExecuteScalar());
                 }
             }
         }

@@ -4,7 +4,7 @@ namespace IMEAutomationDBOperations.Models
     {
         public int InternshipID { get; set; }
         public int StudentID { get; set; }
-        public int CompanyID { get; set; }
+        public int? CompanyID { get; set; }
         public int? SupervisorID { get; set; }
         public string InternshipTitle { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
