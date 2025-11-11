@@ -13,6 +13,8 @@ namespace IMEAutomationDBOperations.Data
         public DbSet<Student> Students { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<Video> Videos { get; set; }
+        public DbSet<InternshipSupervisor> InternshipSupervisors { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +28,8 @@ namespace IMEAutomationDBOperations.Data
                 .WithMany()
                 .HasForeignKey(v => v.StudentID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Company>().ToTable("Company");
         }
     }
 }

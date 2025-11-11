@@ -15,5 +15,7 @@ namespace IMEAutomationDBOperations.Models
         public decimal PaidAmount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public string? InstructorFeedback { get; set; }
+        public string? CommissionFeedback { get; set; }
     }
 }

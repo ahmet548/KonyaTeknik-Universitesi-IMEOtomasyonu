@@ -1,0 +1,205 @@
+<div class="col-md-12">
+    <div class="diary-container">
+        <!-- Sekmeler -->
+        <h3 style="font-weight: 500;">Hoş geldin, @ViewBag.UserName</h3>
+        <h5 class="mt-4" style="font-weight: 500;">Staj defterine genel bakış</h5>
+        <div class="diary-tabs-container mt-4">
+            <div class="diary-tabs">
+                <div class="diary-tab active" data-tab="notes">Not ekle</div>
+                <div class="diary-tab" data-tab="videos">Video yükle</div>
+
+                <!-- Dinamik Sağ İçerik - Notlar için -->
+                <div class="diary-tabs-right" id="notes-right-content">
+                    <span class="diary-notes-count">
+                        @{
+                            var notes = ViewBag.Notes as List<IMEAutomationDBOperations.Models.Note>;
+                            var notesCount = notes?.Count ?? 0;
+                        }
+                        @notesCount Not
+                    </span>
+                    <button class="diary-add-btn"
+                        onclick="window.location.href='@Url.Action("AddNotePage", "Student")'">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <!-- Dinamik Sağ İçerik - Videolar için -->
+                <div class="diary-tabs-right" id="videos-right-content" style="display: none;">
+                    <span class="diary-videos-count">
+                        @{
+                            var videos = ViewBag.Videos as List<IMEAutomationDBOperations.Models.Video>;
+                            var videosCount = videos?.Count ?? 0;
+
+
+                        }
+                        @videosCount Video • 50 MB
+                    </span>
+                    <button class="diary-add-btn" id="addVideoBtn"
+                        onclick="window.location.href='@Url.Action("AddVideoPage", "Student")'">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- İçerik Alanı -->
+        <div class="diary-content">
+            <!-- Notlarım Sekmesi -->
+            <div id="notes-tab" class="diary-tab-content active">
+                <div class="diary-layout">
+                    <!-- Sağ Taraf - Geçmiş Notlar -->
+                    <div class="diary-history-section">
+                        <div class="diary-history-list">
+                            @if (notes != null && notes.Any())
+                            {
+                                foreach (var note in notes)
+                                {
+                                    <div class="diary-history-card" id="note-card-@note.NoteID">
+                                        <!-- Kart Header -->
+                                        <div class="diary-history-card-header">
+                                            <!-- 3 nokta menü butonu -->
+                                            <button class="diary-history-card-menu" onclick="toggleNoteMenu(@note.NoteID)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
+                                                    fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                                </svg>
+                                            </button>
+
+                                            <h6 class="diary-history-card-title">@note.Title</h6>
+                                            <span class="diary-history-card-date">@note.CreatedAt.ToString("dd.MM.yyyy")</span>
+                                        </div>
+
+                                        <!-- Dropdown menü -->
+                                        <div class="diary-history-dropdown" id="note-dropdown-@note.NoteID">
+                                            <button class="diary-history-dropdown-item"
+                                                onclick="window.location.href='@Url.Action("AddNotePage", "Student", new { noteId = note.NoteID })'">
+                                                Notu Düzenle
+                                            </button>
+                                            <button class="diary-history-dropdown-item text-danger"
+                                                onclick="confirmDeleteNote(@note.NoteID)">
+                                                Notu Sil
+                                            </button>
+                                        </div>
+
+                                        <!-- Subtitle varsa -->
+                                        @if (!string.IsNullOrEmpty(note.SubTitle))
+                                        {
+                                            <div class="diary-history-card-subtitle">@note.SubTitle</div>
+                                        }
+
+                                <!-- İçerik -->
+                                <div class="diary-history-card-content">
+                                    @Html.Raw(note.Content)
+                                </div>
+
+                                                                                <!-- Notu Görüntüle Butonu -->
+
+                                                                                <button class="diary-history-card-view-btn"
+
+                                                                                    onclick="window.location.href='@Url.Action("AddNotePage", "Student", new { noteId = note.NoteID })'">
+
+                                                                                    NOTU GÖRÜNTÜLE
+
+                                                                                </button>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="diary-history-empty">
+                                    <img class="empty-placeholder-image-lg mt-1"
+                                        src="https://lms.ktun.edu.tr/theme/image.php/remui/block_myoverview/1757327541/courses"
+                                        style="width:110px; margin-bottom: 15px;" alt="">
+                                    <p class="text-muted">Henüz hiç notunuz bulunmamaktadır.</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Dropdown dışına tıklama için overlay -->
+                    <div class="dropdown-overlay" id="dropdownOverlay" onclick="closeAllMenus()"></div>
+                </div>
+            </div>
+
+            <!-- Videolarım Sekmesi -->
+            <div id="videos-tab" class="diary-tab-content">
+                <div class="diary-layout">
+                    <!-- Sağ Taraf - Geçmiş Videolar -->
+                    <div class="diary-history-section">
+                        <div class="diary-history-list">
+                            @if (videos != null && videos.Any())
+                            {
+                                foreach (var video in videos)
+                                {
+                                    <div class="diary-history-card" id="video-card-@video.VideoID">
+                                        <!-- Kart Header -->
+                                        <div class="diary-history-card-header">
+                                            <!-- 3 nokta menü butonu -->
+                                            <button class="diary-history-card-menu" onclick="toggleVideoMenu(@video.VideoID)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
+                                                    fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                                </svg>
+                                            </button>
+
+                                            <h6 class="diary-history-card-title">@video.Title</h6>
+                                            <span
+                                                class="diary-history-card-date">@video.UploadDate.ToString("dd.MM.yyyy")</span>
+                                        </div>
+
+                                        <!-- Dropdown menü -->
+                                        <div class="diary-history-dropdown" id="video-dropdown-@video.VideoID">
+                                            <button class="diary-history-dropdown-item"
+                                                onclick="openEditVideoModal(@video.VideoID, '@video.Title.Replace("'", "\\'")', '@video.Description.Replace("'", "\\'")')">
+                                                Videoyu Düzenle
+                                            </button>
+                                            <button class="diary-history-dropdown-item text-danger"
+                                                onclick="confirmDeleteVideo(@video.VideoID)">
+                                                Videoyu Sil
+                                            </button>
+                                        </div>
+
+                                        <!-- Açıklama varsa -->
+                                        @if (!string.IsNullOrEmpty(video.Description))
+                                        {
+                                            <div class="diary-history-card-subtitle">@video.Description</div>
+                                        }
+
+                                        <!-- Video Bilgisi -->
+                                        <div class="diary-history-card-content">
+                                            <div class="video-info">
+                                                <i class="fas fa-video me-2 text-muted"></i>
+                                                <span class="text-muted">@System.IO.Path.GetFileName(video.FilePath)</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Videoyu Görüntüle Butonu -->
+                                        <button class="diary-history-card-view-btn"
+                                            onclick="openWatchVideoModal('@video.FilePath', '@video.Title.Replace("'", "\\'")')">
+                                            VİDEOYU İZLE
+                                        </button>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="diary-history-empty">
+                                    <img class="empty-placeholder-image-lg mt-1"
+                                        src="https://lms.ktun.edu.tr/theme/image.php/remui/block_myoverview/1757327541/courses"
+                                        style="width:110px; margin-bottom: 15px;" alt="">
+                                    <p class="text-muted">Henüz hiç videonuz bulunmamaktadır.</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Dropdown dışına tıklama için overlay -->
+                    <div class="dropdown-overlay" id="videoDropdownOverlay" onclick="closeAllVideoMenus()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

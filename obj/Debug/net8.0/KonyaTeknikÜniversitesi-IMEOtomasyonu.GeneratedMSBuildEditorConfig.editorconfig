@@ -28,16 +28,28 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Auth/CompleteInternshipInfo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxDb21wbGV0ZUludGVybnNoaXBJbmZvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Auth/StudentLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxTdHVkZW50TG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Auth/SupervisorLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxTdXBlcnZpc29yTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Auth/SupervisorRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxTdXBlcnZpc29yUmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Home/aboutme.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxhYm91dG1lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Home/KonyaTecnicalUnivercityIMEAutomation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxLb255YVRlY25pY2FsVW5pdmVyY2l0eUlNRUF1dG9tYXRpb24uY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Home/KtunIMEPage.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxLdHVuSU1FUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Shared/Error.cshtml]
@@ -48,20 +60,48 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/Register.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxSZWdpc3Rlci5jc2h0bWw=
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/addnote.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxhZGRub3RlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/StudentLogin.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxTdHVkZW50TG9naW4uY3NodG1s
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/addvideo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxhZGR2aWRlby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/StudentPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxTdHVkZW50UGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/SuccessNotes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxTdWNjZXNzTm90ZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/_StudentControlPanel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxfU3R1ZGVudENvbnRyb2xQYW5lbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/_StudentExcuse.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxfU3R1ZGVudEV4Y3VzZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/_StudentInternshipDiary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxfU3R1ZGVudEludGVybnNoaXBEaWFyeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Student/_StudentMainMenu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudFxfU3R1ZGVudE1haW5NZW51LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Supervisor/EvaluateStudent.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJ2aXNvclxFdmFsdWF0ZVN0dWRlbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Supervisor/showNote.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJ2aXNvclxzaG93Tm90ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Supervisor/SupervisorLogin.cshtml]
@@ -72,8 +112,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJ2aXNvclxTdXBlcnZpc29yUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Supervisor/SupervisorProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJ2aXNvclxTdXBlcnZpc29yUHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Supervisor/SupervisorStudentDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJ2aXNvclxTdXBlcnZpc29yU3R1ZGVudERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Supervisor/SupervisorStudentList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJ2aXNvclxTdXBlcnZpc29yU3R1ZGVudExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/Supervisor/_SupervisorStudentDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJ2aXNvclxfU3VwZXJ2aXNvclN0dWRlbnREZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Ahmet's Monster/Desktop/KonyaTeknikÜniversitesi-IMEOtomasyonu/Views/_ViewImports.cshtml]

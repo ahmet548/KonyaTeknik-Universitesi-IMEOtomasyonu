@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTUN | İşletmede Mesleki Eğitim Öğrenci Sayfası</title>
+    <link rel="shortcut icon" href="~/img/logo_2.ico">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="keywords" content="moodle, Konya Teknik Üniversitesi İşletmede Mesleki Eğitim: Siteye giriş yap">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="~/styles/custom/css/KTUN-StudentPage.css">
+    <!-- Video.js CSS -->
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-ktun navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Logo ve Üniversite İsmi -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="ktun-logo">
+                    <img src="https://lms.ktun.edu.tr/pluginfile.php/1/theme_remui/loginpanellogo/1756726302/logo.png"
+                        style="height: 50px;" alt="KTUN Logo">
+                </div>
+            </a>
+
+            <!-- Mobil menü butonu -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Menüyü aç/kapat">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Menü içeriği -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link active" href="#">Ana Sayfa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link" href="#">Kontrol Paneli</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link" href="#">Staj Defteri</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link" href="#">Mazeret Bildir</a>
+                    </li>
+                </ul>
+
+                <!-- Bildirim ve Mesaj İkonları -->
+                <div class="d-flex align-items-center me-4">
+                    <!-- Bildirim İkonu -->
+                    <div class="dropdown">
+                        <a class="notification-icon" href="#" role="button" id="notificationDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                            </svg>
+                            <span class="notification-badge">3</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                            <div class="notification-header">
+                                <h6>Bildirimler</h6>
+                                <a href="#" class="mark-all-read">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-gear" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                                        <path
+                                            d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                                    </svg>
+                                    Mark all read
+                                </a>
+                            </div>
+
+                            <!-- Bildirim listesi kapsayıcı -->
+                            <div class="notification-list">
+                                <div class="notification-item">
+                                    <div class="notification-content notification-content-ellipsis">
+                                        <strong>Konya Teknik Üniversitesi</strong> hesabınızda yeni oturum açın...
+                                    </div>
+                                    <div class="notification-time">1 saat 20 dk önce</div>
+                                    <a href="#" class="view-notification-link">Tam bildirimi görüntüle</a>
+                                </div>
+
+                                <div class="notification-item">
+                                    <div class="notification-content notification-content-ellipsis">
+                                        <strong>Mesleki Staj_SB:0_Yazılım Mühendisliği</strong> 'a hoş geldiniz...
+                                    </div>
+                                    <div class="notification-time">11 saat 24 dk önce</div>
+                                    <a href="#" class="view-notification-link">Tam bildirimi görüntüle</a>
+                                </div>
+
+                                <div class="notification-item">
+                                    <div class="notification-content notification-content-ellipsis">
+                                        <strong>Python Programlama_SB:0_Yazılım Mühendisliği</strong> 'a hoş geldiniz...
+                                    </div>
+                                    <div class="notification-time">11 saat 26 dk önce</div>
+                                    <a href="#" class="view-notification-link">Tam bildirimi görüntüle</a>
+                                </div>
+                            </div>
+
+                            <a href="#" class="view-all-link">View all notifications</a>
+                        </div>
+                    </div>
+
+                    <!-- Mesaj İkonu -->
+                    <div class="dropdown">
+                        <a class="message-icon" href="#" role="button" id="messageDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
+                            </svg>
+                            <span class="message-badge">1</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="messageDropdown">
+                            <div class="notification-header">
+                                <h6>Mesajlar</h6>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-content">
+                                    <strong>Fatma Zehra Solak</strong>: Staj defteriniz incelenmiştir. Lütfen
+                                    düzeltmeleri yapınız...
+                                </div>
+                                <div class="notification-time">2 gün önce</div>
+                                <a href="#" class="view-notification-link">Mesajı görüntüle</a>
+                            </div>
+                            <a href="#" class="view-all-link">Tüm mesajları görüntüle</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kullanıcı menüsü -->
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <span class="sized-box"></span>
+                        <a href="#" class="user-button" role="button" id="userDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <div class="user-initials">
+                                @if (ViewBag.UserName is string name && !string.IsNullOrEmpty(name) &&
+                                                                ViewBag.UserSurname is string surname &&
+                                                                !string.IsNullOrEmpty(surname))
+
+                                {
+                                    @($"{name[0]}{surname[0]}")
+                                }
+                                else
+                                {
+                                    @("M")
+                                }
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                            </svg>
+                        </a>
+                        <span class="sized-box"></span>
+                        <ul class="dropdown-menu user-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/Home/aboutme">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        class="bi bi-person-gear" viewBox="0 0 16 16">
+                                        <path
+                                            d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1zm3.63-4.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.319.094a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.094-.319a.64.64 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                                    </svg>
+                                    Profil</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-journal-bookmark" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M6 8V1h1v6.117L8.743 6.07a.5.5 0 0 1 .514 0L11 7.117V1h1v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8" />
+                                        <path
+                                            d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
+                                        <path
+                                            d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
+                                    </svg>
+                                    Başarı notları</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-calendar" viewBox="0 0 16 16">
+                                        <path
+                                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                                    </svg>
+                                    Takvim</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-folder" viewBox="0 0 16 16">
+                                        <path
+                                            d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139q.323-.119.684-.12h5.396z" />
+                                    </svg>
+                                    Kişisel dosyalar</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-card-text" viewBox="0 0 16 16">
+                                        <path
+                                            d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
+                                        <path
+                                            d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8m0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5" />
+                                    </svg>
+                                    Raporlar</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-gear" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                                        <path
+                                            d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                                    </svg>
+                                    Tercihler</a>
+                            </li>
+                            <li><a class="dropdown-item" href="/Student/Logout"><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right"
+                                        viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                                        <path fill-rule="evenodd"
+                                            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                                    </svg>Çıkış yap</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Yan Menü -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h5 class="sidebar-title">Videolarım</h5>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            @{
+                var videos = ViewBag.Videos as List<IMEAutomationDBOperations.Models.Video>;
+            }
+            @if (videos != null && videos.Any())
+            {
+                <ul class="sidebar-menu" id="videosList">
+                    @foreach (var video in videos)
+                    {
+                        <a class="sidebar-menu-item @(ViewBag.CurrentVideo?.VideoID == video.VideoID ? "active" : "")"
+                            href="/Student/AddVideoPage?videoId=@video.VideoID" style="cursor: pointer;"
+                            data-video-id="@video.VideoID">
+                            <div class="video-item">
+                                <div class="video-title">@video.Title</div>
+                                @if (ViewBag.CurrentVideo?.VideoID == video.VideoID)
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
+                                        <path
+                                            d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+                                    </svg>
+                                }
+                            </div>
+                        </a>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="empty-videos">
+                    <p>Henüz video bulunmamaktadır</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Menü Açma Butonu -->
+    <button class="menu-toggle" id="menuToggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+        </svg>
+    </button>
+
+    <div class="main-content">
+        <div class="file-path">
+            <a>Staj Defteri:0_<span>@ViewBag.Department</span></a>
+            <span>/</span>
+            <span>
+                @if (ViewBag.IsEditMode && ViewBag.CurrentVideo != null)
+                {
+                    <span>@ViewBag.CurrentVideo.UploadDate.ToString("dd MMMM yyyy") tarihli</span>
+                    <span class="video-title-path">(@ViewBag.CurrentVideo.Title)</span>
+                }
+                else
+                {
+                    <span>@DateTime.Now.ToString("dd MMMM yyyy") tarihli</span>
+                    <span class="video-title-path">(Yeni video)</span>
+                }
+            </span>
+        </div>
+
+        <!-- Header Section -->
+        <header class="page-header">
+            <div class="header-overlay"></div>
+            <div class="header-background">
+                <div class="header-content">
+                    <div class="header-info">
+                        <span class="department-title">@ViewBag.Department</span>
+                        <span>@ViewBag.InternshipTitle<span>_Staj Defteri</span></span>
+                        <div class="header-details">
+                            <div class="detail-item">
+                                <div class="user-initials" style="scale: 0.7;">
+                                    @if (ViewBag.Supervisor != null &&
+                                                                        !string.IsNullOrEmpty(ViewBag.Supervisor.FirstName) &&
+                                                                        !string.IsNullOrEmpty(ViewBag.Supervisor.LastName))
+                                    {
+                                        @($"{ViewBag.Supervisor.FirstName[0]}{ViewBag.Supervisor.LastName[0]}")
+                                    }
+                                    else
+                                    {
+                                        @("S")
+                                    }
+                                </div>
+                                <span>@(ViewBag.Supervisor?.FirstName ?? "Supervisor") @(ViewBag.Supervisor?.LastName ??
+                                                                        "")</span>
+                            </div>
+                            <div class="detail-item">
+                                <div class="user-initials" style="scale: 0.7;">
+                                    @if (ViewBag.Company != null && !string.IsNullOrEmpty(ViewBag.Company.CompanyName))
+                                    {
+                                        var companyName = ViewBag.Company.CompanyName.Trim();
+                                        var words = companyName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                                        if (words.Length >= 2)
+                                        {
+                                            @($"{words[0][0]}{words[1][0]}")
+                                        }
+                                        else
+                                        {
+                                            @companyName[0]
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @("İ")
+                                    }
+                                </div>
+                                <span>@(ViewBag.Company?.CompanyName ?? "İşletme Bilgisi Yok")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="add-video-container">
+            <div class="assignment-header">
+                <h1 class="assignment-title">Video Ödevi</h1>
+                <div class="assignment-meta">
+                    <span><span style="font-weight: 600;">Açıldı:</span> Çarşamba, 1 Ekim 2025, 12:00
+                        AM</span>
+                    <span><span style="font-weight: 600;">Son tarih:</span> Pazar, 5 Ekim 2025, 11:59 PM</span>
+                </div>
+            </div>
+
+            <div class="assignment-content">
+                <div class="content-section">
+                    <p>Aşağıdaki konuları içeren bir video hazırlamanız beklenmektedir:</p>
+                    <ul class="content-list">
+                        <li>Video tanıtımı ve amacı</li>
+                        <li>Teknik detaylar ve kullanılan ekipmanlar</li>
+                        <li>Uygulama süreci ve aşamaları</li>
+                        <li>Sonuçlar ve değerlendirme</li>
+                        <li style="font-weight: 500;">3-5 dk arasında olmalı!</li>
+                    </ul>
+                </div>
+
+                <div class="main" id="yui_3_18_1_1_1759576835273_388">
+                    <div class="box py-3 boxaligncenter editsubmissionform" id="yui_3_18_1_1_1759576835273_387">
+                        <form method="post" action="/Student/UploadVideo" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="Title" class="form-label">Video Başlığı</label>
+                                <input type="text" class="form-control" id="Title" name="Title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="Description" class="form-label">Açıklama</label>
+                                <textarea class="form-control" id="Description" name="Description" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="videoFile" class="form-label">Video Dosyası</label>
+                                <input type="file" class="form-control" id="videoFile" name="videoFile" accept="video/*"
+                                    required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Yükle</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer-popover">
+            <img src="~/img/footerLogo.png" alt="KTUN Logo" height="80">
+            <a class="no-click" href="https://www.ktun.edu.tr/tr/Birim/Iletisim/?brm=ykJ8AXlJAZwqxw4bNyp+VQ=="
+                target="_blank" rel="noopener">İletişim</a>
+        </footer>
+    </div>
+
+    <script src="~/scripts/calendar.js"></script>
+    <script src="~/scripts/main.js"></script>
+    <script src="~/scripts/diary.js"></script>
+    <!-- Video.js -->
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript Kodları -->
+
+
+
+</body>
+
+</html>

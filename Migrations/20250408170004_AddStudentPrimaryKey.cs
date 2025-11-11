@@ -10,6 +10,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            /*
             migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
@@ -47,16 +48,19 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
                 });
+            */
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            /*
             migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Users");
+            */
         }
     }
 }

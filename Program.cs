@@ -1,5 +1,5 @@
 using IMEAutomationDBOperations.Data;
-using IMEAutomationDBOperations.Services;
+using IMEAutomationDBOperations.Services; // Yeni servisler için bu satır gerekli
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -16,7 +16,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IRepository>(provider => new SqlRepository(connectionString));
-builder.Services.AddScoped<DatabaseService>();
+
+// --- HATA DÜZELTMESİ BURADA ---
+// Bu hatalı satırı kaldırıyoruz:
+// builder.Services.AddScoped<DatabaseService>(); 
+
+// Yerine 7 yeni servisi ekliyoruz:
+builder.Services.AddScoped<DatabaseSetupService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<StudentService>();
+builder.Services.AddScoped<SupervisorService>();
+builder.Services.AddScoped<CompanyService>();
+builder.Services.AddScoped<InternshipOperationsService>();
+builder.Services.AddScoped<StudentDashboardService>();
+// --- DÜZELTME BİTTİ ---
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

@@ -15,5 +15,6 @@ namespace IMEAutomationDBOperations.Models
         public int ReportingScore { get; set; }
         public int TeamworkScore { get; set; }
         public int ExpressionScore { get; set; }
+        public string? Feedback { get; set; }
     }
 }

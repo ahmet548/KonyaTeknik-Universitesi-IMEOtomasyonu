@@ -6,16 +6,24 @@ using iText.Kernel.Pdf;
 using iText.Forms;
 using iText.Kernel.Font;
 using iText.Kernel.Utils;
+using System.IO; // Path ve FileStream için eklendi
+using System.Linq; // LINQ işlemleri için eklendi
+using System.Collections.Generic; // Dictionary için eklendi
+using System.Text.RegularExpressions; // Regex için eklendi
 
 namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
 {
     public class PDFController : Controller
     {
-        private readonly DatabaseService _databaseService;
+        private readonly InternshipOperationsService _internshipOperationsService;
+        private readonly StudentDashboardService _studentDashboardService;
 
-        public PDFController(DatabaseService databaseService)
+        public PDFController(
+            InternshipOperationsService internshipOperationsService,
+            StudentDashboardService studentDashboardService)
         {
-            _databaseService = databaseService;
+            _internshipOperationsService = internshipOperationsService;
+            _studentDashboardService = studentDashboardService;
         }
 
         public IActionResult IsletmedeMeslekiEgitimSozlesmesi()
@@ -38,7 +46,11 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _databaseService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            if (emailStudent == null)
+            {
+                return BadRequest("Email not found in session.");
+            }
+            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
@@ -119,7 +131,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _databaseService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
@@ -159,7 +171,11 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _databaseService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            if (emailStudent == null)
+            {
+                return BadRequest("Email not found in session.");
+            }
+            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
@@ -169,16 +185,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
             var nationalID = HttpContext.Session.GetString("NationalID") ?? "-";
             var academicYear = HttpContext.Session.GetInt32("AcademicYear") ?? 0;
             var schoolNumber = HttpContext.Session.GetString("SchoolNumber") ?? "-";
-            var birthDate = HttpContext.Session.GetString("BirthDate");
-
-            if (string.IsNullOrEmpty(birthDate))
-            {
-                Console.WriteLine("BirthDate oturumda bulunamadı veya boş.");
-            }
-            else
-            {
-                Console.WriteLine($"BirthDate oturumdan alındı: {birthDate}");
-            }
+            var birthDate = HttpContext.Session.GetString("BirthDate"); // Bu session'da set edilmiyor olabilir, kontrol edilmeli
 
             var department = HttpContext.Session.GetString("Department") ?? "-";
 
@@ -201,7 +208,6 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 form.GetField("Unit3")?.SetValue(departmentsInCompany.Contains("İmalat") ? "Yes" : "Off");
                 form.GetField("Unit4")?.SetValue(departmentsInCompany.Contains("İnsan Kaynakları") ? "Yes" : "Off");
 
-
                 var knownDepartments = new[] { "Ar-Ge", "Kalite Kontrol", "İmalat", "İnsan Kaynakları" };
                 var otherDepartments = departmentsInCompany.Where(d => !knownDepartments.Contains(d)).ToList();
                 form.GetField("otherUnit")?.SetValue(string.Join(", ", otherDepartments)).SetFont(timesNewRomanFont).SetFontSize(10);
@@ -210,27 +216,15 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 form.GetField("fullName2")?.SetValue($"{userName} {userSurname}").SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("email")?.SetValue(email).SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("phoneNo")?.SetValue(phoneNumber).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("birthDate")?.SetValue(
-                    birthDate != null
-                        ? birthDate
-                        : "N/A"
-                ).SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("birthDate")?.SetValue(birthDate ?? "N/A").SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("department")?.SetValue(department).SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("address")?.SetValue(address).SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("tcNo")?.SetValue(nationalID).SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("academicYear")?.SetValue($"{academicYear}.Sınıf").SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("schoolNo")?.SetValue(schoolNumber).SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("totalTrainingDays")?.SetValue(internshipDetail?.TotalTrainingDays.ToString() ?? "0").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("startDate")?.SetValue(
-                    internshipDetail?.StartDate != null
-                        ? internshipDetail.StartDate.ToString("dd/MM/yyyy")
-                        : "N/A"
-                ).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("endDate")?.SetValue(
-                    internshipDetail?.EndDate != null
-                        ? internshipDetail.EndDate.ToString("dd/MM/yyyy")
-                        : "N/A"
-                ).SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("startDate")?.SetValue(internshipDetail?.StartDate.ToString("dd/MM/yyyy") ?? "N/A").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("endDate")?.SetValue(internshipDetail?.EndDate.ToString("dd/MM/yyyy") ?? "N/A").SetFont(timesNewRomanFont).SetFontSize(10);
 
                 form.GetField("companyName")?.SetValue(company?.CompanyName ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("taxNo")?.SetValue(company?.TaxNumber ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
@@ -252,7 +246,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
             }
 
             var fileBytes = System.IO.File.ReadAllBytes(outputPath);
-            return File(fileBytes, "application/pdf", "GenerateIMEBilgiFormu.pdf");
+            return File(fileBytes, "application/pdf", "IMEBilgiFormu.pdf");
         }
 
         [HttpGet("Home/IMEDeğerlendirmeFormu")]
@@ -265,15 +259,10 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _databaseService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
-            var email = HttpContext.Session.GetString("Email") ?? "-";
-            var phoneNumber = HttpContext.Session.GetString("PhoneNumber") ?? "-";
-            var address = HttpContext.Session.GetString("Address") ?? "-";
-            var nationalID = HttpContext.Session.GetString("NationalID") ?? "-";
-            var academicYear = HttpContext.Session.GetInt32("AcademicYear") ?? 0;
             var schoolNumber = HttpContext.Session.GetString("SchoolNumber") ?? "-";
 
             using (var pdfReader = new PdfReader(templatePath))
@@ -296,29 +285,30 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 ).SetFont(timesNewRomanFont).SetFontSize(10);
 
                 int totalPoint = (evaluationPersonel?.AttendanceScore ?? 0) +
-                 (evaluationPersonel?.ResponsibilityScore ?? 0) +
-                 (evaluationPersonel?.KnowledgeScore ?? 0) +
-                 (evaluationPersonel?.ProblemSolvingScore ?? 0) +
-                 (evaluationPersonel?.EquipmentUsageScore ?? 0) +
-                 (evaluationPersonel?.CommunicationScore ?? 0) +
-                 (evaluationPersonel?.MotivationScore ?? 0) +
-                 (evaluationPersonel?.ReportingScore ?? 0) +
-                 (evaluationPersonel?.TeamworkScore ?? 0) +
-                 (evaluationPersonel?.ExpressionScore ?? 0);
+                                 (evaluationPersonel?.ResponsibilityScore ?? 0) +
+                                 (evaluationPersonel?.KnowledgeScore ?? 0) +
+                                 (evaluationPersonel?.ProblemSolvingScore ?? 0) +
+                                 (evaluationPersonel?.EquipmentUsageScore ?? 0) +
+                                 (evaluationPersonel?.CommunicationScore ?? 0) +
+                                 (evaluationPersonel?.MotivationScore ?? 0) +
+                                 (evaluationPersonel?.ReportingScore ?? 0) +
+                                 (evaluationPersonel?.TeamworkScore ?? 0) +
+                                 (evaluationPersonel?.ExpressionScore ?? 0);
 
                 form.GetField("companyName")?.SetValue(company?.CompanyName ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("managerFullName")?.SetValue($"{company?.ManagerFirstName ?? "-"} {company?.ManagerLastName ?? "-"}").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point1")?.SetValue((evaluationPersonel?.AttendanceScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point2")?.SetValue((evaluationPersonel?.ResponsibilityScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point3")?.SetValue((evaluationPersonel?.KnowledgeScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point4")?.SetValue((evaluationPersonel?.ProblemSolvingScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point5")?.SetValue((evaluationPersonel?.EquipmentUsageScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point6")?.SetValue((evaluationPersonel?.CommunicationScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point7")?.SetValue((evaluationPersonel?.MotivationScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point8")?.SetValue((evaluationPersonel?.ReportingScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point9")?.SetValue((evaluationPersonel?.TeamworkScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point10")?.SetValue((evaluationPersonel?.ExpressionScore.ToString() + " / 10" ?? "-" + " / 10").ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point1")?.SetValue((evaluationPersonel?.AttendanceScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point2")?.SetValue((evaluationPersonel?.ResponsibilityScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point3")?.SetValue((evaluationPersonel?.KnowledgeScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point4")?.SetValue((evaluationPersonel?.ProblemSolvingScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point5")?.SetValue((evaluationPersonel?.EquipmentUsageScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point6")?.SetValue((evaluationPersonel?.CommunicationScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point7")?.SetValue((evaluationPersonel?.MotivationScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point8")?.SetValue((evaluationPersonel?.ReportingScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point9")?.SetValue((evaluationPersonel?.TeamworkScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point10")?.SetValue((evaluationPersonel?.ExpressionScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("totalPoint")?.SetValue(totalPoint.ToString() + " / 100").SetFont(timesNewRomanFont).SetFontSize(10);
+
                 form.FlattenFields();
             }
 
@@ -326,11 +316,12 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
             return File(fileBytes, "application/pdf", "IMEDeğerlendirmeFormu.pdf");
         }
 
+
         [HttpGet("Home/MazeretIzinFormu")]
         public IActionResult GenerateMazeretIzinFormu(int leaveId)
         {
             var email = HttpContext.Session.GetString("Email");
-            var leave = _databaseService.GetLeaveDetailsByEmail(email).FirstOrDefault(x => x.LeaveID == leaveId);
+            var leave = _studentDashboardService.GetLeaveDetailsByEmail(email).FirstOrDefault(x => x.LeaveID == leaveId);
 
             if (leave == null)
                 return NotFound("Mazeret bulunamadı.");
@@ -361,15 +352,14 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 form.GetField("explain")?.SetValue(leave.ReasonDetail ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("address")?.SetValue(leave.AddressDuringLeave ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
 
-                // LeaveReason checkboxlarını işaretle
                 var reasons = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-        {
-            { "Alttan kalan derslerin vize ve final sınavları", "leave1" },
-            { "ÖSYM Sınavları", "leave2" },
-            { "Hastalık ve sağlık problemleri", "leave3" },
-            { "Ailevi sebepler", "leave4" },
-            { "Diğer Mazeretler", "leave5" }
-        };
+                {
+                    { "Alttan kalan derslerin vize ve final sınavları", "leave1" },
+                    { "ÖSYM Sınavları", "leave2" },
+                    { "Hastalık ve sağlık problemleri", "leave3" },
+                    { "Ailevi sebepler", "leave4" },
+                    { "Diğer Mazeretler", "leave5" }
+                };
 
                 foreach (var kvp in reasons)
                 {
@@ -395,94 +385,99 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _databaseService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
             var department = HttpContext.Session.GetString("Department") ?? "-";
             var schoolNumber = HttpContext.Session.GetString("SchoolNumber") ?? "-";
 
-            var notes = _databaseService.GetUserNotes(emailStudent);
+            var notes = _studentDashboardService.GetUserNotes(emailStudent);
 
-            // Notları parçalara böl (ör: her sayfada 3500 karakter olsun)
             int charsPerPage = 3500;
             var noteTexts = notes.Select(note =>
-                $"Başlık: {note.Title}\nAlt Başlık: {note.SubTitle}\nTarih: {note.CreatedAt:dd.MM.yyyy}\nİçerik: {note.Content}\n"
+                $"Başlık: {note.Title}\nAlt Başlık: {note.SubTitle}\nTarih: {note.CreatedAt:dd.MM.yyyy}\nİçerik: {Regex.Replace(note.Content, "<[^>]*>", string.Empty)}\n"
             ).ToList();
 
             string allNotes = string.Join("\n----------------------\n", noteTexts);
             var pages = new List<string>();
-            for (int i = 0; i < allNotes.Length; i += charsPerPage)
-                pages.Add(allNotes.Substring(i, Math.Min(charsPerPage, allNotes.Length - i)));
-
-            using (var ms = new MemoryStream())
+            if (string.IsNullOrEmpty(allNotes))
+                pages.Add(""); // En az bir sayfa olsun
+            else
             {
-                PdfDocument pdfDoc = null;
-                PdfAcroForm form = null;
-                for (int pageNo = 0; pageNo < pages.Count; pageNo++)
-                {
-                    using (var pdfReader = new PdfReader(templatePath))
-                    using (var pdfWriter = pageNo == 0 ? new PdfWriter(ms) : new PdfWriter(new MemoryStream()))
-                    {
-                        pdfDoc = pageNo == 0
-                            ? new PdfDocument(pdfReader, pdfWriter)
-                            : new PdfDocument(pdfReader, pdfWriter);
+                for (int i = 0; i < allNotes.Length; i += charsPerPage)
+                    pages.Add(allNotes.Substring(i, Math.Min(charsPerPage, allNotes.Length - i)));
+            }
 
-                        form = PdfAcroForm.GetAcroForm(pdfDoc, true);
+            // PdfDocument'i döngü dışında tanımla, PdfWriter'ı başlat
+            var outputStream = new MemoryStream();
+            var finalPdfWriter = new PdfWriter(outputStream);
+            var finalPdfDoc = new PdfDocument(finalPdfWriter);
+
+            for (int pageNo = 0; pageNo < pages.Count; pageNo++)
+            {
+                using (var pdfReader = new PdfReader(templatePath))
+                {
+                    // Her şablon sayfasını geçici bir belgeye oku
+                    var tempStream = new MemoryStream();
+                    var tempPdfDoc = new PdfDocument(pdfReader, new PdfWriter(tempStream));
+                    var form = PdfAcroForm.GetAcroForm(tempPdfDoc, true);
+
+                    if (form != null)
+                    {
+                        var fontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "ariblk.ttf");
+                        var font = PdfFontFactory.CreateFont(fontPath, iText.IO.Font.PdfEncodings.IDENTITY_H);
                         var timesNewRomanFontPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "times.ttf");
                         var timesNewRomanFont = PdfFontFactory.CreateFont(timesNewRomanFontPath, iText.IO.Font.PdfEncodings.IDENTITY_H);
+                        var blackColor = new iText.Kernel.Colors.DeviceRgb(0, 0, 0);
 
-                        // Diğer alanlar sadece ilk sayfada doldurulsun
                         if (pageNo == 0)
                         {
-                            form.GetField("titleDepartment")?.SetValue(department).SetFont(timesNewRomanFont).SetFontSize(18);
-                            form.GetField("titleSchoolNo")?.SetValue(schoolNumber).SetFont(timesNewRomanFont).SetFontSize(18);
-                            form.GetField("titleFullName")?.SetValue($"{userName} {userSurname}").SetFont(timesNewRomanFont).SetFontSize(18);
-                            form.GetField("department")?.SetValue(department).SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("fullName")?.SetValue($"{userName} {userSurname}").SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("schoolNo")?.SetValue(schoolNumber).SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("totalTrainingDays")?.SetValue(internshipDetail?.TotalTrainingDays.ToString() ?? "0").SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("totalTrainingDays2")?.SetValue(internshipDetail?.TotalTrainingDays.ToString() ?? "0").SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("startDate")?.SetValue(
-                                internshipDetail?.StartDate != null
-                                    ? internshipDetail.StartDate.ToString("dd/MM/yyyy")
-                                    : "N/A"
-                            ).SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("endDate")?.SetValue(
-                                internshipDetail?.EndDate != null
-                                    ? internshipDetail.EndDate.ToString("dd/MM/yyyy")
-                                    : "N/A"
-                            ).SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("companyName")?.SetValue(company?.CompanyName ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("companyName2")?.SetValue(company?.CompanyName ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("companyNameAddress")?.SetValue($"{company?.CompanyName ?? "-"} - {company?.Address ?? "-"}").SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("name")?.SetValue(supervisor?.FirstName ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("lastName")?.SetValue(supervisor?.LastName ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
-                            form.GetField("expertise")?.SetValue(supervisor?.Expertise ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
+                            form.GetField("titleDepartment")?.SetValue(department).SetFont(font).SetColor(blackColor).SetFontSize(18);
+                            form.GetField("titleSchoolNo")?.SetValue(schoolNumber).SetFont(font).SetColor(blackColor).SetFontSize(18);
+                            form.GetField("titleFullName")?.SetValue($"{userName} {userSurname}").SetFont(font).SetColor(blackColor).SetFontSize(18);
+                            form.GetField("department")?.SetValue(department).SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("fullName")?.SetValue($"{userName} {userSurname}").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("schoolNo")?.SetValue(schoolNumber).SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("totalTrainingDays")?.SetValue(internshipDetail?.TotalTrainingDays.ToString() ?? "0").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("totalTrainingDays2")?.SetValue(internshipDetail?.TotalTrainingDays.ToString() ?? "0").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("startDate")?.SetValue(internshipDetail?.StartDate.ToString("dd/MM/yyyy") ?? "N/A").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("endDate")?.SetValue(internshipDetail?.EndDate.ToString("dd/MM/yyyy") ?? "N/A").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("companyName")?.SetValue(company?.CompanyName ?? "-").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("companyName2")?.SetValue(company?.CompanyName ?? "-").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("companyNameAddress")?.SetValue($"{company?.CompanyName ?? "-"} - {company?.Address ?? "-"}").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("name")?.SetValue(supervisor?.FirstName ?? "-").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("lastName")?.SetValue(supervisor?.LastName ?? "-").SetFont(font).SetColor(blackColor).SetFontSize(10);
+                            form.GetField("expertise")?.SetValue(supervisor?.Expertise ?? "-").SetFont(font).SetColor(blackColor).SetFontSize(10);
                         }
 
-                        // internPage ve pageNo alanlarını doldur
-                        form.GetField("internPage")?.SetValue(pages[pageNo]).SetFont(timesNewRomanFont).SetFontSize(10);
+                        form.GetField("internPage")?.SetValue(pages[pageNo]).SetFont(font).SetColor(blackColor).SetFontSize(10);
                         form.GetField("pageNo")?.SetValue((pageNo + 1).ToString()).SetFont(timesNewRomanFont).SetFontSize(10);
 
                         form.FlattenFields();
+                    }
 
-                        pdfDoc.Close();
+                    tempPdfDoc.Close(); // Geçici belgeyi kapat
 
-                        // Sonraki sayfalar için ms'e ekle
-                        if (pageNo > 0)
-                        {
-                            var tempBytes = ((MemoryStream)pdfWriter.GetOutputStream()).ToArray();
-                            var tempDoc = new PdfDocument(new PdfReader(new MemoryStream(tempBytes)), new PdfWriter(ms));
-                            tempDoc.Close();
-                        }
+                    // Geçici belgenin içeriğini ana belgeye kopyala
+                    var tempBytes = tempStream.ToArray();
+                    using (var tempReader = new PdfReader(new MemoryStream(tempBytes)))
+                    {
+                        var tempDocForCopy = new PdfDocument(tempReader);
+                        tempDocForCopy.CopyPagesTo(1, tempDocForCopy.GetNumberOfPages(), finalPdfDoc);
+                        tempDocForCopy.Close();
                     }
                 }
-
-                var fileBytes = ms.ToArray();
-                return File(fileBytes, "application/pdf", "FaaliyetRaporu.pdf");
             }
+
+            finalPdfDoc.Close(); // Ana belgeyi kapat
+
+            var fileBytes = outputStream.ToArray();
+            System.IO.File.WriteAllBytes(outputPath, fileBytes); // Dosyayı diske kaydet (opsiyonel)
+
+            return File(fileBytes, "application/pdf", "FaaliyetRaporu.pdf");
         }
+
 
         [HttpGet("Home/VideoSunumFormu")]
         public IActionResult GenerateVideoSunumFormu()
@@ -494,13 +489,13 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _databaseService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
             var schoolNumber = HttpContext.Session.GetString("SchoolNumber") ?? "-";
 
-            var videos = _databaseService.GetUserVideos(emailStudent);
+            var videos = _studentDashboardService.GetUserVideos(emailStudent);
             var uploadedDates = videos.Select(v => v.UploadDate.Date).ToList();
 
             var startDate = internshipDetail?.StartDate.Date ?? DateTime.Now.Date;

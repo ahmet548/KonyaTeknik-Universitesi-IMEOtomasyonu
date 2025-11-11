@@ -1,16 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using IMEAutomationDBOperations.Models;
 using IMEAutomationDBOperations.Services;
+using System;
+using System.Linq;
 
 namespace IMEAutomationDBOperations.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly DatabaseService _databaseService;
+        private readonly InternshipOperationsService _internshipOperationsService;
+        private readonly StudentService _studentService;
 
-        public HomeController(DatabaseService databaseService)
+        public HomeController(
+            InternshipOperationsService internshipOperationsService,
+            StudentService studentService)
         {
-            _databaseService = databaseService ?? throw new ArgumentNullException(nameof(databaseService));
+            _internshipOperationsService = internshipOperationsService ?? throw new ArgumentNullException(nameof(internshipOperationsService));
+            _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
         }
 
         public IActionResult KonyaTecnicalUnivercityIMEAutomation()
@@ -22,9 +28,9 @@ namespace IMEAutomationDBOperations.Controllers
         {
             var email = HttpContext.Session.GetString("Email");
             if (string.IsNullOrEmpty(email))
-                return RedirectToAction("StudentLogin", "Home");
+                return RedirectToAction("StudentLogin", "Auth"); // AuthController'a yönlendir
 
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _databaseService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(email);
+            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(email);
 
             ViewBag.UserName = HttpContext.Session.GetString("UserName") ?? "Misafir";
             ViewBag.UserSurname = HttpContext.Session.GetString("UserSurname") ?? "";
@@ -50,7 +56,7 @@ namespace IMEAutomationDBOperations.Controllers
                 return BadRequest("T.C. Kimlik No boş olamaz.");
             }
 
-            var student = _databaseService.GetStudentsData().FirstOrDefault(s => s.NationalID == tcNo);
+            var student = _studentService.GetStudentsData().FirstOrDefault(s => s.NationalID == tcNo);
             if (student == null)
             {
                 return NotFound("Öğrenci bulunamadı.");
@@ -67,10 +73,11 @@ namespace IMEAutomationDBOperations.Controllers
             student.Email = email;
             student.Address = address;
 
-            _databaseService.UpdateStudent(student);
+            _studentService.UpdateStudent(student);
 
-            HttpContext.Session.SetString("UserName", student.FirstName);
-            HttpContext.Session.SetString("UserSurname", student.LastName);
+            // Session bilgilerini güncelle
+            HttpContext.Session.SetString("UserName", student.FirstName ?? string.Empty);
+            HttpContext.Session.SetString("UserSurname", student.LastName ?? string.Empty);
             HttpContext.Session.SetInt32("AcademicYear", student.AcademicYear);
             HttpContext.Session.SetString("Department", student.Department);
             HttpContext.Session.SetString("SchoolNumber", student.SchoolNumber);
@@ -87,21 +94,22 @@ namespace IMEAutomationDBOperations.Controllers
 
             if (string.IsNullOrEmpty(role))
             {
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("StudentLogin", "Auth"); // AuthController'a yönlendir
             }
 
             ViewBag.Role = role;
             return View();
         }
 
-        private string HashPassword(string password)
-        {
-            using (var sha256 = System.Security.Cryptography.SHA256.Create())
-            {
-                var bytes = System.Text.Encoding.UTF8.GetBytes(password);
-                var hash = sha256.ComputeHash(bytes);
-                return Convert.ToBase64String(hash);
-            }
-        }
+        // Bu metot artık kullanılmıyor gibi görünüyor, AuthController'da BCrypt kullanılıyor.
+        // private string HashPassword(string password)
+        // {
+        //     using (var sha256 = System.Security.Cryptography.SHA256.Create())
+        //     {
+        //         var bytes = System.Text.Encoding.UTF8.GetBytes(password);
+        //         var hash = sha256.ComputeHash(bytes);
+        //         return Convert.ToBase64String(hash);
+        //     }
+        // }
     }
 }

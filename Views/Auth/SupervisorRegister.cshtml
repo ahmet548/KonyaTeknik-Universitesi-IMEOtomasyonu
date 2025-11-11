@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <title>KTUN - Sorumlu Kayıt</title>
+    <link rel="shortcut icon" href="https://lms.ktun.edu.tr/theme/image.php/remui/theme/1756726302/favicon"
+        type="image/x-icon">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="moodle, Konya Teknik Üniversitesi İşletmede Mesleki Eğitim: Siteye giriş yap">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url(../../../img/16.jpg) no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: 0;
+        }
+
+        .login-wrapper {
+            position: absolute;
+            width: 600px;
+            /* Genişlik artırıldı */
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.2);
+            /* Gölge yönü değiştirildi */
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transform: translateX(-100%);
+            /* Soldan gelmesi için başlangıç pozisyonu */
+            animation: slideInFromRight 1s ease-out forwards;
+            /* Animasyon adı değiştirildi */
+            z-index: 10;
+            overflow-y: auto;
+            right: -600px;
+        }
+
+        @@keyframes slideInFromRight {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .logo-area {
+            text-align: start;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+
+        .login-welcome-wrapper {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        .h-bold-2 {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .welcome-text {
+            color: #7f8c8d;
+            font-size: 0.7rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.9rem;
+        }
+
+        .form-label {
+            font-size: 0.82rem;
+            margin-bottom: 0.35rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 6px;
+            padding: 9px 12px;
+            font-size: 0.75rem;
+            height: 40px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s;
+            font-size: 0.75rem;
+        }
+
+        .toggle-password:hover {
+            color: #3498db;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            border: none;
+            padding: 9px;
+            font-weight: 500;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #1a2530);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.82rem;
+        }
+
+        a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.72rem;
+            color: #7f8c8d;
+        }
+
+        .alert-danger-custom {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-danger-custom i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .login-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .login-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .login-wrapper::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .login-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <div class="logo-area">
+            <img src="https://lms.ktun.edu.tr/pluginfile.php/1/theme_remui/loginpanellogo/1756726302/logo.png"
+                style="height: 80px;" alt="KTUN Logo">
+        </div>
+
+        <div role="main">
+            <div class="loginform">
+                <div class="login-welcome-wrapper">
+                    <h2 class="h-bold-2">IME - Sorumlu Kayıt</h2>
+                    <p class="welcome-text">Lütfen bilgilerinizi eksiksiz doldurun</p>
+                </div>
+
+                <div class="alert alert-danger-custom @((ViewBag.Hata == null) ? "d-none" : "")" id="errorAlert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="errorMessage">@ViewBag.Hata</span>
+                </div>
+
+                <form method="post" action="/Auth/SupervisorRegister" id="registerForm">
+
+                    <!-- Step 1: Sorumlu Bilgileri -->
+                    <div class="form-step active" id="step1">
+                        <div class="login-welcome-wrapper">
+                            <h3 class="h-bold-2">Sorumlu Bilgileri</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label">Ad</label>
+                                    <input type="text" name="firstName" id="firstName" class="form-control"
+                                        placeholder="Adınız" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="form-label">E-Posta Adresi</label>
+                                    <input type="email" name="email" id="email" class="form-control"
+                                        placeholder="E-Posta Adresiniz" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="form-label">Şifre</label>
+                                    <div class="password-container">
+                                        <input type="password" name="password" id="password" class="form-control"
+                                            placeholder="Şifreniz" required>
+                                        <span class="toggle-password" onclick="togglePasswordVisibility('password')"><i
+                                                class="fas fa-eye"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="expertise" class="form-label">Uzmanlık Alanı</label>
+                                    <input type="text" name="expertise" id="expertise" class="form-control"
+                                        placeholder="Örn: Yazılım Geliştirme" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label">Soyad</label>
+                                    <input type="text" name="lastName" id="lastName" class="form-control"
+                                        placeholder="Soyadınız" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phoneNumber" class="form-label">Telefon Numarası</label>
+                                    <input type="tel" name="ContactPhone" id="phoneNumber" class="form-control"
+                                        placeholder="Örn: 555 123 4567" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword" class="form-label">Şifre Tekrar</label>
+                                    <div class="password-container">
+                                        <input type="password" name="confirmPassword" id="confirmPassword"
+                                            class="form-control" placeholder="Şifrenizi Tekrar Girin" required>
+                                        <span class="toggle-password"
+                                            onclick="togglePasswordVisibility('confirmPassword')"><i
+                                                class="fas fa-eye"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <button type="button" class="btn btn-primary next-step">İleri</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Firma Bilgileri -->
+                    <div class="form-step" id="step2">
+                        <div class="login-welcome-wrapper">
+                            <h3 class="h-bold-2">Firma Bilgileri</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="companyName" class="form-label">Firma Adı</label>
+                                    <input type="text" name="companyName" id="companyName" class="form-control"
+                                        placeholder="Çalıştığınız Firma" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="industry" class="form-label">Sektör</label>
+                                    <input type="text" name="industry" id="industry" class="form-control"
+                                        placeholder="Örn: Yazılım ve Bilişim">
+                                </div>
+                                <div class="form-group">
+                                    <label for="employeeCount" class="form-label">Çalışan Sayısı</label>
+                                    <input type="number" name="employeeCount" id="employeeCount" class="form-control"
+                                        placeholder="Çalışan Sayısı">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyEmail" class="form-label">Firma E-Posta Adresi</label>
+                                    <input type="email" name="companyEmail" id="companyEmail" class="form-control"
+                                        placeholder="Örn: info@firmaniz.com">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="taxNumber" class="form-label">Vergi Numarası</label>
+                                    <input type="text" name="taxNumber" id="taxNumber" class="form-control"
+                                        placeholder="Vergi Numarası" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="departments" class="form-label">Departmanlar</label>
+                                    <input type="text" name="departments" id="departments" class="form-control"
+                                        placeholder="Örn: Yazılım, Ar-Ge">
+                                </div>
+                                <div class="form-group">
+                                    <label for="website" class="form-label">Web Sitesi</label>
+                                    <input type="url" name="website" id="website" class="form-control"
+                                        placeholder="Örn: https://www.firmaniz.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="companyPhoneNumber" class="form-label">Firma Telefon Numarası</label>
+                                    <input type="tel" name="companyPhoneNumber" id="companyPhoneNumber"
+                                        class="form-control" placeholder="Örn: 0212 123 4567">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="address" class="form-label">Adres</label>
+                                    <input type="text" name="address" id="address" class="form-control"
+                                        placeholder="Firma Adresi">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary prev-step">Geri</button>
+                            <button type="button" class="btn btn-primary next-step">İleri</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Firma Yetkilisi Bilgileri -->
+                    <div class="form-step" id="step3">
+                        <div class="login-welcome-wrapper">
+                            <h3 class="h-bold-2">Firma Yetkilisi Bilgileri</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="managerFirstName" class="form-label">Yetkili Adı</label>
+                                    <input type="text" name="managerFirstName" id="managerFirstName"
+                                        class="form-control" placeholder="Yetkili Adı">
+                                </div>
+                                <div class="form-group">
+                                    <label for="managerPhone" class="form-label">Yetkili Telefonu</label>
+                                    <input type="tel" name="managerPhone" id="managerPhone" class="form-control"
+                                        placeholder="Örn: 0533 123 4567">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="managerLastName" class="form-label">Yetkili Soyadı</label>
+                                    <input type="text" name="managerLastName" id="managerLastName" class="form-control"
+                                        placeholder="Yetkili Soyadı">
+                                </div>
+                                <div class="form-group">
+                                    <label for="managerEmail" class="form-label">Yetkili E-Posta</label>
+                                    <input type="email" name="managerEmail" id="managerEmail" class="form-control"
+                                        placeholder="Örn: yetkili@firmaniz.com">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary prev-step">Geri</button>
+                            <button type="button" class="btn btn-primary next-step">İleri</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Banka Bilgileri -->
+                    <div class="form-step" id="step4">
+                        <div class="login-welcome-wrapper">
+                            <h3 class="h-bold-2">Banka Bilgileri</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="bankName" class="form-label">Banka Adı</label>
+                                    <input type="text" name="bankName" id="bankName" class="form-control"
+                                        placeholder="Banka Adı">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bankIbanNo" class="form-label">IBAN Numarası</label>
+                                    <input type="text" name="bankIbanNo" id="bankIbanNo" class="form-control"
+                                        placeholder="TRXXXXXXXXXXXXXXXXXXXXXXXXXX">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="bankBranch" class="form-label">Banka Şubesi</label>
+                                    <input type="text" name="bankBranch" id="bankBranch" class="form-control"
+                                        placeholder="Banka Şubesi">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-secondary prev-step">Geri</button>
+                            <button type="submit" class="btn btn-primary" id="registerBtn">Kayıt Ol</button>
+                        </div>
+                    </div>
+                    <p class="text-center mt-3 mb-0">
+
+                        Zaten bir hesabınız var mı? <a href="/Auth/SupervisorLogin">Giriş Yap</a>
+
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Konya Teknik Üniversitesi - Tüm Hakları Saklıdır</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let currentStep = 1;
+            const steps = document.querySelectorAll(".form-step");
+
+            function showStep(stepNumber) {
+                steps.forEach((step, index) => {
+                    step.classList.toggle("active", index + 1 === stepNumber);
+                });
+            }
+
+            document.querySelectorAll(".next-step").forEach(button => {
+                button.addEventListener("click", () => {
+                    if (currentStep < steps.length) {
+                        currentStep++;
+                        showStep(currentStep);
+                    }
+                });
+            });
+
+            document.querySelectorAll(".prev-step").forEach(button => {
+                button.addEventListener("click", () => {
+                    if (currentStep > 1) {
+                        currentStep--;
+                        showStep(currentStep);
+                    }
+                });
+            });
+
+            function togglePasswordVisibility(fieldId) {
+                var passwordInput = document.getElementById(fieldId);
+                var icon = passwordInput.nextElementSibling.querySelector("i");
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    icon.classList.remove("fa-eye");
+                    icon.classList.add("fa-eye-slash");
+                } else {
+                    passwordInput.type = "password";
+                    icon.classList.remove("fa-eye-slash");
+                    icon.classList.add("fa-eye");
+                }
+            }
+
+            document.getElementById('registerForm').addEventListener('submit', function (e) {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    showError('Şifreler uyuşmuyor. Lütfen kontrol edin.');
+                    return;
+                }
+            });
+
+            function showError(message) {
+                const errorAlert = document.getElementById('errorAlert');
+                const errorMessage = document.getElementById('errorMessage');
+
+                errorMessage.textContent = message;
+                errorAlert.classList.remove('d-none');
+
+                setTimeout(function () {
+                    errorAlert.classList.add('d-none');
+                }, 5000);
+            }
+
+            // Make togglePasswordVisibility globally accessible
+            window.togglePasswordVisibility = togglePasswordVisibility;
+        });
+    </script>
+</body>
+
+</html>

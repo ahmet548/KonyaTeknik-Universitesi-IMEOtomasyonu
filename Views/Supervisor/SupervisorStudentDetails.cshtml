@@ -1,0 +1,194 @@
+@model IMEAutomationDBOperations.Models.Student
+
+@{
+    ViewData["Title"] = "Öğrenci Detayları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var evaluation = ViewBag.Evaluation as IMEAutomationDBOperations.Models.EvaluationPersonel;
+    var internshipDetails = ViewBag.InternshipDetails as IMEAutomationDBOperations.Models.InternshipDetails;
+}
+
+<div class="container-fluid">
+    @if (Model == null)
+    {
+        <div class="text-center mt-5">
+            <p class="text-muted">Öğrenci bulunamadı.</p>
+        </div>
+    }
+    else
+    {
+        <div class="diary-container" style="margin: 0 !important; margin-top: 20px;">
+            <h3 style="font-weight: 500;">@Model.FirstName @Model.LastName</h3>
+            <div class="diary-tabs-container mt-4 position-relative">
+                <div class="diary-tabs">
+                    <div class="diary-tab active" data-tab="notes">Notlar</div>
+                    <div class="diary-tab" data-tab="videos">Videolar</div>
+                    <div class="diary-tab" data-tab="evaluation">Değerlendirme</div>
+                </div>
+                <div class="ms-auto">
+                    <button class="btn-btn-primary"
+                            onclick="location.href='@Url.Action("EvaluateStudent", "Supervisor", new { studentId = Model.StudentID })'">
+                        Notlandır
+                    </button>
+                </div>
+            </div>
+            <div class="diary-content">
+                <div id="notes-tab" class="diary-tab-content active">
+                    <div class="row">
+                        @{
+                            var notes = ViewBag.Notes as List<IMEAutomationDBOperations.Models.Note>;
+                        }
+                        @if (notes != null && notes.Any())
+                        {
+                            foreach (var note in notes)
+                            {
+                                <div class="col-md-3 mb-4">
+                                    <div class="diary-history-card">
+                                        <div class="diary-history-card-header">
+                                            <h6 class="diary-history-card-title">@note.Title</h6>
+                                            <span class="diary-history-card-date">@note.CreatedAt.ToString("dd.MM.yyyy")</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(note.SubTitle))
+                                        {
+                                            <div class="diary-history-card-subtitle">@note.SubTitle</div>
+                                        }
+                                        <div class="diary-history-card-content">
+                                            @Html.Raw(note.Content)
+                                        </div>
+                                        <button class="diary-history-card-view-btn"
+                                            onclick="window.open('/Supervisor/ShowNote?noteId=@note.NoteID', '_blank')">
+                                            NOTU GÖRÜNTÜLE
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-md-12">
+                                <div class="diary-history-empty text-center">
+                                    <img class="empty-placeholder-image-lg mt-1"
+                                         src="https://lms.ktun.edu.tr/theme/image.php/remui/block_myoverview/1757327541/courses"
+                                         style="width:110px; margin-bottom: 15px;" alt="">
+                                    <p class="text-muted">Bu öğrenciye ait not bulunmamaktadır.</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div id="videos-tab" class="diary-tab-content">
+                    <div class="row">
+                        @{
+                            var videos = ViewBag.Videos as List<IMEAutomationDBOperations.Models.Video>;
+                        }
+                        @if (videos != null && videos.Any())
+                        {
+                            foreach (var video in videos)
+                            {
+                                <div class="col-md-3 mb-4">
+                                    <div class="diary-history-card">
+                                        <div class="diary-history-card-header">
+                                            <h6 class="diary-history-card-title">@video.Title</h6>
+                                            <span class="diary-history-card-date">@video.UploadDate.ToString("dd.MM.yyyy")</span>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(video.Description))
+                                        {
+                                            <div class="diary-history-card-subtitle">@video.Description</div>
+                                        }
+                                        <div class="diary-history-card-content">
+                                            <div class="video-info">
+                                                <i class="fas fa-video me-2 text-muted"></i>
+                                                <span class="text-muted">@System.IO.Path.GetFileName(video.FilePath)</span>
+                                            </div>
+                                        </div>
+                                        <button class="diary-history-card-view-btn"
+                                            onclick="openWatchVideoModal('@video.FilePath', '@video.Title.Replace("'", "\\'")')">
+                                            VİDEOYU İZLE
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-md-12">
+                                <div class="diary-history-empty text-center">
+                                    <img class="empty-placeholder-image-lg mt-1"
+                                         src="https://lms.ktun.edu.tr/theme/image.php/remui/block_myoverview/1757327541/courses"
+                                         style="width:110px; margin-bottom: 15px;" alt="">
+                                    <p class="text-muted">Bu öğrenciye ait video bulunmamaktadır.</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div id="evaluation-tab" class="diary-tab-content">
+                    @if (evaluation != null)
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Değerlendirme Puanları</h5>
+                                <div class="row">
+                                    <div class="col-md-6"><strong>Çalışma Saatlerine Uyma:</strong> @evaluation.AttendanceScore</div>
+                                    <div class="col-md-6"><strong>Sorumluluk:</strong> @evaluation.ResponsibilityScore</div>
+                                    <div class="col-md-6"><strong>Mesleki Bilgi ve Uygulama:</strong> @evaluation.KnowledgeScore</div>
+                                    <div class="col-md-6"><strong>Problem Çözme:</strong> @evaluation.ProblemSolvingScore</div>
+                                    <div class="col-md-6"><strong>Araç-Gereç Kullanımı:</strong> @evaluation.EquipmentUsageScore</div>
+                                    <div class="col-md-6"><strong>Talimat Alma / Verme:</strong> @evaluation.CommunicationScore</div>
+                                    <div class="col-md-6"><strong>İstek ve Gayret:</strong> @evaluation.MotivationScore</div>
+                                    <div class="col-md-6"><strong>İş Raporlama:</strong> @evaluation.ReportingScore</div>
+                                    <div class="col-md-6"><strong>Takım Çalışması:</strong> @evaluation.TeamworkScore</div>
+                                    <div class="col-md-6"><strong>İfade ve İletişim:</strong> @evaluation.ExpressionScore</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Bu öğrenci için henüz bir değerlendirme yapılmamıştır.</p>
+                    }
+
+                    @if (internshipDetails != null && !string.IsNullOrEmpty(internshipDetails.InstructorFeedback))
+                    {
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Yetkili Geri Bildirimi</h5>
+                                <p>@internshipDetails.InstructorFeedback</p>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="mt-4">Yetkili tarafından bir geri bildirimde bulunulmamıştır.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.querySelectorAll('.diary-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.getAttribute('data-tab');
+
+                    document.querySelectorAll('.diary-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    document.querySelectorAll('.diary-tab-content').forEach(c => c.classList.remove('active'));
+                    document.getElementById(tabName + '-tab').classList.add('active');
+                });
+            });
+
+            function openWatchVideoModal(filePath, title) {
+                const videoPlayer = document.getElementById('videoPlayer');
+                const modalLabel = document.getElementById('watchVideoModalLabel');
+
+                videoPlayer.src = '/' + filePath.replace(/\\/g, '/').replace('wwwroot/', '');
+                modalLabel.textContent = title;
+
+                var myModal = new bootstrap.Modal(document.getElementById('watchVideoModal'), {});
+                myModal.show();
+            }
+        </script>
+    }
+</div>

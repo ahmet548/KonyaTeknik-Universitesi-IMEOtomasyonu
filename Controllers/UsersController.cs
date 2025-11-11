@@ -32,7 +32,7 @@ namespace IMEAutomationDBOperations.Controllers
         [HttpPost]
         public IActionResult StudentLogin(string email, string password)
         {
-            var student = _context.Students.FirstOrDefault(s => s.Email == email && s.Password == password);
+            var student = _context.Students.FirstOrDefault(s => s.Email == email && s.PasswordHash == password);
 
             if (student != null)
             {

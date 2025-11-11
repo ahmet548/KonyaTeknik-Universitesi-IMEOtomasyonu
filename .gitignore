@@ -1,0 +1,9 @@
+# filepath: c:\Users\Ahmet's Monster\Desktop\KonyaTeknikÜniversitesi-IMEOtomasyonu\.gitignore
+.vs/
+bin/
+obj/
+.vscode/
+*.user
+*.suo
+# .env dosyasını da ekleyebilirsiniz, ancak bu durumda şifreyi başka bir yolla paylaşmanız gerekir.
+# Şimdilik eklemeyelim ki proje kolayca çalışsın.

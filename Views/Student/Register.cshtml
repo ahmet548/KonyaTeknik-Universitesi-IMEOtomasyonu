@@ -36,7 +36,7 @@
                                         </div>
                                     }
                                     <h3 class="font-weight-bold iconsitename mt-5">Öğrenci Giriş</h3>
-                                    <form method="post" action="/Student/SaveProfile">
+                                    <form method="post" action="/Auth/SaveProfile">
                                         <input type="hidden" name="StudentID" value="@Model.UserID" />
                                         @if (missingFields.Contains("NationalID"))
                                         {
@@ -147,66 +147,6 @@
                                                     value="@Model.Email" />
                                             </div>
                                         }
-                                        <div class="form-group">
-                                            <label for="supervisorFirstName">Sorumlu Personel Adı</label>
-                                            <input type="text" id="supervisorFirstName" name="supervisorFirstName"
-                                                class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="supervisorLastName">Sorumlu Personel Soyadı</label>
-                                            <input type="text" id="supervisorLastName" name="supervisorLastName"
-                                                class="form-control" />
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="InternshipTitle">Staj Başlığı</label>
-                                            <input type="text" id="InternshipTitle" name="InternshipTitle"
-                                                class="form-control" placeholder="Staj Başlığını Giriniz" />
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="startDate">Staj Başlangıç Tarihi</label>
-                                            <input type="date" id="startDate" name="startDate" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="endDate">Staj Bitiş Tarihi</label>
-                                            <input type="date" id="endDate" name="endDate" class="form-control" />
-                                        </div>
-
-                                        @* Çalışacağı Günler *@
-                                        <div class="form-group">
-                                            <label>Çalışacağı Günler</label>
-                                            <div class="form-check">
-                                                <input type="checkbox" id="Pazartesi" name="WorkDays" value="Pazartesi"
-                                                    class="form-check-input" />
-                                                <label for="Pazartesi" class="form-check-label">Pazartesi</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" id="Salı" name="WorkDays" value="Salı"
-                                                    class="form-check-input" />
-                                                <label for="Salı" class="form-check-label">Salı</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" id="Çarşamba" name="WorkDays" value="Çarşamba"
-                                                    class="form-check-input" />
-                                                <label for="Çarşamba" class="form-check-label">Çarşamba</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" id="Perşembe" name="WorkDays" value="Perşembe"
-                                                    class="form-check-input" />
-                                                <label for="Perşembe" class="form-check-label">Perşembe</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" id="Cuma" name="WorkDays" value="Cuma"
-                                                    class="form-check-input" />
-                                                <label for="Cuma" class="form-check-label">Cuma</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="CompanyName">Çalışacağı İş Yeri</label>
-                                            <input type="text" id="CompanyName" name="CompanyName" class="form-control"
-                                                placeholder="İş yeri adını giriniz" required />
-                                        </div>
                                         <button type="submit" class="btn btn-primary btn-block">Kaydet</button>
                                     </form>
                                 </div>

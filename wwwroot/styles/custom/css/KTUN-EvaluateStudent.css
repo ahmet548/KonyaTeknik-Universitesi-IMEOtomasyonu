@@ -1,0 +1,426 @@
+#region-main {
+    overflow-y: visible;
+}
+#user-notifications {
+    display: block;
+    overflow: hidden;
+}
+.main-area-bg:not(.pagelayout-login) div[role="main"] {
+    background: #fff;
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0 13px 37px 
+}
+#maincontent {
+    display: block;
+    height: 1px;
+    overflow: clip;
+}
+.tertiary-navigation.full-width-bottom-border {
+    width: calc(100% + 1rem + 30px);
+    margin-left: calc(-0.5rem - 15px);
+    margin-right: calc(-0.5rem - 15px);
+    border-bottom: 1px solid #d5ddea;
+    margin-bottom: 25px;
+}
+.container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-right: auto;
+    margin-left: auto;
+}
+.align-items-center {
+    align-items: center !important;
+}
+.d-flex {
+    display: flex !important
+;
+}
+@media (max-width: 991.98px) {
+    h4, .h4, .h-regular-4, .h-semibold-4, #page-admin-roles-check [role="main"] h3, #page-admin-roles-check [role="main"] .h3, .h-bold-4, .h-exbold-4 {
+        font-size: 1rem;
+    }
+}
+h4, .h4, .h-regular-4, .h-semibold-4, #page-admin-roles-check [role="main"] h3, #page-admin-roles-check [role="main"] .h3, .h-bold-4, .h-exbold-4 {
+    font-family: inherit;
+    text-transform: inherit;
+    color: #2f3847;
+    font-size: 1.25rem;
+}
+.d-flex {
+    display: flex !important
+;
+}
+h4, .h4 {
+    font-size: 1.25rem;
+}
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--bs-heading-color);
+}
+.path-grade .user-heading .userinitials {
+    width: 50px;
+    height: 50px;
+}
+
+section {
+    background-color: #fff;
+    padding: 20px;
+}
+.main-content {
+    margin: 120px 60px !important;
+    margin-bottom: 0px !important;
+}
+.user-heading{
+    border-bottom: 1px solid #d5ddea;
+    margin-bottom: 25px;
+}
+.userinitials.size-50 {
+    width: 50px;
+    height: 50px;
+}
+.userinitials {
+    border: 1px solid #ced4da;
+}
+.userinitials {
+    background-color: #e9ecef;
+    vertical-align: middle;
+    display: inline-flex
+;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #343a40;
+    font-weight: 400;
+    margin-right: .25rem;
+}
+.ms-2 {
+    margin-left: 0.5rem !important;
+}
+.ms-4 {
+    margin-left: 1.5rem !important;
+}
+.d-inline-flex {
+    display: inline-flex !important
+;
+}
+.path-grade-report-user .user-report-container, .grade-report-user .user-report-container {
+    margin: 20px 0 30px 0;
+    padding: 10px 10px;
+    background-color: #f8f9fa;
+}
+.table-responsive {
+    overflow: auto;
+}
+#page-grade-edit-tree-index div[role="main"] .generaltable, #page-grade-report-user-index div[role="main"] .generaltable {
+    margin-bottom: unset;
+}
+.path-grade-report-user .user-grade {
+    border: none;
+}
+.path-grade-report-user .user-grade, .grade-report-user .user-grade {
+    width: 100%;
+}
+table.dataTable, table.generaltable, table.rolecap {
+    font-size: 14px;
+    border-radius: 8px;
+    color: #2f3847;
+    box-shadow: 0 13px 37px rgb(92 107 121 / .1);
+}
+.generaltable {
+    width: 100%;
+    color: var(--bs-body-color);
+    background-color: #fff;
+}
+table.dataTable thead, table.generaltable thead, table.rolecap thead {
+    background-color: #edf1f6;
+}
+thead, tbody, tfoot, tr, td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+tr, td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+.path-grade-report-user .user-grade thead th, .grade-report-user .user-grade thead th {
+    vertical-align: bottom;
+    border: none;
+    text-align: left;
+    background-color: #f8f9fa;
+}
+@media (max-width: 991.98px) {
+    table.dataTable thead tr th, table.generaltable thead tr th, table.rolecap thead tr th {
+        font-weight: 600;
+        font-size: .75rem;
+        line-height: 20px;
+    }
+}
+table.dataTable thead tr th, table.generaltable thead tr th, table.rolecap thead tr th {
+    height: 50px;
+    vertical-align: middle;
+    border-right: 1px solid #d5ddea;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    font-weight: 600;
+    font-size: .875rem;
+    line-height: 22px;
+}
+.generaltable thead th, .generaltable thead td {
+    vertical-align: bottom;
+    border-bottom: calc(2 * var(--bs-border-width)) solid #edf1f6;
+}
+.generaltable th, .generaltable td {
+    vertical-align: top;
+    border-top: var(--bs-border-width) solid #edf1f6;
+}
+thead, tbody, tfoot, tr, td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+th {
+    text-align: inherit;
+    text-align: -webkit-match-parent;
+}
+.path-grade-report-user .user-grade tbody tr, .grade-report-user .user-grade tbody tr {
+    background-color: #f8f9fa;
+}
+thead, tbody, tfoot, tr, td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+.path-grade-report-user .user-grade th.category, .grade-report-user .user-grade th.category {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    padding-left: 10px;
+    font-weight: 700;
+}
+.path-grade-report-user .user-grade tbody .column-itemname, .grade-report-user .user-grade tbody .column-itemname {
+    padding-left: 24px;
+    padding-right: 8px;
+}
+table.dataTable tbody td:first-child, table.dataTable tbody th:first-child, table.generaltable tbody td:first-child, table.generaltable tbody th:first-child, table.rolecap tbody td:first-child, table.rolecap tbody th:first-child {
+    border-left: 1px solid #edf1f6;
+}
+@media (max-width: 991.98px) {
+    table.dataTable tbody td, table.dataTable tbody th, table.generaltable tbody td, table.generaltable tbody th, table.rolecap tbody td, table.rolecap tbody th {
+        font-weight: 400;
+        font-size: .75rem;
+        line-height: 20px;
+    }
+}
+table.dataTable tbody td, table.dataTable tbody th, table.generaltable tbody td, table.generaltable tbody th, table.rolecap tbody td, table.rolecap tbody th {
+    height: 50px;
+    background-color: #fff;
+    color: #4c5a73;
+    vertical-align: middle;
+    border-right: 1px solid #edf1f6;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    font-weight: 400;
+    font-size: .875rem;
+    line-height: 22px;
+}
+.generaltable tbody td, .generaltable tbody th {
+    color: inherit;
+    background-color: inherit;
+}
+.generaltable th, .generaltable td {
+    vertical-align: top;
+    border-top: var(--bs-border-width) solid #edf1f6;
+}
+thead, tbody, tfoot, tr, td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+th {
+    text-align: inherit;
+    text-align: -webkit-match-parent;
+}
+.path-grade-report-user .user-grade .category div, .grade-report-user .user-grade .category div {
+    min-height: 30px;
+    align-items: center;
+}
+.d-flex {
+    display: flex !important
+;
+}
+.path-grade-report-user .user-grade th.category a.toggle-category, .grade-report-user .user-grade th.category a.toggle-category {
+    height: 24px;
+    width: 24px;
+    font-size: 12px;
+    line-height: 24px;
+    margin-right: 3px;
+}
+.btn.btn-icon, #page-calendar-view .btn-icon.cal_courses_flt {
+    border-radius: 50%;
+}
+.btn, #page-calendar-view .cal_courses_flt {
+    border-width: 1.136px;
+    border-radius: 5px;
+    letter-spacing: 0rem;
+    font-family: Inherit;
+    text-transform: inherit;
+    font-weight: 600;
+    line-height: 1.063;
+    font-size: .875rem;
+    padding-top: .719rem;
+    padding-right: 1rem;
+    padding-bottom: .719rem;
+    padding-left: 1rem;
+    text-decoration: none;
+}
+.btn, #page-calendar-view .cal_courses_flt {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+.btn-icon {
+    --bs-btn-hover-bg: var(--bs-secondary-bg);
+    --bs-btn-border-radius: 5px;
+    --bs-btn-padding-x: 0;
+    --bs-btn-padding-y: 0;
+    --bs-btn-font-size: 16px;
+    height: calc(16px + 1rem);
+    width: calc(16px + 1rem);
+    display: inline-flex
+;
+    align-items: center;
+    justify-content: center;
+}
+.me-1 {
+    margin-right: 0.25rem !important;
+}
+.btn, #page-calendar-view .cal_courses_flt {
+    --bs-btn-padding-x: 16px;
+    --bs-btn-padding-y: 11.5px;
+    --bs-btn-font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Inter, Helvetica Neue, Arial, Noto Sans, Liberation Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --bs-btn-font-size: 0.875rem;
+    --bs-btn-font-weight: 600;
+    --bs-btn-line-height: 17px;
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-bg: transparent;
+    --bs-btn-border-width: 2px;
+    --bs-btn-border-color: transparent;
+    --bs-btn-border-radius: 5px;
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+    --bs-btn-disabled-opacity: 0.65;
+    --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .5);
+    display: inline-block;
+    padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+    font-family: var(--bs-btn-font-family);
+    font-size: var(--bs-btn-font-size);
+    font-weight: var(--bs-btn-font-weight);
+    line-height: var(--bs-btn-line-height);
+    color: var(--bs-btn-color);
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
+    border-radius: var(--bs-btn-border-radius);
+    background-color: var(--bs-btn-bg);
+    transition: color 0.15s 
+ease-in-out, background-color 0.15s 
+ease-in-out, border-color 0.15s 
+ease-in-out, box-shadow 0.15s 
+ease-in-out;
+}
+[role="button"] {
+    cursor: pointer;
+}
+a {
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    text-decoration: none;
+}
+.path-grade-report-user .user-grade tbody tr.spacer, .grade-report-user .user-grade tbody tr.spacer {
+    height: .5rem;
+}
+.path-grade-report-user .user-grade tbody tr, .grade-report-user .user-grade tbody tr {
+    background-color: #f8f9fa;
+}
+thead, tbody, tfoot, tr, td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+.path-grade-report-user .user-grade .b1l, .grade-report-user .user-grade .b1l {
+    padding: 0;
+    width: 24px;
+    min-width: 24px;
+}
+table.dataTable tbody td:first-child, table.dataTable tbody th:first-child, table.generaltable tbody td:first-child, table.generaltable tbody th:first-child, table.rolecap tbody td:first-child, table.rolecap tbody th:first-child {
+    border-left: 1px solid #edf1f6;
+}
+.path-grade-report-user .user-grade td, .grade-report-user .user-grade td {
+    min-width: 4.5em;
+    background-color: #f8f9fa;
+    border: none;
+    vertical-align: middle;
+}
+@media (max-width: 991.98px) {
+    table.dataTable tbody td, table.dataTable tbody th, table.generaltable tbody td, table.generaltable tbody th, table.rolecap tbody td, table.rolecap tbody th {
+        font-weight: 400;
+        font-size: .75rem;
+        line-height: 20px;
+    }
+}
+table.dataTable tbody td, table.dataTable tbody th, table.generaltable tbody td, table.generaltable tbody th, table.rolecap tbody td, table.rolecap tbody th {
+    height: 50px;
+    background-color: #fff;
+    color: #4c5a73;
+    vertical-align: middle;
+    border-top: 1px solid #edf1f6;
+    border-right: 1px solid #edf1f6;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    font-weight: 400;
+    font-size: .875rem;
+    line-height: 22px;
+}
+.generaltable tbody td, .generaltable tbody th {
+    color: inherit;
+    background-color: inherit;
+}
+.generaltable th, .generaltable td {
+    vertical-align: top;
+    border-top: var(--bs-border-width) solid #edf1f6;
+}
+thead, tbody, tfoot, tr, td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+.path-grade-report-user .user-grade tbody tr, .grade-report-user .user-grade tbody tr {
+    background-color: #f8f9fa;
+}
+thead, tbody, tfoot, tr, td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+.path-grade-report-user .user-grade tbody tr, .grade-report-user .user-grade tbody tr {
+    background-color: #f8f9fa;
+}
+thead, tbody, tfoot, tr, td, th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+.path-grade-report-user .user-grade td, .grade-report-user .user-grade td {
+    min-width: 4.5em;
+    background-color: #f8f9fa;
+    border: none;
+    vertical-align: middle;
+}

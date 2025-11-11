@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # ASP.NET Core Uygulama Servisi
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Bilgisayarınızdaki 8080 portunu konteynerin 8080 portuna yönlendirir.
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Data Source=db;Initial Catalog=InternshipDB1;User ID=sa;Password=${DB_PASSWORD};TrustServerCertificate=True;
+    depends_on:
+      db:
+        condition: service_healthy # Veritabanı tamamen hazır olana kadar uygulamanın başlamasını bekler.
+
+  # MS SQL Server Veritabanı Servisi
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${DB_PASSWORD} # Şifre .env dosyasından okunacak.
+    ports:
+      - "1433:1433" # SQL portunu dışarı açar, böylece SSMS gibi araçlarla bağlanabilirsiniz.
+    volumes:
+      - ./database:/var/opt/mssql/backup # Yedek dosyasının olduğu klasörü konteynere bağlar.
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P '${DB_PASSWORD}' -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  db_data:

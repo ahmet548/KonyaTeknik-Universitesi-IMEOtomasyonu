@@ -1,0 +1,215 @@
+<div class="col-md-12">
+    <div class="diary-container">
+        <!-- Sekmeler -->
+        <h3 style="font-weight: 500;">Mazeret Bildir</h3>
+        <h5 class="mt-4" style="font-weight: 500;">Mazeretlere genel bakış</h5>
+        <div class="diary-tabs-container mt-4">
+            <div class="diary-tabs">
+                <div class="diary-tab active" data-tab="excuse-form">Mazeret bildir</div>
+
+                <!-- Dinamik Sağ İçerik - Mazeretler için -->
+                <div class="diary-tabs-right" id="excuse-right-content">
+                    <span class="diary-notes-count">
+                        @{
+                            var leaveDetails = ViewBag.LeaveDetails as
+                            List<IMEAutomationDBOperations.Models.LeaveDetails>;
+                            var excusesCount = leaveDetails?.Count ?? 0;
+                        }
+                        @excusesCount Mazeret
+                    </span>
+                    <button class="diary-add-btn" onclick="showExcuseForm()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- İçerik Alanı -->
+        <div class="diary-content">
+            <!-- Mazeret Formu Sekmesi -->
+            <div id="excuse-form-tab" class="diary-tab-content active">
+                <div class="diary-layout">
+                    <!-- Sol Taraf - Mazeret Formu -->
+                    <div class="diary-form-section mb-5">
+                        <div class="excuse-form-container">
+                            <div class="excuse-form-header">
+                                <h4 class="excuse-form-title">Yeni Mazeret Bildirimi</h4>
+                                <p class="excuse-form-subtitle">Staj döneminizdeki mazeretli günlerinizi
+                                    buradan bildirebilirsiniz.</p>
+                            </div>
+
+                            <form method="post" action="/Student/SubmitExcuse" class="excuse-form">
+                                <!-- Tarih Aralığı -->
+                                <div class="form-group">
+                                    <label class="form-label">İzin Tarih Aralığı</label>
+                                    <div class="date-inputs">
+                                        <div>
+                                            <label for="LeaveStart" class="form-label">Başlangıç
+                                                Tarihi</label>
+                                            <input type="date" id="LeaveStart" name="LeaveStart" class="form-control"
+                                                required>
+                                        </div>
+                                        <div>
+                                            <label for="LeaveEnd" class="form-label">Bitiş Tarihi</label>
+                                            <input type="date" id="LeaveEnd" name="LeaveEnd" class="form-control"
+                                                required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mazeret Türü -->
+                                <div class="form-group">
+                                    <label class="form-label">Mazeret Türü</label>
+                                    <div class="radio-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="LeaveReason"
+                                                value="Alttan kalan derslerin vize ve final sınavları" id="excuseType1"
+                                                required>
+                                            <label class="form-check-label" for="excuseType1">
+                                                Alttan kalan derslerin vize ve final sınavları
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="LeaveReason"
+                                                value="ÖSYM Sınavları" id="excuseType2">
+                                            <label class="form-check-label" for="excuseType2">
+                                                ÖSYM Sınavları
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="LeaveReason"
+                                                value="Hastalık ve sağlık problemleri" id="excuseType3">
+                                            <label class="form-check-label" for="excuseType3">
+                                                Hastalık ve sağlık problemleri
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="LeaveReason"
+                                                value="Ailevi sebepler" id="excuseType4">
+                                            <label class="form-check-label" for="excuseType4">
+                                                Ailevi sebepler
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="LeaveReason"
+                                                value="Diğer Mazeretler" id="excuseType5">
+                                            <label class="form-check-label" for="excuseType5">
+                                                Diğer Mazeretler
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mazeret Açıklaması -->
+                                <div class="form-group">
+                                    <label for="ReasonDetail" class="form-label">Mazeret Açıklaması</label>
+                                    <textarea id="ReasonDetail" name="ReasonDetail" class="form-control" rows="3"
+                                        placeholder="Mazeretinizi detaylı bir şekilde açıklayın..." required></textarea>
+                                </div>
+
+                                <!-- Adres Bilgisi -->
+                                <div class="form-group">
+                                    <label for="AddressDuringLeave" class="form-label">İzin Süresince
+                                        Bulunacağı Adres</label>
+                                    <textarea id="AddressDuringLeave" name="AddressDuringLeave" class="form-control"
+                                        rows="2" placeholder="İzin süresince bulunacağınız tam adresi yazın..."
+                                        required></textarea>
+                                </div>
+
+                                <!-- Gönder Butonu -->
+                                <div class="form-actions">
+                                    <button type="submit" id="id_submitbutton" class="btn btn-primary">
+                                        Mazeret Bildir
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Taraf - Mazeret Geçmişi -->
+                    <div class="diary-history-section">
+                        <div class="excuse-history-header">
+                            <h5 class="excuse-history-title">Mazeret Geçmişim</h5>
+                        </div>
+
+                        <div class="diary-history-list">
+                            @if (leaveDetails != null && leaveDetails.Any())
+                            {
+                                foreach (var excuse in leaveDetails)
+                                {
+                                    <div class="diary-history-card excuse-card" id="excuse-card-@excuse.LeaveID">
+                                        <!-- Kart Header -->
+                                        <div class="diary-history-card-header">
+                                            <!-- 3 nokta menü butonu -->
+                                            <button class="diary-history-card-menu" onclick="toggleExcuseMenu(@excuse.LeaveID)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
+                                                    fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
+                                                </svg>
+                                            </button>
+
+                                            <!-- Dropdown menü -->
+                                            <div class="diary-history-dropdown" id="excuse-dropdown-@excuse.LeaveID">
+                                                @if (excuse.LeaveStatus == "Onay Bekliyor")
+                                                {
+                                                    <button class="diary-history-dropdown-item text-danger"
+                                                        onclick="deleteExcuse(@excuse.LeaveID)">
+                                                        Mazereti Sil
+                                                    </button>
+                                                }
+                                                <a href="/Home/MazeretIzinFormu?leaveId=@excuse.LeaveID" target="_blank"
+                                                    class="diary-history-dropdown-item">
+                                                    Belgeyi İndir
+                                                </a>
+                                            </div>
+
+                                            <!-- Status badge -->
+                                            <div class="excuse-status-container">
+                                                <span
+                                                    class="excuse-status-badge @(excuse.LeaveStatus == "Onay Bekliyor" ? "status-pending" : "")">
+                                                    @excuse.LeaveStatus
+                                                </span>
+                                            </div>
+
+                                            <h6 class="diary-history-card-title">@excuse.LeaveReason</h6>
+                                            <span class="diary-history-card-date">
+                                                @excuse.LeaveStart.ToString("dd.MM.yyyy") -
+                                                @excuse.LeaveEnd.ToString("dd.MM.yyyy")
+                                            </span>
+                                        </div>
+
+                                        <!-- Mazeret Açıklaması -->
+                                        <div class="diary-history-card-content">
+                                            @excuse.ReasonDetail
+                                        </div>
+
+                                        <!-- Adres Bilgisi -->
+                                        @if (!string.IsNullOrEmpty(excuse.AddressDuringLeave))
+                                        {
+                                            <div class="excuse-address">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                                    @excuse.AddressDuringLeave
+                                                </small>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="diary-history-empty">
+                                    <img class="empty-placeholder-image-lg mt-1"
+                                        src="https://lms.ktun.edu.tr/theme/image.php/remui/block_myoverview/1757327541/courses"
+                                        style="width:110px; margin-bottom: 15px;" alt="">
+                                    <p class="text-muted">Henüz hiç mazeretiniz bulunmamaktadır.</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,7 +34,11 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                 aria-controls="navbarContent" aria-expanded="false" aria-label="Menüyü aç/kapat">
 
-                <i class="fas fa-bars"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="bi bi-list-nested" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5" />
+                </svg>
 
             </button>
 
@@ -42,16 +46,16 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link main-nav-link active" href="#">Ana Sayfa</a>
+                        <a class="nav-link main-nav-link active" href="/Student/StudentPage">Ana Sayfa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link main-nav-link" href="#">Kontrol Paneli</a>
+                        <a class="nav-link main-nav-link" href="/Student/StudentPage#controlPanel">Kontrol Paneli</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link main-nav-link" href="#">Staj Defteri</a>
+                        <a class="nav-link main-nav-link" href="/Student/StudentPage#internshipDiary">Staj Defteri</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link main-nav-link" href="#">Mazeret Bildir</a>
+                        <a class="nav-link main-nav-link" href="/Student/StudentPage#excuse-container">Mazeret Bildir</a>
                     </li>
                 </ul>
 
@@ -63,7 +67,7 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                 <path
-                                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742.16.767.376 1.566.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
                             </svg>
                             <span class="notification-badge">3</span>
                         </a>
@@ -119,7 +123,7 @@
                             aria-expanded="false">
                             <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                 <path
-                                    d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                    d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
                             </svg>
                             <span class="message-badge">1</span>
                         </a>
@@ -147,8 +151,10 @@
                         <a href="#" class="user-button" role="button" id="userDropdown" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <div class="user-initials">
-                                @if (ViewBag.UserName is string name && name.Length > 0 && ViewBag.UserSurname is string
-                                                                surname && surname.Length > 0)
+                                @if (ViewBag.UserName is string name && !string.IsNullOrEmpty(name) &&
+                                                                ViewBag.UserSurname is string surname &&
+                                                                !string.IsNullOrEmpty(surname))
+
                                 {
                                     @($"{name[0]}{surname[0]}")
                                 }
@@ -166,14 +172,15 @@
                         <span class="sized-box"></span>
                         <ul class="dropdown-menu user-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="/Home/aboutme">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                        class="bi bi-person-gear" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
+                                        class="bi bi-person" viewBox="0 0 16 16">
                                         <path
-                                            d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1zm3.63-4.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0" />
+                                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
                                     </svg>
-                                    Profil</a>
+                                    Profil
+                                </a>
                             </li>
-                            <li><a class="dropdown-item" href="#">
+                            <li><a class="dropdown-item" href="/Student/SuccessNotes">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-journal-bookmark" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
@@ -185,7 +192,7 @@
                                     </svg>
                                     Başarı notları</a>
                             </li>
-                            <li><a class="dropdown-item" href="#">
+                            <li><a class="dropdown-item" href="/Student/StudentPage#calendarContainer">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-calendar" viewBox="0 0 16 16">
                                         <path
@@ -224,7 +231,7 @@
                                     </svg>
                                     Tercihler</a>
                             </li>
-                            <li><a class="dropdown-item" href="/Student/Logout"><svg xmlns="http://www.w3.org/2000/svg"
+                            <li><a class="dropdown-item" href="/Auth/Logout"><svg xmlns="http://www.w3.org/2000/svg"
                                         width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right"
                                         viewBox="0 0 16 16">
                                         <path fill-rule="evenodd"
@@ -266,96 +273,37 @@
 
     <!-- Ana İçerik -->
     <div class="main-content">
+        @if (TempData["UploadError"] != null)
+        {
+            <div class="alert alert-danger">@TempData["UploadError"]</div>
+        }
         <!-- Ana Sayfa İçeriği -->
-        <div id="mainMenu">
-            <!-- Hero Section -->
-            <div class="hero-section">
-                <div class="hero-container">
-                    <img src="~/img/16.jpg" alt="KTÜN İME" class="hero-image">
-                    <div class="hero-overlay">
-                        <div class="hero-content">
-                            <h1 class="hero-title">İşletmede Mesleki Eğitim Sistemi</h1>
-                            <p class="hero-subtitle">Konya Teknik Üniversitesi - Profesyonel Gelişim Süreciniz</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="modern-info-container">
-                <div class="info-grid">
-                    <div class="info-card">
-                        <div class="card-image">
-                            <img src="~/img/info-1.png" alt="KTÜN İME Bilgi 1" class="hero-image">
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="card-image">
-                            <img src="~/img/info-2.png" alt="KTÜN İME Bilgi 2" class="hero-image">
-                        </div>
-                    </div>
-                    <div class="info-card full-width">
-                        <div class="card-image">
-                            <img src="~/img/info-3.png" alt="KTÜN İME Bilgi 3" class="hero-image">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- PDF Önizleme Alanı -->
+        <div id="pdfPreviewContainer" style="display:none; position:relative; min-height:500px;">
+            <button id="downloadPdfBtn" class="btn btn-primary"
+                style="position:absolute;top:20px;right:30px;z-index:2;display:none;">
+                <i class="fas fa-download"></i> İndir
+            </button>
+            <iframe id="pdfPreviewFrame"
+                style="width:100%;height:80vh;border-radius:12px;border:1px solid #e9ecef;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);"
+                frameborder="0"></iframe>
+        </div>
+
+        <div id="mainMenu">
+            @await Html.PartialAsync("_StudentMainMenu")
         </div>
 
         <div id="controlPanel" class="row mt-5" style="display: none;">
-            <div class="col-md-12 text-start d-flex" style="margin-right: 15px;">
-                <div id="left-content" class="content bg-light col-12 col-lg-7 w-100 h-100 mb-3 mb-lg-0"
-                    style="overflow-y: auto; padding: 5px;">
-                    <div class="container mt-0">
-                        <div id="calendarContainer">
-                            <div id="calendarLegend"
-                                style="display:flex;gap:24px;align-items:center;margin-bottom: 30px;">
-                                <span style="display:flex;align-items:center;gap:4px;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                                        class="bi bi-file-earmark" viewBox="0 0 16 16">
-                                        <path
-                                            d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
-                                    </svg>
-                                    <span>Not</span>
-                                </span>
-                                <span style="display:flex;align-items:center;gap:4px;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-                                        class="bi bi-camera-video" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd"
-                                            d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z" />
-                                    </svg>
-                                    <span>Video Yüklendi</span>
-                                </span>
-                                <span style="display:flex;align-items:center;gap:4px;">
-                                    <span
-                                        style="display:inline-block;width:16px;height:16px;background:#fff3cd;border-radius:3px;border:1px solid #ffeeba;"></span>
-                                    <span>Mazaretli Gün</span>
-                                </span>
-                                <span style="display:flex;align-items:center;gap:4px;">
-                                    <span
-                                        style="display:inline-block;width:16px;height:16px;background:#b52525;border-radius:50%;"></span>
-                                    <span>Bugün</span>
-                                </span>
-                            </div>
-                            <div id="calendarControls"
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <button id="prevMonth"
-                                    style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd; background-color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <h4 id="calendarHeader"></h4>
-                                <button id="nextMonth"
-                                    style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd; background-color: white; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                            </div>
+            @await Html.PartialAsync("_StudentControlPanel")
+        </div>
 
-                            <div id="calendar" style="margin-bottom: 100px;"></div>
+        <div id="internshipDiary" class="row mt-5" style="display: none;">
+            @await Html.PartialAsync("_StudentInternshipDiary")
+        </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="excuse-container" class="row mt-5" style="display: none;">
+            @await Html.PartialAsync("_StudentExcuse")
         </div>
 
         <footer class="footer-popover">
@@ -373,191 +321,29 @@
         </button>
     </div>
 
+    <!-- Video İzleme Modalı -->
+    <div class="modal fade" id="watchVideoModal" tabindex="-1" aria-labelledby="watchVideoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="watchVideoModalLabel">Video İzle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body">
+                    <video id="videoPlayer" controls class="w-100" style="max-height: 70vh;">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="~/scripts/calendar.js"></script>
+    <script src="~/scripts/main.js"></script>
+    <script src="~/scripts/diary.js"></script>
+    <script src="~/scripts/excuse.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Yukarı çıkma butonu işlevselliği
-        document.addEventListener('DOMContentLoaded', function () {
-            const scrollToTopButton = document.getElementById('scrollToTop');
-
-            // Sayfa kaydırıldığında butonu göster/gizle
-            window.addEventListener('scroll', function () {
-                if (window.pageYOffset > 300) {
-                    scrollToTopButton.classList.add('show');
-                } else {
-                    scrollToTopButton.classList.remove('show');
-                }
-            });
-
-            // Butona tıklandığında sayfanın üstüne kaydır
-            scrollToTopButton.addEventListener('click', function () {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
-
-    <script>
-        // Yan menü açma/kapatma işlevselliği
-        document.addEventListener('DOMContentLoaded', function () {
-            const menuToggle = document.getElementById('menuToggle');
-            const closeSidebar = document.getElementById('closeSidebar');
-            const sidebar = document.getElementById('sidebar');
-            const body = document.body;
-
-            // Menü açma
-            menuToggle.addEventListener('click', function () {
-                sidebar.classList.add('open');
-                body.classList.add('sidebar-open');
-            });
-
-            // Menü kapatma
-            closeSidebar.addEventListener('click', function () {
-                sidebar.classList.remove('open');
-                body.classList.remove('sidebar-open');
-            });
-
-            // ESC tuşu ile kapatma
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape' && sidebar.classList.contains('open')) {
-                    sidebar.classList.remove('open');
-                    body.classList.remove('sidebar-open');
-                }
-            });
-
-            // Mevcut JavaScript kodunuz...
-            // Tüm içerikleri gizle
-            if (document.getElementById('controlPanel')) document.getElementById('controlPanel').style.display = 'none';
-            if (document.getElementById('internshipDiary')) document.getElementById('internshipDiary').style.display = 'none';
-            if (document.getElementById('mainMenu')) document.getElementById('mainMenu').style.display = 'block';
-            if (document.getElementById('myExcuse')) document.getElementById('myExcuse').style.display = 'none';
-
-            // Menü linklerine tıklama olayları
-            document.querySelectorAll('.main-nav-link').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    // Tüm içerikleri gizle
-                    document.querySelectorAll('#controlPanel, #internshipDiary, #mainMenu, #myExcuse').forEach(el => {
-                        if (el) el.style.display = 'none';
-                    });
-
-                    // Aktif menü işaretle
-                    document.querySelectorAll('.main-nav-link').forEach(item => item.classList.remove('active'));
-                    this.classList.add('active');
-
-                    // Tıklanan menüye göre ilgili içeriği göster
-                    const contentId = this.textContent.trim() === 'Kontrol Paneli' ? 'controlPanel' :
-                        this.textContent.trim() === 'Staj Defteri' ? 'internshipDiary' :
-                            this.textContent.trim() === 'Mazeret Bildir' ? 'myExcuse' : 'mainMenu';
-
-                    const contentElement = document.getElementById(contentId);
-                    if (contentElement) {
-                        contentElement.style.display = 'block';
-
-                        // Kontrol paneli ise takvimi başlat
-                        if (contentId === 'controlPanel') {
-                            setTimeout(() => {
-                                if (typeof initializeCalendar === 'function') {
-                                    initializeCalendar();
-                                }
-                            }, 100);
-                        }
-                    }
-                });
-            });
-        });
-
-        // Diğer fonksiyonlar...
-        function confirmDeleteNote(noteId) {
-            if (confirm("Bu notu silmek istediğinize emin misiniz?")) {
-                window.location.href = "/Student/DeleteNote/" + noteId;
-            }
-        }
-
-        function confirmDeleteVideo(videoId) {
-            if (confirm("Bu videoyu silmek istediğinize emin misiniz?")) {
-                window.location.href = "/Student/DeleteVideo/" + videoId;
-            }
-        }
-
-        function openEditNoteModal(id, title, subTitle, content) {
-            document.getElementById('editNoteId').value = id;
-            document.getElementById('editNoteTitle').value = title;
-            document.getElementById('editNoteSubTitle').value = subTitle;
-            document.getElementById('editNoteContent').value = content;
-            document.getElementById('editNoteModal').style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.dropdown').forEach(dropdown => {
-                dropdown.addEventListener('show.bs.dropdown', function (e) {
-                    const menu = dropdown.querySelector('.dropdown-menu');
-                    if (menu) {
-                        menu.style.maxHeight = '0px';
-                        setTimeout(() => {
-                            menu.style.maxHeight = menu.scrollHeight + 'px';
-                        }, 10);
-                    }
-                });
-
-                dropdown.addEventListener('hide.bs.dropdown', function (e) {
-                    const menu = dropdown.querySelector('.dropdown-menu');
-                    if (menu) {
-                        menu.style.maxHeight = menu.scrollHeight + 'px';
-                        setTimeout(() => {
-                            menu.style.maxHeight = '0px';
-                        }, 10);
-                    }
-                });
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/data/forms.json")
-                .then(res => res.json())
-                .then(forms => {
-                    const list = document.getElementById("formList");
-                    list.innerHTML = "";
-
-                    forms.forEach((form, index) => {
-                        const li = document.createElement("li");
-
-                        const a = document.createElement("a");
-                        a.href = form.url;
-                        a.target = form.target;
-                        a.className = "text-decoration-none d-flex align-items-center justify-content-center gap-2";
-
-                        // SVG stringini HTML olarak ekle
-                        const iconWrapper = document.createElement("span");
-                        iconWrapper.innerHTML = form.icon;
-
-                        const span = document.createElement("span");
-                        span.className = "menu-text";
-                        span.textContent = form.title;
-
-                        a.appendChild(iconWrapper);
-                        a.appendChild(span);
-                        li.appendChild(a);
-                        list.appendChild(li);
-
-                        if (index < forms.length - 1) {
-                            const divider = document.createElement("div");
-                            divider.className = "dropdown-divider";
-                            list.appendChild(divider);
-                        }
-                    });
-                });
-        });
-    </script>
 </body>
 
 </html>
