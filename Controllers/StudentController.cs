@@ -279,11 +279,11 @@ namespace IMEAutomationDBOperations.Controllers
         [HttpPost]
         public IActionResult UploadVideo(IFormFile videoFile, string Title, string Description)
         {
-            if (DateTime.Now.DayOfWeek != DayOfWeek.Monday)
-            {
-                TempData["UploadError"] = "Video uploads are only allowed on Mondays.";
-                return RedirectToAction("StudentPage");
-            }
+            //if (DateTime.Now.DayOfWeek != DayOfWeek.Monday)
+            //{
+            //TempData["UploadError"] = "Video uploads are only allowed on Mondays.";
+            //return RedirectToAction("StudentPage");
+            //}
 
             var studentId = HttpContext.Session.GetInt32("StudentID");
             if (studentId == null)

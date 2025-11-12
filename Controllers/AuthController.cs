@@ -306,6 +306,14 @@ namespace IMEAutomationDBOperations.Controllers
                 return RedirectToAction("StudentLogin", "Auth");
             }
 
+            // Öğrencinin staj bilgilerinin tam olup olmadığını kontrol et
+            var internshipDetails = _internshipOperationsService.GetInternshipDetailsByStudentId(studentId.Value);
+            if (internshipDetails != null && internshipDetails.CompanyID.HasValue && internshipDetails.SupervisorID.HasValue)
+            {
+                // Bilgiler tam ise öğrenciyi ana sayfasına yönlendir
+                return RedirectToAction("StudentPage", "Student");
+            }
+
             var student = _studentService.GetStudentById(studentId.Value);
             if (student == null)
             {
