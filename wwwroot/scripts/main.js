@@ -229,8 +229,8 @@ function initializeExcusePage() {
                 return;
             }
 
-            const selectedReason = document.querySelector('input[name="LeaveReason"]:checked');
-            if (!selectedReason) {
+            const selectedReason = document.querySelector('select[name="LeaveReason"]').value;
+            if (!selectedReason || selectedReason === "") {
                 e.preventDefault();
                 alert('Lütfen mazeret türünü seçin.');
                 return;

@@ -1,3 +1,6 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace IMEAutomationDBOperations.Models
 {
     public class Video
@@ -8,5 +11,9 @@ namespace IMEAutomationDBOperations.Models
         public required string? Description { get; set; }
         public DateTime UploadDate { get; set; } = DateTime.Now;
         public required string FilePath { get; set; }
+
+        // Navigation properties
+        [ForeignKey("StudentID")]
+        public Student? Student { get; set; }
     }
 }

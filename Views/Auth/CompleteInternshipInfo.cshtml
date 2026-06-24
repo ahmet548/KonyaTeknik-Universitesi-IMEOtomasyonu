@@ -227,12 +227,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="supervisorId" class="form-label">Staj Sorumlusu</label>
-                        <select class="form-select" id="supervisorId" name="supervisorId" required>
+                        <label for="SupervisorId" class="form-label">Staj Sorumlusu</label>
+                        <select class="form-select" id="SupervisorId" name="SupervisorId" required>
                             <option value="">Seçiniz</option>
                             @foreach (var supervisor in ViewBag.Supervisors)
                             {
-                                <option value="@supervisor.SupervisorID">@supervisor.FirstName @supervisor.LastName</option>
+                                <option value="@supervisor.SupervisorId">@supervisor.User.FirstName @supervisor.User.LastName</option>
                             }
                         </select>
                     </div>

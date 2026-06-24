@@ -11,22 +11,43 @@
     </div>
 </div>
 
-<div class="modern-info-container">
-    <div class="info-grid">
-        <div class="info-card">
-            <div class="card-image">
-                <img src="~/img/info-1.png" alt="KTÜN İME Bilgi 1" class="hero-image">
+<div class="modern-info-container my-4 px-2">
+    <div id="infoCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators" style="bottom: -40px;">
+            <button type="button" data-bs-target="#infoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#infoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#infoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner" style="padding-bottom: 50px;">
+            <div class="carousel-item active">
+                <div class="info-card full-width">
+                    <div class="card-image">
+                        <img src="~/img/info-1.png" alt="KTÜN İME Bilgi 1" class="hero-image">
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="info-card full-width">
+                    <div class="card-image">
+                        <img src="~/img/info-2.png" alt="KTÜN İME Bilgi 2" class="hero-image">
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="info-card full-width">
+                    <div class="card-image">
+                        <img src="~/img/info-3.png" alt="KTÜN İME Bilgi 3" class="hero-image">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="info-card">
-            <div class="card-image">
-                <img src="~/img/info-2.png" alt="KTÜN İME Bilgi 2" class="hero-image">
-            </div>
-        </div>
-        <div class="info-card full-width">
-            <div class="card-image">
-                <img src="~/img/info-3.png" alt="KTÜN İME Bilgi 3" class="hero-image">
-            </div>
-        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#infoCarousel" data-bs-slide="prev" style="width: 15%;">
+            <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: white; border-radius: 50%; padding: 25px; background-size: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"></span>
+            <span class="visually-hidden">Önceki</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#infoCarousel" data-bs-slide="next" style="width: 15%;">
+            <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: white; border-radius: 50%; padding: 25px; background-size: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"></span>
+            <span class="visually-hidden">Sonraki</span>
+        </button>
     </div>
 </div>

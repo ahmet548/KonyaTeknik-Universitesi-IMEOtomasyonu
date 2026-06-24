@@ -137,7 +137,7 @@
                     </div>
                 </div>
 
-                @if (isWeekend)
+                @if (true || isWeekend) // Test amaçlı her gün açık
                 {
                     <div class="timeline-container">
                         <!-- Tıklanabilir Video Yükleme Kartı -->
@@ -157,7 +157,7 @@
                                 </div>
                                 <div class="event-content">
                                     <div class="event-badge">Video Yükleme</div>
-                                    <h4 class="event-title">@ViewBag.InternshipTitle<span>_Staj Defteri</span>
+                                    <h4 class="event-title">@ViewBag.Title<span>_Staj Defteri</span>
                                     </h4>
                                     <div class="event-details">
                                         <div class="event-time">

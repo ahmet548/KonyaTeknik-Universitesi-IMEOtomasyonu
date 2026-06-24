@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Öğrenci Detayları";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var evaluation = ViewBag.Evaluation as IMEAutomationDBOperations.Models.EvaluationPersonel;
-    var internshipDetails = ViewBag.InternshipDetails as IMEAutomationDBOperations.Models.InternshipDetails;
+    var evaluation = ViewBag.Evaluation as IMEAutomationDBOperations.Models.InternshipEvaluation;
+    var internshipDetails = ViewBag.Internship as IMEAutomationDBOperations.Models.Internship;
 }
 
 <div class="container-fluid">

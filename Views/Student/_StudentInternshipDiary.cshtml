@@ -107,7 +107,7 @@
                             }
                             else
                             {
-                                <div class="diary-history-empty">
+                                <div class="diary-history-empty text-center py-5">
                                     <img class="empty-placeholder-image-lg mt-1"
                                         src="https://lms.ktun.edu.tr/theme/image.php/remui/block_myoverview/1757327541/courses"
                                         style="width:110px; margin-bottom: 15px;" alt="">
@@ -152,7 +152,7 @@
                                         <!-- Dropdown menü -->
                                         <div class="diary-history-dropdown" id="video-dropdown-@video.VideoID">
                                             <button class="diary-history-dropdown-item"
-                                                onclick="openEditVideoModal(@video.VideoID, '@video.Title.Replace("'", "\\'")', '@video.Description.Replace("'", "\\'")')">
+                                                onclick="openEditVideoModal(@video.VideoID, '@(video.Title?.Replace("'", "\\'") ?? "")', '@(video.Description?.Replace("'", "\\'") ?? "")')">
                                                 Videoyu Düzenle
                                             </button>
                                             <button class="diary-history-dropdown-item text-danger"
@@ -177,7 +177,7 @@
 
                                         <!-- Videoyu Görüntüle Butonu -->
                                         <button class="diary-history-card-view-btn"
-                                            onclick="openWatchVideoModal('@video.FilePath', '@video.Title.Replace("'", "\\'")')">
+                                            onclick="openWatchVideoModal('@video.FilePath', '@(video.Title?.Replace("'", "\\'") ?? "")')">
                                             VİDEOYU İZLE
                                         </button>
                                     </div>
@@ -185,7 +185,7 @@
                             }
                             else
                             {
-                                <div class="diary-history-empty">
+                                <div class="diary-history-empty text-center py-5">
                                     <img class="empty-placeholder-image-lg mt-1"
                                         src="https://lms.ktun.edu.tr/theme/image.php/remui/block_myoverview/1757327541/courses"
                                         style="width:110px; margin-bottom: 15px;" alt="">

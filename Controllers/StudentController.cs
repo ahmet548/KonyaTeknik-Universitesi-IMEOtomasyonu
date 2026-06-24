@@ -38,17 +38,17 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return RedirectToAction("StudentLogin", "Auth");
 
-            var email = student.Email;
-            var userName = student.FirstName;
-            var userSurname = student.LastName;
+            var email = student.User.Email;
+            var userName = student.User.FirstName;
+            var userSurname = student.User.LastName;
 
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(email);
+            var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(email);
 
             ViewBag.UserName = userName;
             ViewBag.UserSurname = userSurname;
             ViewBag.Department = student.Department ?? "Bölüm Bilgisi Yok";
             ViewBag.Company = company as Company; ViewBag.Supervisor = supervisor;
-            ViewBag.InternshipTitle = internshipDetail?.InternshipTitle ?? "Staj Defteri";
+            ViewBag.Title = internshipDetail?.Title ?? "Staj Defteri";
 
             var statistics = CalculateStatistics(email);
             var videos = _studentDashboardService.GetUserVideos(email);
@@ -118,13 +118,13 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return RedirectToAction("StudentLogin", "Auth");
 
-            var email = student.Email;
+            var email = student.User.Email;
 
-            ViewBag.UserName = student.FirstName;
-            ViewBag.UserSurname = student.LastName;
+            ViewBag.UserName = student.User.FirstName;
+            ViewBag.UserSurname = student.User.LastName;
 
             // Retrieve evaluation data
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(email);
+            var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(email);
 
             // Initialize scores
             decimal imeSorumlusuDegerlendirmeNotu = 0;
@@ -132,19 +132,19 @@ namespace IMEAutomationDBOperations.Controllers
             decimal haftalikVideoSunumNotu = 0;
             decimal bolumImeKomisyonuNotu = 0;
 
-            if (evaluationPersonel != null)
+            if (InternshipEvaluation != null)
             {
                 // Calculate IME Sorumlusu Değerlendirme Formu Genel Notu
-                decimal totalScore = (evaluationPersonel.AttendanceScore +
-                                      evaluationPersonel.ResponsibilityScore +
-                                      evaluationPersonel.KnowledgeScore +
-                                      evaluationPersonel.ProblemSolvingScore +
-                                      evaluationPersonel.EquipmentUsageScore +
-                                      evaluationPersonel.CommunicationScore +
-                                      evaluationPersonel.MotivationScore +
-                                      evaluationPersonel.ReportingScore +
-                                      evaluationPersonel.TeamworkScore +
-                                      evaluationPersonel.ExpressionScore);
+                decimal totalScore = (InternshipEvaluation.AttendanceScore +
+                                      InternshipEvaluation.ResponsibilityScore +
+                                      InternshipEvaluation.KnowledgeScore +
+                                      InternshipEvaluation.ProblemSolvingScore +
+                                      InternshipEvaluation.EquipmentUsageScore +
+                                      InternshipEvaluation.CommunicationScore +
+                                      InternshipEvaluation.MotivationScore +
+                                      InternshipEvaluation.ReportingScore +
+                                      InternshipEvaluation.TeamworkScore +
+                                      InternshipEvaluation.ExpressionScore);
                 imeSorumlusuDegerlendirmeNotu = totalScore; // Max score is 10 * 10 = 100, so no further normalization needed.
             }
 
@@ -160,7 +160,7 @@ namespace IMEAutomationDBOperations.Controllers
                 ImeOgretimElemaniDegerlendirmeNotu = imeOgretimElemaniDegerlendirmeNotu,
                 HaftalikVideoSunumNotu = haftalikVideoSunumNotu,
                 BolumImeKomisyonuNotu = bolumImeKomisyonuNotu,
-                SupervisorEvaluation = evaluationPersonel,
+                SupervisorEvaluation = InternshipEvaluation,
                 InstructorFeedback = internshipDetail?.InstructorFeedback,
                 CommissionFeedback = internshipDetail?.CommissionFeedback
             };
@@ -179,7 +179,7 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return Unauthorized();
 
-            var email = student.Email;
+            var email = student.User.Email;
 
             try
             {
@@ -243,7 +243,7 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return RedirectToAction("StudentLogin", "Auth");
 
-            var email = student.Email;
+            var email = student.User.Email;
 
             var note = new Note
             {
@@ -270,7 +270,7 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return RedirectToAction("StudentLogin", "Auth");
 
-            var email = student.Email;
+            var email = student.User.Email;
 
             _studentDashboardService.DeleteUserNote(email, id);
             return RedirectToAction("StudentPage");
@@ -293,7 +293,7 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return RedirectToAction("StudentLogin", "Auth");
 
-            var email = student.Email;
+            var email = student.User.Email;
 
             if (videoFile == null || videoFile.Length == 0)
                 return RedirectToAction("StudentPage");
@@ -336,15 +336,15 @@ namespace IMEAutomationDBOperations.Controllers
                 if (student == null)
                     return RedirectToAction("StudentLogin", "Auth");
 
-                var email = student.Email;
-                var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(email);
+                var email = student.User.Email;
+                var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(email);
 
                 ViewBag.UserName = HttpContext.Session.GetString("UserName");
                 ViewBag.UserSurname = HttpContext.Session.GetString("UserSurname");
                 ViewBag.Department = student?.Department ?? "Bölüm Bilgisi Yok";
                 ViewBag.Company = company as Company;
                 ViewBag.Supervisor = supervisor;
-                ViewBag.InternshipTitle = internshipDetail?.InternshipTitle ?? "Staj Defteri";
+                ViewBag.Title = internshipDetail?.Title ?? "Staj Defteri";
 
                 Note currentNote = null;
                 if (noteId.HasValue)
@@ -381,15 +381,15 @@ namespace IMEAutomationDBOperations.Controllers
                 if (student == null)
                     return RedirectToAction("StudentLogin", "Auth");
 
-                var email = student.Email;
-                var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(email);
+                var email = student.User.Email;
+                var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(email);
 
                 ViewBag.UserName = HttpContext.Session.GetString("UserName");
                 ViewBag.UserSurname = HttpContext.Session.GetString("UserSurname");
                 ViewBag.Department = student?.Department ?? "Bölüm Bilgisi Yok";
                 ViewBag.Company = company;
                 ViewBag.Supervisor = supervisor;
-                ViewBag.InternshipTitle = internshipDetail?.InternshipTitle ?? "Staj Defteri";
+                ViewBag.Title = internshipDetail?.Title ?? "Staj Defteri";
 
                 Note currentNote = null;
                 if (noteId.HasValue)
@@ -424,7 +424,7 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return RedirectToAction("StudentLogin", "Auth");
 
-            var email = student.Email;
+            var email = student.User.Email;
 
             var video = _studentDashboardService.GetUserVideos(email).FirstOrDefault(v => v.VideoID == id);
             if (video == null)
@@ -445,7 +445,7 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return RedirectToAction("StudentLogin", "Auth");
 
-            var email = student.Email;
+            var email = student.User.Email;
             _studentDashboardService.UpdateUserNote(email, NoteID, Title, SubTitle, Content);
             return RedirectToAction("StudentPage");
         }
@@ -461,7 +461,7 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return RedirectToAction("StudentLogin", "Auth");
 
-            var email = student.Email;
+            var email = student.User.Email;
 
             _studentDashboardService.AddLeaveDetail(email, LeaveStart, LeaveEnd, LeaveReason, ReasonDetail, AddressDuringLeave);
 
@@ -479,7 +479,7 @@ namespace IMEAutomationDBOperations.Controllers
             if (student == null)
                 return RedirectToAction("StudentLogin", "Auth");
 
-            var email = student.Email;
+            var email = student.User.Email;
 
             _studentDashboardService.DeleteLeaveDetail(email, LeaveID);
             return RedirectToAction("StudentPage");
@@ -489,8 +489,8 @@ namespace IMEAutomationDBOperations.Controllers
         {
             var statisticsData = _studentDashboardService.GetStatisticsDataByEmail(email);
 
-            DateTime startDate = statisticsData.InternshipDetails?.StartDate ?? DateTime.MinValue;
-            DateTime endDate = statisticsData.InternshipDetails?.EndDate ?? DateTime.MaxValue;
+            DateTime startDate = statisticsData.Internship?.StartDate ?? DateTime.MinValue;
+            DateTime endDate = statisticsData.Internship?.EndDate ?? DateTime.MaxValue;
 
             int totalDays = (endDate - startDate).Days + 1;
             int videoDays = statisticsData.Videos?.Count ?? 0;

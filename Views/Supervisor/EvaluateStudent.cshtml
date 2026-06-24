@@ -51,8 +51,10 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link main-nav-link" href="/Supervisor/SupervisorPage#controlPanel">Kontrol
-                            Paneli</a>
+                        <a class="nav-link main-nav-link" href="/Supervisor/SupervisorPage">Kontrol Paneli</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link main-nav-link" href="/Supervisor/SupervisorPage">Öğrenci Listesi</a>
                     </li>
                 </ul>
 
@@ -148,13 +150,20 @@
                         <a href="#" class="user-button" role="button" id="userDropdown" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <div class="user-initials">
-                                @if (ViewBag.Supervisor?.FirstName?.Length > 0 && ViewBag.Supervisor?.LastName?.Length > 0)
-                                {
-                                    @($"{ViewBag.Supervisor.FirstName[0]}{ViewBag.Supervisor.LastName[0]}")
-                                }
-                                else
-                                {
-                                    @("M")
+                                @{
+                                    string firstNameInitial = "M";
+                                    string lastNameInitial = "";
+                                    if (ViewBag.Supervisor != null && !string.IsNullOrEmpty(ViewBag.Supervisor.User?.FirstName) && !string.IsNullOrEmpty(ViewBag.Supervisor.User?.LastName))
+                                    {
+                                        firstNameInitial = ViewBag.Supervisor.User.FirstName[0].ToString();
+                                        lastNameInitial = ViewBag.Supervisor.User.LastName[0].ToString();
+                                    }
+                                    else if (ViewBag.Supervisor != null && !string.IsNullOrEmpty(ViewBag.Supervisor.FirstName) && !string.IsNullOrEmpty(ViewBag.Supervisor.LastName))
+                                    {
+                                        firstNameInitial = ViewBag.Supervisor.FirstName[0].ToString();
+                                        lastNameInitial = ViewBag.Supervisor.LastName[0].ToString();
+                                    }
+                                    @($"{firstNameInitial}{lastNameInitial}")
                                 }
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
@@ -226,16 +235,18 @@
                         <div class="header-details">
                             <div class="detail-item">
                                 <div class="user-initials" style="scale: 0.7;">
-                                    @if (ViewBag.Supervisor != null &&
-                                                                        !string.IsNullOrEmpty(ViewBag.Supervisor.FirstName) &&
-                                                                        !string.IsNullOrEmpty(ViewBag.Supervisor.LastName))
+                                @{
+                                    string sInitials = "S";
+                                    if (ViewBag.Supervisor != null && !string.IsNullOrEmpty(ViewBag.Supervisor.User?.FirstName) && !string.IsNullOrEmpty(ViewBag.Supervisor.User?.LastName))
                                     {
-                                        @($"{ViewBag.Supervisor.FirstName[0]}{ViewBag.Supervisor.LastName[0]}")
+                                        sInitials = $"{ViewBag.Supervisor.User.FirstName[0]}{ViewBag.Supervisor.User.LastName[0]}";
                                     }
-                                    else
+                                    else if (ViewBag.Supervisor != null && !string.IsNullOrEmpty(ViewBag.Supervisor.FirstName) && !string.IsNullOrEmpty(ViewBag.Supervisor.LastName))
                                     {
-                                        @("S")
+                                        sInitials = $"{ViewBag.Supervisor.FirstName[0]}{ViewBag.Supervisor.LastName[0]}";
                                     }
+                                    @sInitials
+                                }
                                 </div>
                                 <span>@(ViewBag.Supervisor?.FirstName ?? "Supervisor") @(ViewBag.Supervisor?.LastName ??
                                                                         "")</span>
@@ -252,78 +263,122 @@
                     <h5 class="card-title mb-4">Öğrenci Değerlendirme Formu</h5>
                     <form method="post" action="/Supervisor/SaveEvaluation">
                         <input type="hidden" name="StudentID" value="@Model.StudentID" />
-                        <input type="hidden" name="SupervisorID" value="@ViewBag.SupervisorID" />
+                        <input type="hidden" name="SupervisorId" value="@ViewBag.SupervisorId" />
 
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <label for="AttendanceScore" class="form-label">Çalışma Saatlerine Uyma</label>
-                                <input type="number" id="AttendanceScore" name="AttendanceScore" class="form-control"
-                                    min="0" max="10" required />
+                        <div class="row g-4 mt-1">
+                            <div class="col-md-7">
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="AttendanceScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Çalışma Saatlerine Uyma</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('AttendanceScore')">-</button>
+                                                <input type="number" id="AttendanceScore" name="AttendanceScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('AttendanceScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="ResponsibilityScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Sorumluluk</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('ResponsibilityScore')">-</button>
+                                                <input type="number" id="ResponsibilityScore" name="ResponsibilityScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('ResponsibilityScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="KnowledgeScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Mesleki Bilgi ve Uygulama</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('KnowledgeScore')">-</button>
+                                                <input type="number" id="KnowledgeScore" name="KnowledgeScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('KnowledgeScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="ProblemSolvingScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Problem Çözme</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('ProblemSolvingScore')">-</button>
+                                                <input type="number" id="ProblemSolvingScore" name="ProblemSolvingScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('ProblemSolvingScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="EquipmentUsageScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Araç-Gereç Kullanımı</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('EquipmentUsageScore')">-</button>
+                                                <input type="number" id="EquipmentUsageScore" name="EquipmentUsageScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('EquipmentUsageScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="CommunicationScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Talimat Alma / Verme</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('CommunicationScore')">-</button>
+                                                <input type="number" id="CommunicationScore" name="CommunicationScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('CommunicationScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="MotivationScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">İstek ve Gayret</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('MotivationScore')">-</button>
+                                                <input type="number" id="MotivationScore" name="MotivationScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('MotivationScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="ReportingScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">İş Raporlama</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('ReportingScore')">-</button>
+                                                <input type="number" id="ReportingScore" name="ReportingScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('ReportingScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="TeamworkScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Takım Çalışması</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('TeamworkScore')">-</button>
+                                                <input type="number" id="TeamworkScore" name="TeamworkScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('TeamworkScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                            <label for="ExpressionScore" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">İfade ve İletişim</label>
+                                            <div class="input-group input-group-sm flex-nowrap" style="width: 90px; flex-shrink: 0;">
+                                                <button class="btn score-btn px-2" type="button" onclick="stepDown('ExpressionScore')">-</button>
+                                                <input type="number" id="ExpressionScore" name="ExpressionScore" class="form-control text-center score-input px-1" min="0" max="10" required />
+                                                <button class="btn score-btn px-2" type="button" onclick="stepUp('ExpressionScore')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="col-md-6">
-                                <label for="ResponsibilityScore" class="form-label">Sorumluluk</label>
-                                <input type="number" id="ResponsibilityScore" name="ResponsibilityScore"
-                                    class="form-control" min="0" max="10" required />
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="KnowledgeScore" class="form-label">Mesleki Bilgi ve Uygulama</label>
-                                <input type="number" id="KnowledgeScore" name="KnowledgeScore" class="form-control"
-                                    min="0" max="10" required />
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="ProblemSolvingScore" class="form-label">Problem Çözme</label>
-                                <input type="number" id="ProblemSolvingScore" name="ProblemSolvingScore"
-                                    class="form-control" min="0" max="10" required />
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="EquipmentUsageScore" class="form-label">Araç-Gereç Kullanımı</label>
-                                <input type="number" id="EquipmentUsageScore" name="EquipmentUsageScore"
-                                    class="form-control" min="0" max="10" required />
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="CommunicationScore" class="form-label">Talimat Alma / Verme</label>
-                                <input type="number" id="CommunicationScore" name="CommunicationScore"
-                                    class="form-control" min="0" max="10" required />
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="MotivationScore" class="form-label">İstek ve Gayret</label>
-                                <input type="number" id="MotivationScore" name="MotivationScore" class="form-control"
-                                    min="0" max="10" required />
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="ReportingScore" class="form-label">İş Raporlama</label>
-                                <input type="number" id="ReportingScore" name="ReportingScore" class="form-control"
-                                    min="0" max="10" required />
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="TeamworkScore" class="form-label">Takım Çalışması</label>
-                                <input type="number" id="TeamworkScore" name="TeamworkScore" class="form-control"
-                                    min="0" max="10" required />
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="ExpressionScore" class="form-label">İfade ve İletişim</label>
-                                <input type="number" id="ExpressionScore" name="ExpressionScore" class="form-control"
-                                    min="0" max="10" required />
+                            <div class="col-md-5 d-flex flex-column">
+                                <label for="Feedback" class="form-label text-muted small fw-bold mb-1">Genel Geri Bildirim</label>
+                                <textarea id="Feedback" name="Feedback" class="form-control form-control-sm bg-light flex-grow-1" style="min-height: 200px; resize: none; font-size: 14px; padding: 12px; border: 2px solid #fff;" placeholder="Öğrenci hakkındaki genel değerlendirmenizi ve geri bildiriminizi buraya yazabilirsiniz..."></textarea>
                             </div>
                         </div>
 
-                        <div class="mt-4">
-                            <label for="Feedback" class="form-label">Genel Geri Bildirim</label>
-                            <textarea id="Feedback" name="Feedback" class="form-control" rows="4" placeholder="Öğrenci hakkındaki genel değerlendirmenizi ve geri bildiriminizi buraya yazabilirsiniz..."></textarea>
-                        </div>
-
-                        <div class="mt-4 d-flex justify-content-between">
-                            <a href="@Url.Action("SupervisorPage", "Supervisor")" class="btn btn-secondary">Geri</a>
-                            <button type="submit" class="btn btn-primary-custom">Kaydet</button>
+                        <div class="mt-4 d-flex justify-content-between align-items-center pt-3 border-top">
+                            <a href="@Url.Action("SupervisorPage", "Supervisor")" class="btn btn-outline-secondary px-4 py-2" style="font-weight: 500; font-size: 14px; border-radius: 4px;">Vazgeç</a>
+                            <button type="submit" class="btn text-white px-5 py-2" style="background-color: #4674C1; font-weight: 600; font-size: 14px; border-radius: 4px;">Kaydet</button>
                         </div>
                     </form>
                 </div>
@@ -338,6 +393,54 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function stepUp(id) {
+            let el = document.getElementById(id);
+            let val = parseInt(el.value || 0);
+            if (val < 10) el.value = val + 1;
+        }
+        function stepDown(id) {
+            let el = document.getElementById(id);
+            let val = parseInt(el.value || 0);
+            if (val > 0) el.value = val - 1;
+        }
+        // Hide default number spinner for a cleaner UI
+        const style = document.createElement('style');
+        style.innerHTML = `
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none; 
+                margin: 0; 
+            }
+            input[type=number] {
+                -moz-appearance: textfield;
+            }
+            .score-btn {
+                border: 1px solid #ced4da;
+                background-color: #f8f9fa;
+                color: #495057;
+                font-weight: bold;
+                transition: all 0.2s ease-in-out;
+            }
+            .score-btn:hover {
+                background-color: #e2e6ea;
+                border-color: #adb5bd;
+                color: #212529;
+            }
+            .score-input {
+                border: 1px solid #ced4da;
+                border-left: none;
+                border-right: none;
+                background-color: #ffffff;
+                box-shadow: none !important;
+            }
+            .score-input:focus {
+                border-color: #ced4da;
+                background-color: #ffffff;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 
 </html>

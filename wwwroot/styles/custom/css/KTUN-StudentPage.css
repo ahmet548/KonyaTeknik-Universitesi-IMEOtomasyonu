@@ -210,6 +210,7 @@
             transition: margin-left 0.3s ease;
             margin-left: 0;
             min-height: calc(100vh - 80px);
+            position: relative;
         }
 
         body.sidebar-open .main-content {
@@ -253,35 +254,41 @@
 
         .user-initials {
             position: relative;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+            flex-shrink: 0;
             vertical-align: middle;
-            background-color: #e9ecef;
-            color: #5b6880;
+            background-color: #f1f5f9;
+            color: #475569;
             border-radius: 50%;
-            border: 1px solid #ced4da;
+            border: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 400;
+            font-weight: 600;
+            font-size: 1.1rem;
             margin-right: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .user-initials-lg {
             position: relative;
             width: 130px;
             height: 130px;
+            min-width: 130px;
+            flex-shrink: 0;
             vertical-align: middle;
-            background-color: #e9ecef;
-            color: #5b6880;
+            background-color: #f1f5f9;
+            color: #475569;
             border-radius: 50%;
-            border: 1px solid #ced4da;
+            border: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 400;
-            font-size: 35px;
-            margin-right: 8px;
+            font-weight: 600;
+            font-size: 3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         @media (max-width: 768px) {
@@ -885,6 +892,7 @@
             width: 100%;
             height: 200px;
             padding: 0 100px;
+            margin-top: 40px;
         }
 
         .no-click {
@@ -2440,7 +2448,117 @@
 
 .form-actions {
     margin-top: 30px;
-    padding-top: 20px;
+}
+
+/* Profesyonel Mazeret Formu Stilleri */
+.modern-form .form-section-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: 2px solid #f1f4f8;
+    padding-bottom: 8px;
+}
+
+.modern-form .form-floating > label {
+    padding-left: 1rem;
+    color: #6c757d;
+}
+
+.modern-form .form-control {
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+}
+
+.modern-form .form-control:focus {
+    border-color: #3b71ca;
+    box-shadow: 0 0 0 0.25rem rgba(59, 113, 202, 0.15);
+}
+
+.radio-group-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.custom-radio-card {
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    background: #fff;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    transition: all 0.2s ease-in-out;
+    overflow: hidden;
+}
+
+.custom-radio-card:hover {
+    border-color: #aebce2;
+    background: #f8faff;
+    transform: translateY(-2px);
+}
+
+.custom-radio-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.custom-radio-card .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.custom-radio-card .card-content .icon {
+    font-size: 1.8rem;
+    color: #6c757d;
+    margin-bottom: 8px;
+    transition: color 0.2s ease;
+}
+
+.custom-radio-card .card-content .text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #495057;
+    transition: color 0.2s ease;
+}
+
+.custom-radio-card input[type="radio"]:checked + .card-content {
+    background-color: #eff3fa;
+}
+
+.custom-radio-card input[type="radio"]:checked + .card-content .icon,
+.custom-radio-card input[type="radio"]:checked + .card-content .text {
+    color: #3b71ca;
+}
+
+.custom-radio-card input[type="radio"]:checked ~ .custom-radio-card {
+    border-color: #3b71ca;
+}
+
+.custom-radio-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.modern-file-upload {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 12px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.modern-file-upload:hover {
+    border-color: #3b71ca;
+    background: #f1f4f8;
+}
+
+.modern-file-upload input[type="file"] {
+    background: transparent;
+}    padding-top: 20px;
     border-top: 1px solid #e9ecef;
     text-align: right;
 }

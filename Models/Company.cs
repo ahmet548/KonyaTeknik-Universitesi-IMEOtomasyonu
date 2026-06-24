@@ -1,8 +1,10 @@
+using System.Collections.Generic;
+
 namespace IMEAutomationDBOperations.Models
 {
     public class Company
     {
-        public int CompanyID { get; set; }
+        public int CompanyId { get; set; }
         public required string CompanyName { get; set; }
         public required string TaxNumber { get; set; }
         public string? Address { get; set; }
@@ -19,5 +21,9 @@ namespace IMEAutomationDBOperations.Models
         public string? BankName { get; set; }
         public string? BankBranch { get; set; }
         public string? BankIbanNo { get; set; }
+
+        // Navigation properties
+        public ICollection<InternshipSupervisor>? Supervisors { get; set; }
+        public ICollection<Internship>? Internships { get; set; }
     }
 }

@@ -83,7 +83,7 @@ namespace IMEAutomationDBOperations.Controllers
                 }
 
                 bool isAuthenticated = false;
-                string storedPassword = student.PasswordHash ?? "";
+                string storedPassword = student.User.PasswordHash ?? "";
 
                 if (storedPassword.StartsWith("$2a$") || storedPassword.StartsWith("$2b$") || storedPassword.StartsWith("$2y$"))
                 {
@@ -96,9 +96,9 @@ namespace IMEAutomationDBOperations.Controllers
 
                 if (isAuthenticated)
                 {
-                    HttpContext.Session.SetString("Email", student.Email);
-                    HttpContext.Session.SetString("UserName", student.FirstName ?? string.Empty);
-                    HttpContext.Session.SetString("UserSurname", student.LastName ?? string.Empty);
+                    HttpContext.Session.SetString("Email", student.User.Email);
+                    HttpContext.Session.SetString("UserName", student.User.FirstName ?? string.Empty);
+                    HttpContext.Session.SetString("UserSurname", student.User.LastName ?? string.Empty);
                     HttpContext.Session.SetString("NationalID", student.NationalID ?? string.Empty);
                     HttpContext.Session.SetInt32("AcademicYear", student.AcademicYear);
                     HttpContext.Session.SetString("Department", student.Department ?? string.Empty);
@@ -106,9 +106,9 @@ namespace IMEAutomationDBOperations.Controllers
                     HttpContext.Session.SetString("PhoneNumber", student.PhoneNumber);
                     HttpContext.Session.SetString("Role", "Student");
                     HttpContext.Session.SetString("Address", student.Address);
-                    HttpContext.Session.SetInt32("StudentID", student.StudentID);
+                    HttpContext.Session.SetInt32("StudentID", student.Id);
 
-                    return RedirectToAction("CompleteInternshipInfo", "Auth", new { studentId = student.StudentID });
+                    return RedirectToAction("CompleteInternshipInfo", "Auth", new { studentId = student.Id });
                 }
                 else
                 {
@@ -192,12 +192,12 @@ namespace IMEAutomationDBOperations.Controllers
 
                 if (isAuthenticated)
                 {
-                    HttpContext.Session.SetString("Email", supervisor.Email);
-                    HttpContext.Session.SetString("UserName", supervisor.FirstName);
-                    HttpContext.Session.SetString("UserSurname", supervisor.LastName);
+                    HttpContext.Session.SetString("Email", supervisor.User.Email);
+                    HttpContext.Session.SetString("UserName", supervisor.User.FirstName);
+                    HttpContext.Session.SetString("UserSurname", supervisor.User.LastName);
                     HttpContext.Session.SetString("Expertise", supervisor.Expertise ?? string.Empty);
                     HttpContext.Session.SetString("Role", "Supervisor");
-                    HttpContext.Session.SetInt32("SupervisorID", supervisor.SupervisorID);
+                    HttpContext.Session.SetInt32("SupervisorId", supervisor.SupervisorId);
                     return RedirectToAction("SupervisorPage", "Supervisor");
                 }
             }
@@ -278,19 +278,19 @@ namespace IMEAutomationDBOperations.Controllers
                 LastName = lastName,
                 Email = email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
-                CompanyID = company.CompanyID,
+                CompanyId = company.CompanyId,
                 ContactPhone = contactPhone, // Use contactPhone here
                 Expertise = expertise
             };
 
             _supervisorService.AddSupervisor(supervisor);
 
-            HttpContext.Session.SetString("Email", supervisor.Email);
-            HttpContext.Session.SetString("UserName", supervisor.FirstName);
-            HttpContext.Session.SetString("UserSurname", supervisor.LastName);
+            HttpContext.Session.SetString("Email", supervisor.User.Email);
+            HttpContext.Session.SetString("UserName", supervisor.User.FirstName);
+            HttpContext.Session.SetString("UserSurname", supervisor.User.LastName);
             HttpContext.Session.SetString("Expertise", supervisor.Expertise ?? string.Empty);
             HttpContext.Session.SetString("Role", "Supervisor");
-            HttpContext.Session.SetInt32("SupervisorID", supervisor.SupervisorID);
+            HttpContext.Session.SetInt32("SupervisorId", supervisor.SupervisorId);
 
             return RedirectToAction("SupervisorPage", "Supervisor");
         }
@@ -307,8 +307,8 @@ namespace IMEAutomationDBOperations.Controllers
             }
 
             // Öğrencinin staj bilgilerinin tam olup olmadığını kontrol et
-            var internshipDetails = _internshipOperationsService.GetInternshipDetailsByStudentId(studentId.Value);
-            if (internshipDetails != null && internshipDetails.CompanyID.HasValue && internshipDetails.SupervisorID.HasValue)
+            var internshipDetails = _internshipOperationsService.GetInternshipByStudentId(studentId.Value);
+            if (internshipDetails != null && internshipDetails.CompanyId > 0 && internshipDetails.SupervisorId.HasValue)
             {
                 // Bilgiler tam ise öğrenciyi ana sayfasına yönlendir
                 return RedirectToAction("StudentPage", "Student");
@@ -331,7 +331,7 @@ namespace IMEAutomationDBOperations.Controllers
         [HttpPost]
         public IActionResult CompleteInternshipInfo(
             int studentId,
-            string companyName, int supervisorId,
+            string companyName, int SupervisorId,
             DateTime startDate, DateTime endDate, string[] workDays, string internshipTitle)
         {
             var student = _studentService.GetStudentsData().FirstOrDefault(s => s.StudentID == studentId);
@@ -351,7 +351,7 @@ namespace IMEAutomationDBOperations.Controllers
             }
 
             var supervisor = _supervisorService.GetSupervisorsData()
-                .FirstOrDefault(s => s.SupervisorID == supervisorId);
+                .FirstOrDefault(s => s.SupervisorId == SupervisorId);
 
             if (supervisor == null)
             {
@@ -361,10 +361,10 @@ namespace IMEAutomationDBOperations.Controllers
 
             try
             {
-                _internshipOperationsService.AddInternshipDetails(
+                _internshipOperationsService.AddInternship(
                     studentId,
-                    supervisor.SupervisorID,
-                    company.CompanyID,
+                    supervisor.SupervisorId,
+                    company.CompanyId,
                     startDate,
                     endDate,
                     workDays,
@@ -428,8 +428,8 @@ namespace IMEAutomationDBOperations.Controllers
             }
             else
             {
-                student.FirstName = firstName ?? student.FirstName;
-                student.LastName = lastName ?? student.LastName;
+                student.User.FirstName = firstName ?? student.User.FirstName;
+                student.User.LastName = lastName ?? student.User.LastName;
                 student.AcademicYear = academicYear != 0 ? academicYear : student.AcademicYear;
                 student.NationalID = nationalID ?? student.NationalID;
                 student.BirthDate = birthDate != DateTime.MinValue ? birthDate : student.BirthDate;
@@ -437,7 +437,7 @@ namespace IMEAutomationDBOperations.Controllers
                 student.PhoneNumber = phoneNumber ?? student.PhoneNumber;
                 student.Address = address ?? student.Address;
                 student.Department = department ?? student.Department;
-                student.Email = email ?? student.Email;
+                student.User.Email = email ?? student.User.Email;
 
                 try
                 {
@@ -448,11 +448,11 @@ namespace IMEAutomationDBOperations.Controllers
                     ViewBag.Hata = "Bilgiler kaydedilirken bir hata oluştu: " + ex.Message;
                     return View("Register", student);
                 }
-                studentId = student.StudentID;
+                studentId = student.Id;
             }
 
-            var internshipDetails = _internshipOperationsService.GetInternshipDetailsByStudentId(studentId);
-            if (internshipDetails == null || internshipDetails.CompanyID == null || internshipDetails.SupervisorID == null)
+            var internshipDetails = _internshipOperationsService.GetInternshipByStudentId(studentId);
+            if (internshipDetails == null || internshipDetails.CompanyId == 0 || internshipDetails.SupervisorId == null)
             {
                 return RedirectToAction("CompleteInternshipInfo", "Auth", new { studentId = studentId });
             }

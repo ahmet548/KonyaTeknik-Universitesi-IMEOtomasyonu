@@ -41,22 +41,67 @@ namespace IMEAutomationDBOperations.Controllers
             var userSurname = HttpContext.Session.GetString("UserSurname");
 
             if (string.IsNullOrEmpty(email))
-                return RedirectToAction("SupervisorLogin", "Auth"); // AuthController'a yönlendir
+                return RedirectToAction("SupervisorLogin", "Auth");
 
             var supervisor = _supervisorService.GetSupervisorByEmail(email);
             if (supervisor == null)
             {
-                // Handle case where supervisor is not found, perhaps redirect to an error page or login
                 return RedirectToAction("SupervisorLogin", "Auth");
             }
 
             ViewBag.Email = email;
             ViewBag.UserName = userName;
             ViewBag.UserSurname = userSurname;
-            ViewBag.Supervisor = supervisor; // Set the supervisor object in ViewBag
+            ViewBag.Supervisor = supervisor;
 
             var students = _supervisorService.GetStudentsBySupervisorEmail(email);
-            return View(students);
+            var viewModelList = new List<IMEAutomationDBOperations.Models.SupervisorStudentViewModel>();
+
+            foreach(var student in students)
+            {
+                if(student.User != null && !string.IsNullOrEmpty(student.User.Email))
+                {
+                    var stats = _studentDashboardService.GetStatisticsDataByEmail(student.User.Email);
+                    var internship = stats.Internship;
+                    var videos = stats.Videos;
+                    var filledDays = stats.FilledDaysCount;
+
+                    int totalDays = internship != null ? (internship.EndDate - internship.StartDate).Days + 1 : 0;
+                    double completionRate = totalDays > 0 ? ((double)filledDays / totalDays) * 100 : 0;
+
+                    bool isVideoUploaded = false;
+                    if(videos != null && videos.Count > 0)
+                    {
+                        var lastVideo = videos.OrderByDescending(v => v.UploadDate).FirstOrDefault();
+                        if(lastVideo != null && (DateTime.Now - lastVideo.UploadDate).TotalDays <= 7)
+                        {
+                            isVideoUploaded = true;
+                        }
+                    }
+
+                    viewModelList.Add(new IMEAutomationDBOperations.Models.SupervisorStudentViewModel {
+                        Student = student,
+                        TotalDays = totalDays,
+                        FilledDays = filledDays,
+                        CompletionRate = Math.Round(completionRate, 2),
+                        IsWeeklyVideoUploaded = isVideoUploaded,
+                        IsVideoUploadEnabled = internship != null ? internship.IsVideoUploadEnabled : false
+                    });
+                }
+                else 
+                {
+                    viewModelList.Add(new IMEAutomationDBOperations.Models.SupervisorStudentViewModel {
+                        Student = student,
+                        TotalDays = 0,
+                        FilledDays = 0,
+                        CompletionRate = 0,
+                        IsWeeklyVideoUploaded = false,
+                        IsVideoUploadEnabled = false
+                    });
+                }
+            }
+
+            return View(viewModelList);
         }
 
 
@@ -69,12 +114,18 @@ namespace IMEAutomationDBOperations.Controllers
                 return NotFound("Öğrenci bulunamadı.");
             }
 
-            ViewBag.SupervisorID = HttpContext.Session.GetInt32("SupervisorID");
+            var email = HttpContext.Session.GetString("Email");
+            if (!string.IsNullOrEmpty(email))
+            {
+                ViewBag.Supervisor = _supervisorService.GetSupervisorByEmail(email);
+            }
+
+            ViewBag.SupervisorId = HttpContext.Session.GetInt32("SupervisorId");
             return View(student);
         }
 
         [HttpPost]
-        public IActionResult SaveEvaluation(EvaluationPersonel evaluation)
+        public IActionResult SaveEvaluation(InternshipEvaluation evaluation)
         {
             _internshipOperationsService.SaveEvaluation(evaluation);
             return RedirectToAction("SupervisorPage");
@@ -94,14 +145,14 @@ namespace IMEAutomationDBOperations.Controllers
                 return NotFound("Öğrenci bulunamadı.");
             }
 
-            var notes = _studentDashboardService.GetUserNotes(student.Email);
-            var videos = _studentDashboardService.GetUserVideos(student.Email);
-            var internshipDetails = _internshipOperationsService.GetInternshipDetailsByStudentId(studentId);
+            var notes = _studentDashboardService.GetUserNotes(student.User.Email);
+            var videos = _studentDashboardService.GetUserVideos(student.User.Email);
+            var internshipDetails = _internshipOperationsService.GetInternshipByStudentId(studentId);
             var evaluation = _internshipOperationsService.GetEvaluationByStudentId(studentId);
 
             ViewBag.Notes = notes;
             ViewBag.Videos = videos;
-            ViewBag.InternshipDetails = internshipDetails;
+            ViewBag.Internship = internshipDetails;
             ViewBag.Evaluation = evaluation;
 
             return View("SupervisorStudentDetails", student);
@@ -127,24 +178,24 @@ namespace IMEAutomationDBOperations.Controllers
                 return NotFound("Öğrenci bulunamadı.");
             }
 
-            var internshipDetails = _studentDashboardService.GetInternshipDetailsByStudentEmail(student.Email);
+            var internshipDetails = _studentDashboardService.GetInternshipByStudentEmail(student.User.Email);
             Company company = null;
             if (internshipDetails != null)
             {
-                company = _supervisorService.GetCompanyById(internshipDetails.CompanyID.GetValueOrDefault());
+                company = _supervisorService.GetCompanyById(internshipDetails.CompanyId);
             }
 
             ViewBag.Note = note;
             ViewBag.CurrentNote = note; // Set the current note for highlighting in the sidebar
-            ViewBag.StudentName = $"{student.FirstName} {student.LastName}";
-            ViewBag.StudentId = student.StudentID; // Add StudentID to ViewBag
+            ViewBag.StudentName = $"{student.User.FirstName} {student.User.LastName}";
+            ViewBag.StudentId = student.Id; // Add StudentID to ViewBag
             ViewBag.Department = student.Department;
-            ViewBag.InternshipTitle = internshipDetails?.InternshipTitle;
+            ViewBag.Title = internshipDetails?.Title;
             ViewBag.Supervisor = _supervisorService.GetSupervisorByEmail(supervisorEmail); // Assuming current supervisor is viewing
             ViewBag.Company = company;
 
             // Fetch all notes for the student to display in the sidebar
-            var allStudentNotes = _studentDashboardService.GetUserNotes(student.Email);
+            var allStudentNotes = _studentDashboardService.GetUserNotes(student.User.Email);
             ViewBag.Notes = allStudentNotes;
 
             return View(note);
@@ -164,8 +215,8 @@ namespace IMEAutomationDBOperations.Controllers
                 return PartialView("_SupervisorStudentDetails", null);
             }
 
-            var notes = _studentDashboardService.GetUserNotes(student.Email);
-            var videos = _studentDashboardService.GetUserVideos(student.Email);
+            var notes = _studentDashboardService.GetUserNotes(student.User.Email);
+            var videos = _studentDashboardService.GetUserVideos(student.User.Email);
 
             ViewBag.Notes = notes;
             ViewBag.Videos = videos;
@@ -186,7 +237,7 @@ namespace IMEAutomationDBOperations.Controllers
                 return NotFound("Supervisor not found.");
             }
 
-            var company = _supervisorService.GetCompanyById(supervisor.CompanyID);
+            var company = _supervisorService.GetCompanyById(supervisor.CompanyId);
 
             ViewBag.Supervisor = supervisor;
             ViewBag.Company = company;

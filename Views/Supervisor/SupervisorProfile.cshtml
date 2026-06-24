@@ -148,7 +148,7 @@
                             <div class="user-initials">
                                 @if (ViewBag.Supervisor?.FirstName?.Length > 0 && ViewBag.Supervisor?.LastName?.Length > 0)
                                 {
-                                    @($"{ViewBag.Supervisor.FirstName[0]}{ViewBag.Supervisor.LastName[0]}")
+                                    @($"{ViewBag.supervisor.User.FirstName[0]}{ViewBag.supervisor.User.LastName[0]}")
                                 }
                                 else
                                 {
@@ -221,10 +221,10 @@
                                 @{
                                     string firstNameInitialLg = "M";
                                     string lastNameInitialLg = "";
-                                    if (ViewBag.Supervisor != null && !string.IsNullOrEmpty(ViewBag.Supervisor.FirstName) && !string.IsNullOrEmpty(ViewBag.Supervisor.LastName))
+                                    if (ViewBag.Supervisor != null && !string.IsNullOrEmpty(ViewBag.supervisor.User.FirstName) && !string.IsNullOrEmpty(ViewBag.supervisor.User.LastName))
                                     {
-                                        firstNameInitialLg = ViewBag.Supervisor.FirstName[0].ToString();
-                                        lastNameInitialLg = ViewBag.Supervisor.LastName[0].ToString();
+                                        firstNameInitialLg = ViewBag.supervisor.User.FirstName[0].ToString();
+                                        lastNameInitialLg = ViewBag.supervisor.User.LastName[0].ToString();
                                     }
                                     @($"{firstNameInitialLg}{lastNameInitialLg}")
                                 }

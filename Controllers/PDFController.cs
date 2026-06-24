@@ -50,7 +50,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
             {
                 return BadRequest("Email not found in session.");
             }
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
@@ -131,7 +131,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
@@ -175,7 +175,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
             {
                 return BadRequest("Email not found in session.");
             }
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
@@ -259,7 +259,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
@@ -284,29 +284,29 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                         : "N/A"
                 ).SetFont(timesNewRomanFont).SetFontSize(10);
 
-                int totalPoint = (evaluationPersonel?.AttendanceScore ?? 0) +
-                                 (evaluationPersonel?.ResponsibilityScore ?? 0) +
-                                 (evaluationPersonel?.KnowledgeScore ?? 0) +
-                                 (evaluationPersonel?.ProblemSolvingScore ?? 0) +
-                                 (evaluationPersonel?.EquipmentUsageScore ?? 0) +
-                                 (evaluationPersonel?.CommunicationScore ?? 0) +
-                                 (evaluationPersonel?.MotivationScore ?? 0) +
-                                 (evaluationPersonel?.ReportingScore ?? 0) +
-                                 (evaluationPersonel?.TeamworkScore ?? 0) +
-                                 (evaluationPersonel?.ExpressionScore ?? 0);
+                int totalPoint = (InternshipEvaluation?.AttendanceScore ?? 0) +
+                                 (InternshipEvaluation?.ResponsibilityScore ?? 0) +
+                                 (InternshipEvaluation?.KnowledgeScore ?? 0) +
+                                 (InternshipEvaluation?.ProblemSolvingScore ?? 0) +
+                                 (InternshipEvaluation?.EquipmentUsageScore ?? 0) +
+                                 (InternshipEvaluation?.CommunicationScore ?? 0) +
+                                 (InternshipEvaluation?.MotivationScore ?? 0) +
+                                 (InternshipEvaluation?.ReportingScore ?? 0) +
+                                 (InternshipEvaluation?.TeamworkScore ?? 0) +
+                                 (InternshipEvaluation?.ExpressionScore ?? 0);
 
                 form.GetField("companyName")?.SetValue(company?.CompanyName ?? "-").SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("managerFullName")?.SetValue($"{company?.ManagerFirstName ?? "-"} {company?.ManagerLastName ?? "-"}").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point1")?.SetValue((evaluationPersonel?.AttendanceScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point2")?.SetValue((evaluationPersonel?.ResponsibilityScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point3")?.SetValue((evaluationPersonel?.KnowledgeScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point4")?.SetValue((evaluationPersonel?.ProblemSolvingScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point5")?.SetValue((evaluationPersonel?.EquipmentUsageScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point6")?.SetValue((evaluationPersonel?.CommunicationScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point7")?.SetValue((evaluationPersonel?.MotivationScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point8")?.SetValue((evaluationPersonel?.ReportingScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point9")?.SetValue((evaluationPersonel?.TeamworkScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
-                form.GetField("point10")?.SetValue((evaluationPersonel?.ExpressionScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point1")?.SetValue((InternshipEvaluation?.AttendanceScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point2")?.SetValue((InternshipEvaluation?.ResponsibilityScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point3")?.SetValue((InternshipEvaluation?.KnowledgeScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point4")?.SetValue((InternshipEvaluation?.ProblemSolvingScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point5")?.SetValue((InternshipEvaluation?.EquipmentUsageScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point6")?.SetValue((InternshipEvaluation?.CommunicationScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point7")?.SetValue((InternshipEvaluation?.MotivationScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point8")?.SetValue((InternshipEvaluation?.ReportingScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point9")?.SetValue((InternshipEvaluation?.TeamworkScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
+                form.GetField("point10")?.SetValue((InternshipEvaluation?.ExpressionScore.ToString() ?? "-") + " / 10").SetFont(timesNewRomanFont).SetFontSize(10);
                 form.GetField("totalPoint")?.SetValue(totalPoint.ToString() + " / 100").SetFont(timesNewRomanFont).SetFontSize(10);
 
                 form.FlattenFields();
@@ -385,7 +385,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";
@@ -489,7 +489,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Controllers
                 return NotFound("PDF şablonu bulunamadı.");
 
             var emailStudent = HttpContext.Session.GetString("Email");
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(emailStudent);
+            var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(emailStudent);
 
             var userName = HttpContext.Session.GetString("UserName") ?? "-";
             var userSurname = HttpContext.Session.GetString("UserSurname") ?? "-";

@@ -8,7 +8,7 @@ namespace KonyaTeknikÜniversitesi_IMEOtomasyonu.Models
         public decimal ImeOgretimElemaniDegerlendirmeNotu { get; set; } // İME Sorumlu Öğretim Elemanı Değerlendirme Formu Genel Notu
         public decimal HaftalikVideoSunumNotu { get; set; } // Haftalık Video Sunumlarının Genel Notu
         public decimal BolumImeKomisyonuNotu { get; set; } // Bölüm İME Komisyonu Genel Notu
-        public EvaluationPersonel SupervisorEvaluation { get; set; }
+        public InternshipEvaluation SupervisorEvaluation { get; set; }
         public string? InstructorFeedback { get; set; }
         public string? CommissionFeedback { get; set; }
 

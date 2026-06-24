@@ -63,7 +63,7 @@ namespace IMEAutomationDBOperations.Services
             IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Company')
             BEGIN
                 CREATE TABLE Company (
-                    CompanyID INT IDENTITY(1,1) PRIMARY KEY,
+                    CompanyId INT IDENTITY(1,1) PRIMARY KEY,
                     CompanyName NVARCHAR(255) NOT NULL,
                     TaxNumber NVARCHAR(20) UNIQUE NOT NULL,
                     EmployeeCount INT,
@@ -122,9 +122,9 @@ namespace IMEAutomationDBOperations.Services
             IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'InternshipSupervisors')
             BEGIN
                 CREATE TABLE InternshipSupervisors (
-                    SupervisorID INT IDENTITY(1,1) PRIMARY KEY,
+                    SupervisorId INT IDENTITY(1,1) PRIMARY KEY,
                     UserID INT UNIQUE NOT NULL,
-                    CompanyID INT FOREIGN KEY REFERENCES Company(CompanyID) ON DELETE CASCADE,
+                    CompanyId INT FOREIGN KEY REFERENCES Company(CompanyId) ON DELETE CASCADE,
 					StudentID INT FOREIGN KEY REFERENCES Students(StudentID)  ON DELETE NO ACTION,
                     FirstName NVARCHAR(50) NOT NULL,
                     LastName NVARCHAR(50) NOT NULL,
@@ -160,15 +160,15 @@ namespace IMEAutomationDBOperations.Services
                 );
             END
 
-            -- InternshipDetails Tablosu
-            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'InternshipDetails')
+            -- Internship Tablosu
+            IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Internship')
             BEGIN
-                CREATE TABLE InternshipDetails (
-                    InternshipID INT IDENTITY(1,1) PRIMARY KEY,
+                CREATE TABLE Internship (
+                    Id INT IDENTITY(1,1) PRIMARY KEY,
                     StudentID INT FOREIGN KEY REFERENCES Students(StudentID)  ON DELETE NO ACTION,
-                    CompanyID INT FOREIGN KEY REFERENCES Company(CompanyID)  ON DELETE NO ACTION,
-                    SupervisorID INT FOREIGN KEY REFERENCES InternshipSupervisors(SupervisorID) ON DELETE SET NULL,
-                    InternshipTitle NVARCHAR(100) NOT NULL,
+                    CompanyId INT FOREIGN KEY REFERENCES Company(CompanyId)  ON DELETE NO ACTION,
+                    SupervisorId INT FOREIGN KEY REFERENCES InternshipSupervisors(SupervisorId) ON DELETE SET NULL,
+                    Title NVARCHAR(100) NOT NULL,
                     StartDate DATE NOT NULL,
                     EndDate DATE NOT NULL,
                     TotalTrainingDays INT NOT NULL CHECK (TotalTrainingDays > 0),
@@ -202,13 +202,13 @@ namespace IMEAutomationDBOperations.Services
                 CREATE TABLE GradeDetails (
                     GradeID INT IDENTITY(1,1) PRIMARY KEY,
                     StudentID INT NOT NULL,
-                    SupervisorID INT NOT NULL,
+                    SupervisorId INT NOT NULL,
                     InternshipSupervisorEvaluation DECIMAL(5,2) NOT NULL,
                     InternshipInstructorEvaluation DECIMAL(5,2) NOT NULL,
                     WeeklyVideoPresentationScore DECIMAL(5,2) NOT NULL,
                     DepartmentInternshipCommissionScore DECIMAL(5,2) NOT NULL,
                     FOREIGN KEY (StudentID) REFERENCES Students(StudentID) ON DELETE CASCADE,
-                    FOREIGN KEY (SupervisorID) REFERENCES InternshipSupervisors(SupervisorID) ON DELETE NO ACTION
+                    FOREIGN KEY (SupervisorId) REFERENCES InternshipSupervisors(SupervisorId) ON DELETE NO ACTION
                 );
             END
 
@@ -217,7 +217,7 @@ namespace IMEAutomationDBOperations.Services
                 CREATE TABLE Evaluations (
                 EvaluationID INT IDENTITY(1,1) PRIMARY KEY,
                 StudentID INT NOT NULL,
-                SupervisorID INT NOT NULL,
+                SupervisorId INT NOT NULL,
                 AttendanceScore INT NOT NULL,
                 ResponsibilityScore INT NOT NULL,
                 KnowledgeScore INT NOT NULL,
@@ -229,7 +229,7 @@ namespace IMEAutomationDBOperations.Services
                 TeamworkScore INT NOT NULL,
                 xpressionScore INT NOT NULL,
                 FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
-                FOREIGN KEY (SupervisorID) REFERENCES InternshipSupervisors(SupervisorID)
+                FOREIGN KEY (SupervisorId) REFERENCES InternshipSupervisors(SupervisorId)
                 ON DELETE CASCADE);
             END
             ";

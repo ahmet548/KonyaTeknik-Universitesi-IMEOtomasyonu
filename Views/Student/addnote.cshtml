@@ -326,15 +326,15 @@
                 <div class="header-content">
                     <div class="header-info">
                         <span class="department-title">@ViewBag.Department</span>
-                        <span>@ViewBag.InternshipTitle<span>_Staj Defteri</span></span>
+                        <span>@ViewBag.Title<span>_Staj Defteri</span></span>
                         <div class="header-details">
                             <div class="detail-item">
                                 <div class="user-initials" style="scale: 0.7;">
                                     @if (ViewBag.Supervisor != null &&
-                                                                        !string.IsNullOrEmpty(ViewBag.Supervisor.FirstName) &&
-                                                                        !string.IsNullOrEmpty(ViewBag.Supervisor.LastName))
+                                                                        !string.IsNullOrEmpty(ViewBag.supervisor.User.FirstName) &&
+                                                                        !string.IsNullOrEmpty(ViewBag.supervisor.User.LastName))
                                     {
-                                        @($"{ViewBag.Supervisor.FirstName[0]}{ViewBag.Supervisor.LastName[0]}")
+                                        @($"{ViewBag.supervisor.User.FirstName[0]}{ViewBag.supervisor.User.LastName[0]}")
                                     }
                                     else
                                     {

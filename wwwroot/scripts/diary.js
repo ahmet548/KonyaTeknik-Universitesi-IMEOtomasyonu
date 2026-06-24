@@ -1,32 +1,59 @@
 // Staj defteri sekme işlevselliği
 function initializeDiaryTabs() {
+    // Prevent duplicate initialization
+    if (window._diaryTabsInitialized) {
+        // Just ensure default tab is shown if needed
+        const notesRightContent = document.getElementById('notes-right-content');
+        if (notesRightContent && !document.querySelector('.diary-tab.active')) {
+            notesRightContent.style.display = 'flex';
+        }
+        return;
+    }
+    window._diaryTabsInitialized = true;
+
     const tabs = document.querySelectorAll('.diary-tab');
-    const tabContents = document.querySelectorAll('.diary-tab-content');
 
     tabs.forEach(tab => {
         tab.addEventListener('click', function () {
-            // Tüm sekmeleri ve içerikleri devre dışı bırak
-            document.querySelectorAll('.diary-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.diary-tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.diary-tabs-right').forEach(r => r.style.display = 'none');
+            // İlgili kapsayıcıyı (container) bul
+            const container = this.closest('.diary-tabs-container') || document;
+            
+            // Sadece bu kapsayıcıdaki sekmeleri devre dışı bırak
+            container.querySelectorAll('.diary-tab').forEach(t => t.classList.remove('active'));
+            
+            // Eğer sayfa genelinde bir içerik mantığı varsa, sadece ilgili olanları kapatmalıyız
+            // Staj defteri ve Mazeret formunun containerları farklı
+            const contentContainer = this.closest('.diary-container') || document;
+            contentContainer.querySelectorAll('.diary-tab-content').forEach(c => c.classList.remove('active'));
+            contentContainer.querySelectorAll('.diary-tabs-right').forEach(r => r.style.display = 'none');
             
             // Tıklanan sekme ve içeriği etkinleştir
             this.classList.add('active');
             const tabId = this.getAttribute('data-tab');
-            document.getElementById(`${tabId}-tab`).classList.add('active');
+            const targetTab = document.getElementById(`${tabId}-tab`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
             
             // İlgili sağ içeriği göster
             document.getElementById(`${tabId}-right-content`).style.display = 'flex';
         });
     });
 
-    // Sayfa yüklendiğinde notlar sekmesini aktif et
-    document.addEventListener('DOMContentLoaded', function() {
+    // Sekmeler yüklendiğinde aktif sekmenin içeriğini hemen göster
+    const activeTab = document.querySelector('.diary-tab.active');
+    if (activeTab) {
+        const tabId = activeTab.getAttribute('data-tab');
+        const rightContent = document.getElementById(`${tabId}-right-content`);
+        if (rightContent) {
+            rightContent.style.display = 'flex';
+        }
+    } else {
         const notesRightContent = document.getElementById('notes-right-content');
         if (notesRightContent) {
             notesRightContent.style.display = 'flex';
         }
-    });
+    }
 }
 
 // Modal açma fonksiyonları
@@ -308,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var today = new Date();
     var day = today.getDay(); // 0: Pazar, 6: Cumartesi
 
-    if (day !== 0 && day !== 6) {
+    if (false && day !== 0 && day !== 6) {
         addVideoBtn.disabled = true;
         addVideoBtn.style.opacity = "0.5";
         addVideoBtn.style.pointerEvents = "none";

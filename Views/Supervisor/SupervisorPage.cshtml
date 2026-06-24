@@ -1,4 +1,4 @@
-@model List<IMEAutomationDBOperations.Models.Student>
+@model List<IMEAutomationDBOperations.Models.SupervisorStudentViewModel>
 
 <!DOCTYPE html>
 <html lang="tr">
@@ -148,13 +148,20 @@
                         <a href="#" class="user-button" role="button" id="userDropdown" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <div class="user-initials">
-                                @if (ViewBag.Supervisor?.FirstName?.Length > 0 && ViewBag.Supervisor?.LastName?.Length > 0)
-                                {
-                                    @($"{ViewBag.Supervisor.FirstName[0]}{ViewBag.Supervisor.LastName[0]}")
-                                }
-                                else
-                                {
-                                    @("M")
+                                @{
+                                    string firstNameInitial = "M";
+                                    string lastNameInitial = "";
+                                    if (ViewBag.Supervisor != null && !string.IsNullOrEmpty(ViewBag.Supervisor.User?.FirstName) && !string.IsNullOrEmpty(ViewBag.Supervisor.User?.LastName))
+                                    {
+                                        firstNameInitial = ViewBag.Supervisor.User.FirstName[0].ToString();
+                                        lastNameInitial = ViewBag.Supervisor.User.LastName[0].ToString();
+                                    }
+                                    else if (ViewBag.Supervisor != null && !string.IsNullOrEmpty(ViewBag.Supervisor.FirstName) && !string.IsNullOrEmpty(ViewBag.Supervisor.LastName))
+                                    {
+                                        firstNameInitial = ViewBag.Supervisor.FirstName[0].ToString();
+                                        lastNameInitial = ViewBag.Supervisor.LastName[0].ToString();
+                                    }
+                                    @($"{firstNameInitial}{lastNameInitial}")
                                 }
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
@@ -165,7 +172,7 @@
                         </a>
                         <span class="sized-box"></span>
                         <ul class="dropdown-menu user-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="/Supervisor/SupervisorProfile">
+                            <li><a class="dropdown-item" href="#" id="profile-link">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
                                         class="bi bi-person" viewBox="0 0 16 16">
                                         <path
@@ -235,6 +242,153 @@
                 <!-- Öğrenci notları ve videoları buraya yüklenecek -->
             </div>
         </div>
+
+        <!-- Öğrenci Listesi Sekmesi -->
+        <div id="student-list-section" style="display:none;" class="px-3 px-md-5 py-3 mx-1">
+            <h3 class="mt-4" style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px; padding-bottom: 10px; color: #333;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#003366" class="bi bi-people-fill" viewBox="0 0 16 16">
+                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+                </svg>
+                <div style="font-weight: 600;">Öğrenci Listesi</div>
+            </h3>
+            
+            <div class="d-flex justify-content-center mt-4">
+                <div class="table-responsive shadow-sm rounded w-100 d-flex justify-content-center">
+                    <table class="table table-hover align-middle mb-0" style="font-size: 15px; background-color: #ffffff;">
+                        <thead style="background-color: #fff; border-bottom: 2px solid #dee2e6;">
+                            <tr>
+                                <th scope="col" class="px-4 py-3 border-0 text-muted" style="font-weight: 600;">Ad Soyad</th>
+                                <th scope="col" class="px-4 py-3 border-0 text-muted" style="font-weight: 600;">Okul Numarası</th>
+                                <th scope="col" class="px-4 py-3 border-0 text-muted" style="font-weight: 600;" style="width: 25%;">Staj İlerlemesi</th>
+                                <th scope="col" class="px-4 py-3 border-0 text-center text-muted" style="font-weight: 600;">Haftanın Videosu</th>
+                                <th scope="col" class="px-4 py-3 border-0 text-end text-muted" style="font-weight: 600;" style="width:150px;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(Model != null && Model.Count > 0)
+                            {
+                                @foreach (var studentViewModel in Model)
+                                {
+                                    var student = studentViewModel.Student;
+                                    <tr>
+                                        <td class="px-4 py-3">@(student.User?.FirstName ?? "") @(student.User?.LastName ?? "")</td>
+                                        <td class="px-4 py-3" style="color: #6c757d;">@student.SchoolNumber</td>
+                                        <td class="px-4 py-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span style="font-size: 13px; color: #6c757d;">@studentViewModel.FilledDays / @studentViewModel.TotalDays Gün</span>
+                                                <span style="font-weight: 600; color: #37be71; font-size: 13px;">%@studentViewModel.CompletionRate</span>
+                                            </div>
+                                            <div style="background: #e9ecef; border-radius: 10px; height: 8px; overflow: hidden;">
+                                                <div style="background: linear-gradient(90deg, #37be71, #2ecc71); height: 100%; width: @studentViewModel.CompletionRate.ToString(System.Globalization.CultureInfo.InvariantCulture)%; border-radius: 10px;"></div>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-center">
+                                            @if (!studentViewModel.IsVideoUploadEnabled)
+                                            {
+                                                <span style="color: #6c757d; font-weight: 500;">Deaktif</span>
+                                            }
+                                            else if (studentViewModel.IsWeeklyVideoUploaded)
+                                            {
+                                                <span style="color: #2e7d32; font-weight: 500;">Yüklendi</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color: #856404; font-weight: 500;">Bekliyor</span>
+                                            }
+                                        </td>
+                                        <td class="px-4 py-3 text-end">
+                                            <a href="/Supervisor/EvaluateStudent?studentId=@student.Id" class="btn" style="background-color: #4674C1; color: white; border: none; border-radius: 2px; padding: 6px 16px; font-weight: 600; font-size: 14px;">
+                                                Notlandır
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center py-5">
+                                        <div class="text-muted d-flex flex-column align-items-center">
+                                            <i class="bi bi-inbox fs-1 mb-2"></i>
+                                            <span>Sorumlu olduğunuz öğrenci bulunmamaktadır.</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Profil Sekmesi -->
+        <div id="profile-section" style="display:none;" class="px-3 px-md-5 py-3 mx-1">
+            <!-- Hakkımda Profil Kartı -->
+            <div id="user-profile-card" class="row mb-4 mt-4">
+                <div class="col-12">
+                    <div class="card profile-card">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="user-initials-lg me-4">
+                                @{
+                                    string firstNameInitialLg = "M";
+                                    string lastNameInitialLg = "";
+                                    if (ViewBag.Supervisor != null && !string.IsNullOrEmpty(ViewBag.Supervisor.User?.FirstName) && !string.IsNullOrEmpty(ViewBag.Supervisor.User?.LastName))
+                                    {
+                                        firstNameInitialLg = ViewBag.Supervisor.User.FirstName[0].ToString();
+                                        lastNameInitialLg = ViewBag.Supervisor.User.LastName[0].ToString();
+                                    }
+                                    @($"{firstNameInitialLg}{lastNameInitialLg}")
+                                }
+                            </div>
+                            <div>
+                                <h5 class="card-title mb-0 fs-1">@ViewBag.Supervisor?.FirstName @ViewBag.Supervisor?.LastName</h5>
+                                <p class="text-muted mb-0">Mühendislik ve Doğa Bilimleri Fakültesi</p>
+                                <p class="text-muted small mb-0">@ViewBag.Supervisor?.Expertise</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="diary-tabs-container">
+                <div class="diary-tabs">
+                    <div class="diary-tab active" data-tab="about">Hakkımda</div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <!-- Hakkımda Sekmesi -->
+                <div class="diary-tab-content active" id="about-content">
+                    <div class="card info-card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="fw-semibold">Adı Soyadı</div>
+                                    <div>@ViewBag.Supervisor?.FirstName @ViewBag.Supervisor?.LastName</div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="fw-semibold">E-posta</div>
+                                    <div>@ViewBag.Supervisor?.Email</div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="fw-semibold">Telefon No</div>
+                                    <div>@ViewBag.Supervisor?.PhoneNumber</div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="fw-semibold">Uzmanlık Alanı</div>
+                                    <div>@ViewBag.Supervisor?.Expertise</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary mt-3" id="id_submitbutton" data-bs-toggle="modal" data-bs-target="#updateFormModal">
+                        Bilgileri Güncelle
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Video İzleme Modalı -->
@@ -250,6 +404,56 @@
                     <video id="videoPlayer" controls class="w-100" style="max-height: 70vh;">
                         Tarayıcınız video etiketini desteklemiyor.
                     </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Güncelleme Formu Modal -->
+    <div class="modal fade" id="updateFormModal" tabindex="-1" aria-labelledby="updateFormModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateFormModalLabel">Bilgilerinizi Güncelleyin</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/Supervisor/UpdateProfile">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">Adı</label>
+                                <input type="text" id="firstName" name="FirstName" class="form-control"
+                                    value="@ViewBag.Supervisor?.FirstName">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Soyadı</label>
+                                <input type="text" id="lastName" name="LastName" class="form-control"
+                                    value="@ViewBag.Supervisor?.LastName">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">E-posta adresi</label>
+                                <input type="email" id="email" name="Email" class="form-control"
+                                    value="@ViewBag.Supervisor?.Email">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="contactPhone" class="form-label">Telefon No</label>
+                                <input type="text" id="contactPhone" name="ContactPhone" class="form-control"
+                                    value="@ViewBag.Supervisor?.PhoneNumber">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="expertise" class="form-label">Uzmanlık Alanı</label>
+                            <input type="text" id="expertise" name="Expertise" class="form-control"
+                                value="@ViewBag.Supervisor?.Expertise">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -291,6 +495,7 @@
             $('#control-panel-link').click(function (e) {
                 e.preventDefault();
                 $('#student-list-section').hide();
+                $('#profile-section').hide();
                 $('#control-panel-section').show();
                 $('.main-nav-link').removeClass('active');
                 $(this).addClass('active');
@@ -299,9 +504,18 @@
             $('#student-list-link').click(function (e) {
                 e.preventDefault();
                 $('#control-panel-section').hide();
+                $('#profile-section').hide();
                 $('#student-list-section').show();
                 $('.main-nav-link').removeClass('active');
                 $(this).addClass('active');
+            });
+
+            $('#profile-link').click(function (e) {
+                e.preventDefault();
+                $('#control-panel-section').hide();
+                $('#student-list-section').hide();
+                $('#profile-section').show();
+                $('.main-nav-link').removeClass('active');
             });
 
             // Search functionality

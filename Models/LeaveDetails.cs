@@ -1,3 +1,6 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace IMEAutomationDBOperations.Models
 {
     public class LeaveDetails
@@ -10,5 +13,8 @@ namespace IMEAutomationDBOperations.Models
         public string? LeaveStatus { get; set; }
         public DateTime LeaveStart { get; set; }
         public DateTime LeaveEnd { get; set; }
+
+        [ForeignKey("StudentID")]
+        public Student? Student { get; set; }
     }
 }

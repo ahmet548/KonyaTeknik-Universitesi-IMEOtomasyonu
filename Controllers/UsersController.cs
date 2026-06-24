@@ -36,8 +36,8 @@ namespace IMEAutomationDBOperations.Controllers
 
             if (student != null)
             {
-                HttpContext.Session.SetString("Email", student.Email);
-                HttpContext.Session.SetString("UserName", student.FirstName ?? "Misafir");
+                HttpContext.Session.SetString("Email", student.User.Email);
+                HttpContext.Session.SetString("UserName", student.User.FirstName ?? "Misafir");
                 return RedirectToAction("StudentPage", "Home");
             }
 

@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="~/styles/custom/css/KTUN-StudentPage.css">
+    <link rel="stylesheet" href="~/styles/custom/css/KTUN-StudentPage.css?v=@DateTime.Now.Ticks">
     <!-- Video.js CSS -->
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
 </head>
@@ -309,7 +309,7 @@
                 else
                 {
                     <span>@DateTime.Now.ToString("dd MMMM yyyy") tarihli</span>
-                    <span class="video-title-path">(Yeni video)</span>
+                    <span class="video-title-path"></span>
                 }
             </span>
         </div>
@@ -321,15 +321,15 @@
                 <div class="header-content">
                     <div class="header-info">
                         <span class="department-title">@ViewBag.Department</span>
-                        <span>@ViewBag.InternshipTitle<span>_Staj Defteri</span></span>
+                        <span>@ViewBag.Title<span>_Staj Defteri</span></span>
                         <div class="header-details">
                             <div class="detail-item">
                                 <div class="user-initials" style="scale: 0.7;">
                                     @if (ViewBag.Supervisor != null &&
-                                                                        !string.IsNullOrEmpty(ViewBag.Supervisor.FirstName) &&
-                                                                        !string.IsNullOrEmpty(ViewBag.Supervisor.LastName))
+                                                                        !string.IsNullOrEmpty(ViewBag.supervisor.User.FirstName) &&
+                                                                        !string.IsNullOrEmpty(ViewBag.supervisor.User.LastName))
                                     {
-                                        @($"{ViewBag.Supervisor.FirstName[0]}{ViewBag.Supervisor.LastName[0]}")
+                                        @($"{ViewBag.supervisor.User.FirstName[0]}{ViewBag.supervisor.User.LastName[0]}")
                                     }
                                     else
                                     {
@@ -368,49 +368,229 @@
             </div>
         </header>
 
-        <div class="add-video-container">
-            <div class="assignment-header">
-                <h1 class="assignment-title">Video Ödevi</h1>
-                <div class="assignment-meta">
-                    <span><span style="font-weight: 600;">Açıldı:</span> Çarşamba, 1 Ekim 2025, 12:00
-                        AM</span>
-                    <span><span style="font-weight: 600;">Son tarih:</span> Pazar, 5 Ekim 2025, 11:59 PM</span>
-                </div>
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        
+        <div class="add-video-container" style="margin: 20px 7.5% 60px 7.5%; width: calc(100% - 15%); max-width: none;">
+
+            <!-- Header -->
+            <div class="d-flex align-items-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-camera-video me-3" style="color: black;" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z"></path>
+                </svg>
+                <h2 class="m-0" style="color: #343a40; font-weight: 600; font-size: 1.5rem;">
+                    @if (ViewBag.IsEditMode != null && ViewBag.IsEditMode && ViewBag.CurrentVideo != null)
+                    {
+                        @($"{ViewBag.CurrentVideo.UploadDate.ToString("dd MMMM yyyy")} tarihli ({ViewBag.CurrentVideo.Title})")
+                    }
+                    else
+                    {
+                        @($"{DateTime.Now.ToString("dd MMMM yyyy")} tarihli")
+                    }
+                </h2>
             </div>
 
-            <div class="assignment-content">
-                <div class="content-section">
-                    <p>Aşağıdaki konuları içeren bir video hazırlamanız beklenmektedir:</p>
-                    <ul class="content-list">
-                        <li>Video tanıtımı ve amacı</li>
-                        <li>Teknik detaylar ve kullanılan ekipmanlar</li>
-                        <li>Uygulama süreci ve aşamaları</li>
-                        <li>Sonuçlar ve değerlendirme</li>
-                        <li style="font-weight: 500;">3-5 dk arasında olmalı!</li>
-                    </ul>
+            <!-- Status Badge -->
+            <div class="mb-4">
+                <span class="border rounded px-3 py-1" style="font-size: 0.8rem; color: #495057; border-color: #dee2e6 !important;">Tamamladım</span>
+            </div>
+
+            <!-- Dates -->
+            <div class="mb-5 pb-4 border-bottom" style="font-size: 0.9rem; color: #495057;">
+                <div class="mb-1"><span style="font-weight: 600;">Açıldı:</span> @(ViewBag.Internship?.StartDate != null ? ViewBag.Internship.StartDate.ToString("dddd, dd MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("tr-TR")) : "Belirtilmedi")</div>
+                <div><span style="font-weight: 600;">Son tarih:</span> @(ViewBag.Internship?.EndDate != null ? ViewBag.Internship.EndDate.ToString("dddd, dd MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("tr-TR")) : "Belirtilmedi")</div>
+            </div>
+
+            <!-- Submission Box -->
+            <div class="bg-white border rounded p-4 shadow-sm" style="border-color: #dee2e6 !important;">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#submissionForm" aria-expanded="true" aria-controls="submissionForm" onclick="const icon = this.querySelector('i'); icon.style.transform = icon.style.transform === 'rotate(-90deg)' ? 'rotate(0deg)' : 'rotate(-90deg)';">
+                    <h5 class="m-0 fw-bold" style="font-size: 1.1rem; color: #343a40;">Gönderim ekle</h5>
+                    <i class="bi bi-chevron-down text-muted" style="font-size: 1.2rem; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: inline-block;"></i>
                 </div>
 
-                <div class="main" id="yui_3_18_1_1_1759576835273_388">
-                    <div class="box py-3 boxaligncenter editsubmissionform" id="yui_3_18_1_1_1759576835273_387">
-                        <form method="post" action="/Student/UploadVideo" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="Title" class="form-label">Video Başlığı</label>
-                                <input type="text" class="form-control" id="Title" name="Title" required>
+                <div class="collapse show" id="submissionForm">
+                    <form method="post" action="/Student/UploadVideo" enctype="multipart/form-data">
+                        <div class="row mb-4">
+                        <div class="col-md-3">
+                            <p class="text-muted m-0" style="font-size: 0.9rem;">Dosya gönderimleri</p>
+                        </div>
+                        <div class="col-md-9">
+                            
+                            <!-- Filemanager Wrapper -->
+                            <div class="border rounded" style="background-color: #fff; border-color: #dee2e6 !important;">
+                                <!-- Toolbar -->
+                                <div class="d-flex justify-content-between p-2 border-bottom" style="background-color: #fff; border-color: #dee2e6 !important;">
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-sm btn-light border-0 bg-white text-muted" title="Dosyalar"><i class="bi bi-folder" style="font-size:1.1rem;"></i> Dosyalar</button>
+                                        <button type="button" class="btn btn-sm btn-light border-0 bg-white text-muted" title="Ekle" onclick="document.getElementById('videoFile').click()"><i class="bi bi-file-earmark text-secondary" style="font-size:1.1rem;"></i> Ekle...</button>
+                                        <button type="button" class="btn btn-sm btn-light border-0 bg-white text-muted" title="Klasör oluştur"><i class="bi bi-folder-plus text-secondary" style="font-size:1.1rem;"></i></button>
+                                        <button type="button" class="btn btn-sm btn-light border-0 bg-white text-muted" title="İndir"><i class="bi bi-download text-secondary" style="font-size:1.1rem;"></i></button>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-sm btn-light border-0 bg-white view-btn border rounded" title="Simgeleri göster" onclick="toggleViewMode(this, 'grid')"><i class="bi bi-grid-3x3-gap text-secondary" style="font-size:1.1rem;"></i></button>
+                                        <button type="button" class="btn btn-sm btn-light border-0 bg-white view-btn" title="Ayrıntıları göster" onclick="toggleViewMode(this, 'list')"><i class="bi bi-list-ul text-secondary" style="font-size:1.1rem;"></i></button>
+                                        <button type="button" class="btn btn-sm btn-light border-0 bg-white view-btn" title="Ağacı göster" onclick="toggleViewMode(this, 'tree')"><i class="bi bi-folder text-secondary" style="font-size:1.1rem;"></i></button>
+                                    </div>
+                                </div>
+
+                                <!-- Dropzone -->
+                                <div class="p-4" style="background-color: #fff;">
+                                    <div id="fileDropzone" class="d-flex flex-column justify-content-center align-items-center py-5" style="border: 1px dashed #adb5bd !important; cursor: pointer; transition: all 0.2s;" onclick="document.getElementById('videoFile').click()">
+                                        <div id="uploadPrompt" class="text-center w-100">
+                                            <div class="mb-3">
+                                                <i class="bi bi-arrow-down-circle text-muted" style="font-size: 3rem;"></i>
+                                            </div>
+                                            <p class="m-0" style="font-size: 0.9rem; color: #495057;">Eklemek istediğiniz dosyaları buraya sürükleyip bırakabilirsiniz.</p>
+                                        </div>
+                                        <div id="fileInfo" class="d-none w-100 px-2">
+                                            <!-- Dynamic content goes here based on view mode -->
+                                        </div>
+                                    </div>
+                                    <input type="file" id="videoFile" name="videoFile" accept="video/*" style="display: none;" onchange="handleFileSelect(this)">
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="Description" class="form-label">Açıklama</label>
-                                <textarea class="form-control" id="Description" name="Description" rows="3"></textarea>
+                            <div class="mt-2 text-muted" style="font-size: 0.85rem;">
+                                En büyük dosya boyutu: 512 MB, en fazla ek dosya sayısı: 20
                             </div>
-                            <div class="mb-3">
-                                <label for="videoFile" class="form-label">Video Dosyası</label>
-                                <input type="file" class="form-control" id="videoFile" name="videoFile" accept="video/*"
-                                    required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Yükle</button>
-                        </form>
+                        </div>
                     </div>
+
+                    <!-- Hidden inputs to retain required structure for backend if needed -->
+<input type="hidden" id="Title" name="Title" value="@(ViewBag.IsEditMode != null && ViewBag.IsEditMode && ViewBag.CurrentVideo != null ? ViewBag.CurrentVideo.Title : $"{DateTime.Now.ToString("dd MMMM yyyy")} tarihli")">
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-end gap-3 mt-4">
+                        <button type="submit" class="btn btn-primary px-4 py-2 fw-medium" style="background-color: #3b71ca; border-color: #3b71ca; border-radius: 4px; font-size: 0.9rem;">Değişiklikleri kaydet</button>
+                        <a href="/Student/StudentPage" class="btn btn-outline-primary px-4 py-2 fw-medium bg-white" style="color: #3b71ca; border-color: #3b71ca; border-radius: 4px; font-size: 0.9rem;">İptal</a>
+                    </div>
+                </form>
                 </div>
             </div>
+            
+            <script>
+                let uploadedFile = null;
+
+                function handleFileSelect(input) {
+                    const file = input.files[0];
+                    if (file) {
+                        uploadedFile = {
+                            name: file.name,
+                            dateStr: new Date(file.lastModified).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: '2-digit' }) + ", " + new Date(file.lastModified).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }),
+                            sizeStr: (file.size / (1024 * 1024)).toFixed(1) + " MB",
+                            typeStr: "Video dosyası (MP4)"
+                        };
+                        
+                        document.getElementById('uploadPrompt').classList.add('d-none');
+                        document.getElementById('fileInfo').classList.remove('d-none');
+                        document.getElementById('fileDropzone').style.border = "none";
+                        document.getElementById('fileDropzone').style.backgroundColor = "#fff";
+                        document.getElementById('fileDropzone').classList.remove('py-5', 'justify-content-center', 'align-items-center');
+                        document.getElementById('fileDropzone').classList.add('p-2');
+                        
+                        // Set default view (grid)
+                        renderView('grid');
+                    }
+                }
+                
+                function renderView(mode) {
+                    if(!uploadedFile) return;
+                    const container = document.getElementById('fileInfo');
+                    
+                    if(mode === 'grid') {
+                        container.innerHTML = `
+                            <div class="d-flex flex-column align-items-center" style="width: 120px; text-align: center;">
+                                <div class="mb-2" style="font-size: 3rem; color: #343a40;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-file-earmark-play" viewBox="0 0 16 16">
+                                      <path d="M6 6.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 6.454a.5.5 0 0 0-.757.43z"/>
+                                      <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                    </svg>
+                                </div>
+                                <div class="text-primary text-truncate w-100" style="font-size: 0.9rem;">${uploadedFile.name}</div>
+                            </div>
+                        `;
+                    } else if (mode === 'list') {
+                        container.innerHTML = `
+                            <table class="table table-borderless table-hover m-0" style="font-size: 0.9rem; color: #495057;">
+                                <thead style="border-bottom: 1px solid #dee2e6;">
+                                    <tr>
+                                        <th style="width: 40px;"></th>
+                                        <th>Adı</th>
+                                        <th>En son değiştirme</th>
+                                        <th>Boyut</th>
+                                        <th>Tür</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center align-middle"><input class="form-check-input" type="checkbox" style="border-color: #adb5bd;" /></td>
+                                        <td class="align-middle">
+                                            <i class="bi bi-file-earmark-play text-muted me-2" style="font-size: 1.1rem;"></i> 
+                                            <span class="text-primary">${uploadedFile.name}</span>
+                                        </td>
+                                        <td class="align-middle">${uploadedFile.dateStr}</td>
+                                        <td class="align-middle">${uploadedFile.sizeStr}</td>
+                                        <td class="align-middle">${uploadedFile.typeStr}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `;
+                    } else if (mode === 'tree') {
+                        container.innerHTML = `
+                            <div style="font-size: 0.9rem; color: #495057;">
+                                <div class="d-flex align-items-center mb-2 text-primary" style="margin-left: 5px;">
+                                    <i class="bi bi-caret-down-fill me-2" style="font-size: 0.8rem; color: #6c757d;"></i>
+                                    <i class="bi bi-folder me-2" style="font-size: 1.1rem;"></i>
+                                    Dosyalar
+                                </div>
+                                <div class="d-flex align-items-center" style="margin-left: 30px;">
+                                    <i class="bi bi-file-earmark-play text-muted me-2" style="font-size: 1.1rem;"></i>
+                                    <span class="text-primary">${uploadedFile.name}</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                // Drag and drop support
+                const dropzone = document.getElementById('fileDropzone');
+                
+                dropzone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if(!uploadedFile) {
+                        dropzone.style.backgroundColor = "#f8f9fa";
+                        dropzone.style.borderColor = "#0d6efd";
+                    }
+                });
+                
+                dropzone.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    if(!uploadedFile) {
+                        dropzone.style.backgroundColor = "#fff";
+                        dropzone.style.borderColor = "#adb5bd";
+                    }
+                });
+                
+                dropzone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    if(!uploadedFile) {
+                        dropzone.style.backgroundColor = "#fff";
+                    }
+                    if (e.dataTransfer.files.length) {
+                        document.getElementById('videoFile').files = e.dataTransfer.files;
+                        handleFileSelect(document.getElementById('videoFile'));
+                    }
+                });
+
+                function toggleViewMode(btn, mode) {
+                    document.querySelectorAll('.view-btn').forEach(b => {
+                        b.classList.remove('border', 'border-primary', 'rounded');
+                    });
+                    btn.classList.add('border', 'border-primary', 'rounded');
+                    
+                    renderView(mode);
+                }
+            </script>
         </div>
 
         <footer class="footer-popover">

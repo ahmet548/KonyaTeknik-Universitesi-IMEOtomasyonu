@@ -30,7 +30,7 @@ namespace IMEAutomationDBOperations.Controllers
             if (string.IsNullOrEmpty(email))
                 return RedirectToAction("StudentLogin", "Auth"); // AuthController'a yönlendir
 
-            var (supervisor, company, internshipDetail, evaluationPersonel) = _internshipOperationsService.GetSupervisorCompanyAndInternshipDetailsByStudentEmail(email);
+            var (supervisor, company, internshipDetail, InternshipEvaluation) = _internshipOperationsService.GetSupervisorCompanyAndInternshipByStudentEmail(email);
 
             ViewBag.UserName = HttpContext.Session.GetString("UserName") ?? "Misafir";
             ViewBag.UserSurname = HttpContext.Session.GetString("UserSurname") ?? "";
@@ -63,26 +63,26 @@ namespace IMEAutomationDBOperations.Controllers
             }
 
             var nameParts = fullName.Split(' ', 2);
-            student.FirstName = nameParts.Length > 0 ? nameParts[0] : student.FirstName;
-            student.LastName = nameParts.Length > 1 ? nameParts[1] : student.LastName;
+            student.User.FirstName = nameParts.Length > 0 ? nameParts[0] : student.User.FirstName;
+            student.User.LastName = nameParts.Length > 1 ? nameParts[1] : student.User.LastName;
 
             student.AcademicYear = academicYear;
             student.Department = department;
             student.SchoolNumber = schoolNo;
             student.PhoneNumber = phoneNumber;
-            student.Email = email;
+            student.User.Email = email;
             student.Address = address;
 
             _studentService.UpdateStudent(student);
 
             // Session bilgilerini güncelle
-            HttpContext.Session.SetString("UserName", student.FirstName ?? string.Empty);
-            HttpContext.Session.SetString("UserSurname", student.LastName ?? string.Empty);
+            HttpContext.Session.SetString("UserName", student.User.FirstName ?? string.Empty);
+            HttpContext.Session.SetString("UserSurname", student.User.LastName ?? string.Empty);
             HttpContext.Session.SetInt32("AcademicYear", student.AcademicYear);
             HttpContext.Session.SetString("Department", student.Department);
             HttpContext.Session.SetString("SchoolNumber", student.SchoolNumber);
             HttpContext.Session.SetString("PhoneNumber", student.PhoneNumber);
-            HttpContext.Session.SetString("Email", student.Email);
+            HttpContext.Session.SetString("Email", student.User.Email);
             HttpContext.Session.SetString("Address", student.Address);
 
             return RedirectToAction("aboutme");

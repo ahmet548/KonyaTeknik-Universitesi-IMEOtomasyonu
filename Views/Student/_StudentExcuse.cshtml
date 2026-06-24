@@ -1,28 +1,13 @@
 <div class="col-md-12">
     <div class="diary-container">
-        <!-- Sekmeler -->
-        <h3 style="font-weight: 500;">Mazeret Bildir</h3>
-        <h5 class="mt-4" style="font-weight: 500;">Mazeretlere genel bakış</h5>
-        <div class="diary-tabs-container mt-4">
-            <div class="diary-tabs">
-                <div class="diary-tab active" data-tab="excuse-form">Mazeret bildir</div>
+        @{
+            var leaveDetails = ViewBag.LeaveDetails as List<IMEAutomationDBOperations.Models.LeaveDetails>;
+            var excusesCount = leaveDetails?.Count ?? 0;
+        }
 
-                <!-- Dinamik Sağ İçerik - Mazeretler için -->
-                <div class="diary-tabs-right" id="excuse-right-content">
-                    <span class="diary-notes-count">
-                        @{
-                            var leaveDetails = ViewBag.LeaveDetails as
-                            List<IMEAutomationDBOperations.Models.LeaveDetails>;
-                            var excusesCount = leaveDetails?.Count ?? 0;
-                        }
-                        @excusesCount Mazeret
-                    </span>
-                    <button class="diary-add-btn" onclick="showExcuseForm()">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+        <!-- Sekmeler / Başlıklar -->
+        <h3 style="font-weight: 500;">Mazeret Bildir</h3>
+        <h5 class="mt-4 mb-4" style="font-weight: 500;">Mazeretlere genel bakış</h5>
 
         <!-- İçerik Alanı -->
         <div class="diary-content">
@@ -31,98 +16,71 @@
                 <div class="diary-layout">
                     <!-- Sol Taraf - Mazeret Formu -->
                     <div class="diary-form-section mb-5">
-                        <div class="excuse-form-container">
-                            <div class="excuse-form-header">
-                                <h4 class="excuse-form-title">Yeni Mazeret Bildirimi</h4>
-                                <p class="excuse-form-subtitle">Staj döneminizdeki mazeretli günlerinizi
-                                    buradan bildirebilirsiniz.</p>
+                        <div class="card info-card border-0 shadow-sm mb-5">
+                            <div class="card-body p-4">
+                                <h5 class="card-title mb-4" style="color: #2c3e50; font-weight: 600;">Yeni Mazeret Bildirimi</h5>
+                                <form method="post" action="/Student/SubmitExcuse">
+                                    <div class="row g-4 mt-1">
+                                        <!-- Sol Kolon: Tarih ve Mazeret -->
+                                        <div class="col-md-7">
+                                            <div class="row g-2">
+                                                <!-- Başlangıç Tarihi -->
+                                                <div class="col-md-6">
+                                                    <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                                        <label for="LeaveStart" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Başlangıç Tarihi</label>
+                                                        <div class="input-group input-group-sm flex-nowrap" style="width: 140px; flex-shrink: 0;">
+                                                            <input type="date" id="LeaveStart" name="LeaveStart" class="form-control text-center px-1" style="border: 1px solid #ced4da; box-shadow: none;" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Bitiş Tarihi -->
+                                                <div class="col-md-6">
+                                                    <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                                        <label for="LeaveEnd" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Bitiş Tarihi</label>
+                                                        <div class="input-group input-group-sm flex-nowrap" style="width: 140px; flex-shrink: 0;">
+                                                            <input type="date" id="LeaveEnd" name="LeaveEnd" class="form-control text-center px-1" style="border: 1px solid #ced4da; box-shadow: none;" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Mazeret Türü Dropdown -->
+                                                <div class="col-md-12">
+                                                    <div class="d-flex align-items-center justify-content-between p-2 border rounded bg-light h-100">
+                                                        <label for="LeaveReason" class="form-label text-muted small fw-bold mb-0 me-2" style="font-size: 0.8rem; line-height: 1.2;">Mazeret Türü</label>
+                                                        <div class="input-group input-group-sm flex-nowrap" style="width: 250px; flex-shrink: 0;">
+                                                            <select id="LeaveReason" name="LeaveReason" class="form-select px-1" style="border: 1px solid #ced4da; box-shadow: none;" required>
+                                                                <option value="" disabled selected>Seçiniz...</option>
+                                                                <option value="Alttan kalan derslerin vize ve final sınavları">Alttan kalan derslerin vize ve final sınavları</option>
+                                                                <option value="ÖSYM Sınavları">ÖSYM Sınavları</option>
+                                                                <option value="Hastalık ve sağlık problemleri">Hastalık ve sağlık problemleri</option>
+                                                                <option value="Ailevi sebepler">Ailevi sebepler</option>
+                                                                <option value="Diğer Mazeretler">Diğer Mazeretler</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Sağ Kolon: Açıklama ve Adres -->
+                                        <div class="col-md-5 d-flex flex-column gap-3">
+                                            <div class="d-flex flex-column flex-grow-1">
+                                                <label for="ReasonDetail" class="form-label text-muted small fw-bold mb-1" style="font-size: 0.8rem;">Mazeret Açıklaması</label>
+                                                <textarea id="ReasonDetail" name="ReasonDetail" class="form-control form-control-sm bg-light flex-grow-1" style="min-height: 120px; resize: none; font-size: 14px; padding: 12px; border: 2px solid #fff;" placeholder="Mazeretinizi detaylı bir şekilde açıklayın..." required></textarea>
+                                            </div>
+
+                                            <div class="d-flex flex-column">
+                                                <label for="AddressDuringLeave" class="form-label text-muted small fw-bold mb-1" style="font-size: 0.8rem;">İzin Süresince Bulunacağı Adres</label>
+                                                <textarea id="AddressDuringLeave" name="AddressDuringLeave" class="form-control form-control-sm bg-light" style="min-height: 80px; resize: none; font-size: 14px; padding: 12px; border: 2px solid #fff;" placeholder="İzin süresince bulunacağınız tam adresi yazın..." required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Alt Butonlar -->
+                                    <div class="mt-4 d-flex justify-content-end align-items-center pt-3 border-top">
+                                        <button type="submit" class="btn text-white px-5 py-2" style="background-color: #4674C1; font-weight: 600; font-size: 14px; border-radius: 4px;">Gönder</button>
+                                    </div>
+                                </form>
                             </div>
-
-                            <form method="post" action="/Student/SubmitExcuse" class="excuse-form">
-                                <!-- Tarih Aralığı -->
-                                <div class="form-group">
-                                    <label class="form-label">İzin Tarih Aralığı</label>
-                                    <div class="date-inputs">
-                                        <div>
-                                            <label for="LeaveStart" class="form-label">Başlangıç
-                                                Tarihi</label>
-                                            <input type="date" id="LeaveStart" name="LeaveStart" class="form-control"
-                                                required>
-                                        </div>
-                                        <div>
-                                            <label for="LeaveEnd" class="form-label">Bitiş Tarihi</label>
-                                            <input type="date" id="LeaveEnd" name="LeaveEnd" class="form-control"
-                                                required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Mazeret Türü -->
-                                <div class="form-group">
-                                    <label class="form-label">Mazeret Türü</label>
-                                    <div class="radio-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="LeaveReason"
-                                                value="Alttan kalan derslerin vize ve final sınavları" id="excuseType1"
-                                                required>
-                                            <label class="form-check-label" for="excuseType1">
-                                                Alttan kalan derslerin vize ve final sınavları
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="LeaveReason"
-                                                value="ÖSYM Sınavları" id="excuseType2">
-                                            <label class="form-check-label" for="excuseType2">
-                                                ÖSYM Sınavları
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="LeaveReason"
-                                                value="Hastalık ve sağlık problemleri" id="excuseType3">
-                                            <label class="form-check-label" for="excuseType3">
-                                                Hastalık ve sağlık problemleri
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="LeaveReason"
-                                                value="Ailevi sebepler" id="excuseType4">
-                                            <label class="form-check-label" for="excuseType4">
-                                                Ailevi sebepler
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="LeaveReason"
-                                                value="Diğer Mazeretler" id="excuseType5">
-                                            <label class="form-check-label" for="excuseType5">
-                                                Diğer Mazeretler
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Mazeret Açıklaması -->
-                                <div class="form-group">
-                                    <label for="ReasonDetail" class="form-label">Mazeret Açıklaması</label>
-                                    <textarea id="ReasonDetail" name="ReasonDetail" class="form-control" rows="3"
-                                        placeholder="Mazeretinizi detaylı bir şekilde açıklayın..." required></textarea>
-                                </div>
-
-                                <!-- Adres Bilgisi -->
-                                <div class="form-group">
-                                    <label for="AddressDuringLeave" class="form-label">İzin Süresince
-                                        Bulunacağı Adres</label>
-                                    <textarea id="AddressDuringLeave" name="AddressDuringLeave" class="form-control"
-                                        rows="2" placeholder="İzin süresince bulunacağınız tam adresi yazın..."
-                                        required></textarea>
-                                </div>
-
-                                <!-- Gönder Butonu -->
-                                <div class="form-actions">
-                                    <button type="submit" id="id_submitbutton" class="btn btn-primary">
-                                        Mazeret Bildir
-                                    </button>
-                                </div>
-                            </form>
                         </div>
                     </div>
 
@@ -199,7 +157,7 @@
                             }
                             else
                             {
-                                <div class="diary-history-empty">
+                                <div class="diary-history-empty text-center py-5">
                                     <img class="empty-placeholder-image-lg mt-1"
                                         src="https://lms.ktun.edu.tr/theme/image.php/remui/block_myoverview/1757327541/courses"
                                         style="width:110px; margin-bottom: 15px;" alt="">
